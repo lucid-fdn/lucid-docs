@@ -40,6 +40,14 @@
             ]
           },
           {
+            "group": "Ownership & Storage",
+            "pages": [
+              "concepts/depin-storage",
+              "concepts/nft-passports",
+              "concepts/fractional-ownership"
+            ]
+          },
+          {
             "group": "Gateway",
             "pages": [
               "concepts/trustgate",
@@ -79,10 +87,14 @@
             "group": "Advanced",
             "pages": [
               "guides/compute-providers",
+              "guides/passport-schemas",
+              "guides/depin-storage-setup",
+              "guides/share-tokens",
               "guides/hf-passport-sync",
               "guides/n8n-integration",
               "guides/nango-oauth",
               "guides/crewai-integration",
+              "guides/embed-skills",
               "guides/self-hosting",
               "guides/webhooks"
             ]
