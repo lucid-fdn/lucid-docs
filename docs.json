@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "aspen",
-  "name": "Lucid Documentation",
+  "name": "Lucid",
   "colors": {
     "primary": "#6366F1",
     "light": "#818CF8",
@@ -15,97 +15,129 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Overview",
+        "tab": "Get Started",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Get Started",
             "pages": [
               "index",
               "quickstart",
-              "authentication",
-              "sdk-installation"
+              "install-agent",
+              "architecture"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Build & Deploy",
+        "groups": [
+          {
+            "group": "Launch an Agent",
+            "pages": [
+              "deploy/from-telegram",
+              "deploy/from-cli",
+              "deploy/from-source",
+              "deploy/from-image",
+              "deploy/from-catalog"
             ]
           },
+          {
+            "group": "Configure an Agent",
+            "pages": [
+              "deploy/setup-wizard",
+              "deploy/secrets",
+              "deploy/channels",
+              "deploy/runtime-config"
+            ]
+          },
+          {
+            "group": "Deploy a Model",
+            "pages": [
+              "deploy/hosted-models",
+              "deploy/bring-your-model",
+              "deploy/model-routing"
+            ]
+          },
+          {
+            "group": "Compute Providers",
+            "pages": [
+              "deploy/compute-selection",
+              "deploy/depin",
+              "deploy/gpu-routing"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "How Lucid Works",
+        "groups": [
+          {
+            "group": "Execution Layer",
+            "pages": [
+              "how/execution-compute",
+              "how/execution-models",
+              "how/execution-runtime"
+            ]
+          },
+          {
+            "group": "Coordination Layer",
+            "pages": [
+              "how/coordination-a2a",
+              "how/coordination-mcp",
+              "how/coordination-gateway",
+              "how/coordination-channels"
+            ]
+          },
+          {
+            "group": "Settlement Layer",
+            "pages": [
+              "how/settlement-identity",
+              "how/settlement-payments",
+              "how/settlement-receipts",
+              "how/settlement-anchoring",
+              "how/settlement-reputation"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Core Concepts",
+        "groups": [
           {
             "group": "Core Concepts",
             "pages": [
               "concepts/passports",
-              "concepts/inference",
+              "concepts/memory",
+              "concepts/compute-models",
+              "concepts/agent-deployment",
+              "concepts/agent-orchestration",
+              "concepts/payments",
               "concepts/receipts",
-              "concepts/epochs",
-              "concepts/agents",
-              "concepts/mmr",
-              "concepts/solana-programs",
-              "concepts/session-signer"
-            ]
-          },
-          {
-            "group": "Ownership & Storage",
-            "pages": [
-              "concepts/depin-storage",
-              "concepts/nft-passports",
-              "concepts/fractional-ownership"
-            ]
-          },
-          {
-            "group": "Gateway",
-            "pages": [
-              "concepts/trustgate",
-              "concepts/mcpgate"
-            ]
-          },
-          {
-            "group": "Architecture",
-            "pages": [
-              "architecture",
-              "glossary"
+              "concepts/anchoring",
+              "concepts/reputation"
             ]
           }
         ]
       },
       {
-        "tab": "Guides",
+        "tab": "Gateway",
         "groups": [
           {
-            "group": "Beginner",
+            "group": "Lucid Cloud",
             "pages": [
-              "guides/first-inference",
-              "guides/passport-management",
-              "guides/error-handling"
-            ]
-          },
-          {
-            "group": "Intermediate",
-            "pages": [
-              "guides/verifiable-receipts",
-              "guides/epoch-verification",
-              "guides/agent-orchestration",
-              "guides/streaming"
-            ]
-          },
-          {
-            "group": "Advanced",
-            "pages": [
-              "guides/compute-providers",
-              "guides/passport-schemas",
-              "guides/depin-storage-setup",
-              "guides/share-tokens",
-              "guides/hf-passport-sync",
-              "guides/n8n-integration",
-              "guides/nango-oauth",
-              "guides/crewai-integration",
-              "guides/embed-skills",
-              "guides/self-hosting",
-              "guides/webhooks"
+              "gateway/trustgate",
+              "gateway/mcpgate",
+              "gateway/control-plane",
+              "gateway/channels"
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "API & SDK",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "API Reference",
             "pages": [
               "api-reference/introduction",
               "api-reference/errors",
@@ -114,42 +146,56 @@
           },
           {
             "group": "API Endpoints",
-            "openapi": "https://raw.githubusercontent.com/raijinlabs/lucid-ai-sdk/main/openapi-with-code-samples.yaml"
-          }
-        ]
-      },
-      {
-        "tab": "SDKs & Tools",
-        "groups": [
+            "openapi": "https://raw.githubusercontent.com/lucid-fdn/Lucid-L2/master/openapi.yaml"
+          },
           {
             "group": "SDKs",
             "pages": [
               "sdks/typescript",
-              "sdks/typescript-passports",
-              "sdks/typescript-inference",
-              "sdks/typescript-receipts",
-              "sdks/typescript-agents",
-              "sdks/python",
-              "sdks/rest",
-              "sdks/mcp-server"
+              "sdks/examples"
             ]
           }
         ]
       },
       {
-        "tab": "Platform",
+        "tab": "On-Chain",
         "groups": [
           {
-            "group": "Platform",
+            "group": "Solana Programs",
             "pages": [
-              "platform/billing",
-              "platform/api-keys",
-              "platform/metering",
-              "platform/quotas",
-              "platform/organizations",
-              "platform/dashboard",
-              "platform/security",
-              "platform/sla"
+              "on-chain/solana-overview",
+              "on-chain/thought-epoch",
+              "on-chain/lucid-passports",
+              "on-chain/lucid-agent-wallet",
+              "on-chain/lucid-reputation",
+              "on-chain/gas-utils",
+              "on-chain/zkml-verifier"
+            ]
+          },
+          {
+            "group": "EVM Contracts",
+            "pages": [
+              "on-chain/evm-overview"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "More",
+        "groups": [
+          {
+            "group": "Self-Hosting",
+            "pages": [
+              "advanced/self-hosting",
+              "advanced/configuration"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": [
+              "advanced/custom-agents",
+              "advanced/extending-runtime",
+              "advanced/contributing"
             ]
           }
         ]
@@ -164,13 +210,13 @@
         },
         {
           "anchor": "GitHub",
-          "href": "https://github.com/raijinlabs/lucid-ai-sdk",
+          "href": "https://github.com/lucid-fdn/Lucid-L2",
           "icon": "github"
         },
         {
-          "anchor": "SDK",
-          "href": "https://www.npmjs.com/package/raijin-labs-lucid-ai",
-          "icon": "npm"
+          "anchor": "Telegram Bot",
+          "href": "https://t.me/mylclaw_bot",
+          "icon": "paper-plane"
         }
       ]
     }
@@ -179,26 +225,17 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@lucid.foundation"
+        "href": "mailto:kevin.wayne@raijinlabs.io"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.lucid.foundation"
+      "label": "Launch Agent",
+      "href": "https://t.me/mylclaw_bot"
     }
   },
   "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
+    "options": ["copy", "view", "chatgpt", "claude", "cursor", "vscode"]
   },
   "feedback": {
     "thumbsRating": true,
@@ -207,10 +244,13 @@
   "footer": {
     "socials": {
       "x": "https://x.com/LucidChain",
-      "github": "https://github.com/raijinlabs/lucid-ai-sdk"
+      "github": "https://github.com/lucid-fdn"
     }
   },
   "fonts": {
     "family": "Montserrat"
+  },
+  "api": {
+    "baseUrl": "https://api.lucid.foundation"
   }
 }
