@@ -1,90 +1,115 @@
 ---
-title: "Lucid Documentation"
-description: "The verifiable AI inference protocol — cryptographic receipts, on-chain anchoring, and policy-based routing for 100+ LLM models."
+title: "Lucid — The Coordination & Settlement Layer for AI Agents"
+description: "Execution, coordination, and settlement infrastructure for autonomous AI agents. Identity, payments, receipts, reputation — anchored on-chain."
 ---
 
 import { Card, CardGroup, Steps, Tip } from 'mintlify/components'
 
-# Welcome to Lucid
+# AI agents can't prove who they are.
 
-**Lucid** is a verifiable AI inference protocol. Every AI call gets a cryptographic receipt, anchored on Solana, with full auditability.
+They can't earn money. They can't build reputation. They can't choose their own compute. They can't remember what they did yesterday.
+
+AI agents are becoming autonomous economic actors — but they have none of the infrastructure that economic actors need.
+
+**Lucid fixes that.**
+
+Lucid is the coordination and settlement layer for autonomous agents. Not just where they run, but where they interact, transact, and prove their behavior.
+
+> Lucid is to AI agents what Ethereum is to smart contracts — the infrastructure for an economy of agents.
+
+---
+
+## Three Layers, One Stack
 
 <CardGroup cols={3}>
-  <Card title="Passports" icon="id-card" href="/concepts/passports">
-    Identity layer for models, compute nodes, tools, datasets, and agents
+  <Card title="Execution" icon="server">
+    Run on any compute — Railway, Akash, Phala, io.net, Nosana. Use any model — OpenAI, Anthropic, open-source. Your agent, your infrastructure.
   </Card>
-  <Card title="Inference" icon="bolt" href="/concepts/inference">
-    OpenAI-compatible chat completions with policy-based routing
+  <Card title="Coordination" icon="arrows-split-up-and-left">
+    Agents call tools via MCP. Delegate to other agents via A2A. Route through TrustGate with policy-based access control.
   </Card>
-  <Card title="Receipts" icon="receipt" href="/concepts/receipts">
-    Cryptographic receipts with Merkle Mountain Range proofs
-  </Card>
-  <Card title="Epochs" icon="clock" href="/concepts/epochs">
-    Batch anchoring to Solana with verifiable transaction proofs
-  </Card>
-  <Card title="Agents" icon="robot" href="/concepts/agents">
-    Autonomous agent orchestration with plan → accomplish → execute
-  </Card>
-  <Card title="Payouts" icon="coins" href="/api-reference/introduction">
-    Automatic payout calculation and verification
+  <Card title="Settlement" icon="stamp">
+    Every action gets a cryptographic receipt. Every agent gets an identity (passport). Payments flow via x402. Reputation builds on-chain. Anchored to Solana and EVM.
   </Card>
 </CardGroup>
 
-## Get Started in 2 Minutes
+---
+
+## Why This Matters
+
+Every other player in AI infrastructure owns one slice of the stack and locks you in.
+
+| Layer | Lucid | The rest |
+|-------|-------|----------|
+| **Model** | Provider-agnostic — route to any LLM | OpenAI, Anthropic each own theirs |
+| **Framework** | Framework-agnostic — bring any stack | LangChain, CrewAI each own theirs |
+| **Hosting** | Provider-agnostic — deploy anywhere | Railway, Vercel each own theirs |
+| **Coordination + Settlement** | **Lucid** | **No one** |
+
+Models are commoditizing. Frameworks are commoditizing. Hosting is commoditizing.
+
+The coordination and settlement layer is the missing piece. That's what Lucid builds.
+
+---
+
+## What Agents Get
 
 <Steps>
-  <Step title="Install the SDK">
-    ```bash
-    npm install raijin-labs-lucid-ai
-    ```
+  <Step title="Identity">
+    Every AI asset — model, agent, tool, compute node, dataset — gets a **passport**: a verifiable, on-chain identity with metadata, capabilities, and policy constraints.
   </Step>
-  <Step title="Run your first inference">
-    ```typescript
-    import { LucidAI } from "raijin-labs-lucid-ai";
-
-    const lucid = new LucidAI({ bearerAuth: "your-api-key" });
-
-    const result = await lucid.chat.completions({
-      model: "gpt-4o",
-      messages: [{ role: "user", content: "Hello from Lucid!" }]
-    });
-    ```
+  <Step title="Execution">
+    Deploy to any compute target with a single command. Docker, Railway, Akash, Phala, io.net, Nosana. Bring your own image or let Lucid build one.
   </Step>
-  <Step title="Verify your receipt">
-    Every inference generates a cryptographic receipt anchored on Solana.
-    [Learn more →](/concepts/receipts)
+  <Step title="Coordination">
+    Agents discover and call tools (MCP), delegate work to other agents (A2A), and route through TrustGate for policy-enforced access to 100+ models.
+  </Step>
+  <Step title="Payments">
+    Agents earn and spend via x402 payment grants. Revenue splits automatically: 70% compute, 20% model, 10% protocol. Settled on-chain.
+  </Step>
+  <Step title="Receipts & Proofs">
+    Every action produces a cryptographic receipt — hashed with SHA-256, batched into Merkle Mountain Range trees, anchored to Solana and EVM in epochs.
+  </Step>
+  <Step title="Reputation">
+    Agents build reputation from real traffic data. On-chain scoring, cross-protocol sync, feedback loops. Trust is earned, not declared.
   </Step>
 </Steps>
 
+---
+
+## What You Can Build
+
+- **Autonomous trading agents** that execute strategies, settle on-chain, and prove every trade
+- **AI services paid per action** — no subscriptions, no API keys, just x402 micropayments
+- **Multi-agent workflows** where agents discover, delegate, and pay each other
+- **Consumer AI assistants** that live in Telegram and deploy from a chat message
+- **Decentralized AI networks** where compute, models, and tools have verifiable identity and reputation
+
+---
+
+## Get Started
+
+<CardGroup cols={3}>
+  <Card title="Quick Start" icon="rocket" href="/quickstart">
+    Install the SDK, run your first inference, get a cryptographic receipt — in under 2 minutes.
+  </Card>
+  <Card title="Deploy from Telegram" icon="paper-plane" href="/guides/agent-orchestration">
+    Launch an agent from a Telegram chat. No dashboard, no YAML, no DevOps.
+  </Card>
+  <Card title="How Lucid Works" icon="diagram-project" href="/architecture">
+    The 3-layer architecture: execution, coordination, settlement. How the pieces fit together.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    65+ endpoints. OpenAI-compatible inference, passport management, receipts, epochs, payouts.
+  </Card>
+  <Card title="Core Concepts" icon="book" href="/concepts/passports">
+    Passports, receipts, epochs, MMR proofs, TrustGate, MCPGate — the building blocks.
+  </Card>
+  <Card title="Self-Hosting" icon="server" href="/guides/self-hosting">
+    Run the full Lucid stack on your own infrastructure. Open-source, MIT-licensed.
+  </Card>
+</CardGroup>
+
 <Tip>
-  **65+ API endpoints** are auto-documented in the [API Reference](/api-reference/introduction) tab with interactive playground.
+  Lucid is open-source. The truth layer — Solana programs, offchain engine, EVM contracts — lives at [github.com/lucid-fdn/Lucid-L2](https://github.com/lucid-fdn/Lucid-L2).
 </Tip>
-
-## Architecture Overview
-
-```
-┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Your App  │────▶│  Lucid API   │────▶│  LLM Model  │
-│  (SDK/REST) │     │  (Routing)   │     │  (100+)     │
-└─────────────┘     └──────┬───────┘     └─────────────┘
-                           │
-                    ┌──────▼───────┐
-                    │   Receipt    │──── Cryptographic proof
-                    │   (MMR)      │──── Merkle Mountain Range
-                    └──────┬───────┘
-                           │
-                    ┌──────▼───────┐
-                    │   Solana     │──── On-chain anchor
-                    │   (Epoch)    │──── Batch verification
-                    └──────────────┘
-```
-
-## Why Lucid?
-
-| Feature | Traditional API | Lucid Protocol |
-|---------|----------------|----------------|
-| Auditability | Logs (mutable) | Cryptographic receipts (immutable) |
-| Verification | Trust the provider | Verify on-chain |
-| Multi-model | One provider | 100+ models, policy-based routing |
-| Cost tracking | Approximate | Exact, per-receipt |
-| Agent proofs | None | Full execution trace on-chain |
