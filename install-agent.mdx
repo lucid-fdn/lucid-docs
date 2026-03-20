@@ -1,0 +1,243 @@
+---
+title: "Install an Agent via Telegram"
+description: "Deploy a live AI agent in under 60 seconds — entirely from a Telegram chat"
+---
+
+import { Steps, Tip, Warning } from 'mintlify/components'
+
+No dashboard. No YAML. No DevOps. Just open Telegram, tap a few buttons, and your agent is live — with an on-chain identity, cryptographic receipts, and a reputation that builds with every conversation.
+
+This guide walks through every screen you will see when launching an agent via the **@mylclaw_bot** Telegram bot.
+
+---
+
+## Prerequisites
+
+- A Telegram account (any platform — mobile, desktop, or web)
+- That is it. No API keys, no wallets, no installs. The bot provisions everything for you.
+
+<Tip>
+  First-time users are automatically placed on the **Starter** plan (1 free agent). You can upgrade later with `/upgrade`.
+</Tip>
+
+---
+
+## Launch Walkthrough
+
+<Steps>
+  <Step title="Open Telegram and find the bot">
+    Search for **@mylclaw_bot** in Telegram's search bar, or open this link directly:
+
+    **[t.me/mylclaw_bot](https://t.me/mylclaw_bot)**
+
+    Tap **Start** if this is your first time chatting with the bot. It will greet you and create your Lucid account automatically — no sign-up form, no email verification.
+  </Step>
+
+  <Step title="Send /launch">
+    Type `/launch` and send it. The bot responds with a catalog of available agents displayed as inline buttons:
+
+    ```
+    Choose an agent to launch:
+
+    [  OpenClaw  ]   [ IronClaw (Coming Soon) ]
+    ```
+
+    **OpenClaw** is Lucid's general-purpose conversational agent — a good starting point. More agent templates are being added regularly.
+  </Step>
+
+  <Step title="Tap OpenClaw">
+    The bot fetches the agent details and asks how the agent should think — meaning which LLM provider powers its intelligence:
+
+    ```
+    Launching: OpenClaw
+
+    How should your agent think?
+
+    [ Lucid Gateway (no key needed) ]   [ Use your own API key ]
+    ```
+
+    - **Lucid Gateway** routes requests through TrustGate to the best available model. No configuration required.
+    - **Use your own API key** lets you supply an OpenAI, Anthropic, or other provider key for direct access.
+  </Step>
+
+  <Step title="Choose Lucid Gateway">
+    Select **Lucid Gateway (no key needed)**. The bot handles all model routing for you via TrustGate — no API key required.
+
+    Next, the bot asks where the agent should run:
+
+    ```
+    Where should your agent run?
+
+    [ Lucid Cloud (one-click) ]   [ Own Railway Account ]
+    ```
+
+    - **Lucid Cloud** deploys to Lucid-managed infrastructure with a single tap. Zero configuration.
+    - **Own Railway Account** lets you connect your personal Railway account for self-managed hosting.
+  </Step>
+
+  <Step title="Choose Lucid Cloud">
+    Select **Lucid Cloud (one-click)**. The bot now asks which skills (tool integrations) you want your agent to have:
+
+    ```
+    Select skills for your agent:
+
+    [ GitHub ]  [ Notion ]  [ Web Search ]
+    [ Slack ]   [ Gmail ]   [ Calendar ]
+
+    [ Done ]
+    ```
+
+    Tap any skills you want to enable. Each skill gives your agent access to external tools via MCP (Model Context Protocol). You can skip this entirely if you just want a conversational agent.
+  </Step>
+
+  <Step title="Tap Done">
+    After selecting skills (or none), tap **Done**. The bot shows a confirmation screen summarizing your choices:
+
+    ```
+    Ready to launch?
+
+    Agent:         OpenClaw
+    Intelligence:  Lucid Gateway
+    Hosting:       Lucid Cloud
+    Channel:       This Telegram chat
+    Skills:        none
+
+    [ Launch ]   [ Cancel ]
+    ```
+
+    Review the summary. Everything look right? Tap **Launch**.
+  </Step>
+
+  <Step title="Tap Launch">
+    The bot begins deployment:
+
+    ```
+    Deploying your agent...
+    ```
+
+    Behind the scenes, Lucid is:
+    1. Creating a **passport** (on-chain identity) for your agent
+    2. Building and pushing a container image
+    3. Deploying to Lucid Cloud (Railway-managed infrastructure)
+    4. Binding the agent to your Telegram chat as its communication channel
+
+    After roughly 30 seconds, the bot confirms:
+
+    ```
+    Your agent is alive.
+
+    It can think, act, earn, and prove — autonomously,
+    on-chain, 24/7.
+
+    Just send a message to start talking.
+    ```
+  </Step>
+
+  <Step title="Send any message">
+    Type anything — a question, a task, a conversation starter. Your message is routed through the bot to your deployed agent, and the agent's response comes back in the same chat.
+
+    ```
+    You:   What can you help me with?
+
+    Agent: I'm OpenClaw, your AI assistant running on Lucid.
+           I can help with research, writing, analysis,
+           brainstorming, and more. What would you like
+           to work on?
+    ```
+
+    Every interaction generates a **cryptographic receipt** anchored on-chain. Your agent is building verifiable history and reputation from the very first message.
+  </Step>
+</Steps>
+
+<Tip>
+  Your agent stays running 24/7 even when you close Telegram. Come back anytime and pick up the conversation.
+</Tip>
+
+---
+
+## Bot Commands
+
+Once your agent is deployed, the bot provides several utility commands:
+
+### /plan — Check your plan and usage
+
+See your current plan tier, how many agents you have deployed, and your usage limits.
+
+```
+Your plan: Starter
+Agents:    1 / 1 used
+Requests:  342 / 10,000 this month
+
+Upgrade to Pro for up to 10 agents → /upgrade
+```
+
+### /upgrade — Upgrade to Pro
+
+View available plans and upgrade directly from Telegram. The bot generates a Stripe Checkout link — tap it to complete payment in your browser, then return to Telegram.
+
+```
+Upgrade your plan:
+
+[ Starter — $29/mo (1 agent)  ]
+[ Pro — $99/mo (10 agents)    ]
+[ Business — Custom            ]
+```
+
+<Warning>
+  The Starter plan includes **1 agent**. If you try to `/launch` a second agent on the Starter plan, the bot will prompt you to upgrade first.
+</Warning>
+
+### /status — Check agent status
+
+View the status of your deployed agents — whether they are running, stopped, or deploying.
+
+```
+Your agents:
+
+1. OpenClaw — Running
+   Passport: psp_7xK...mQ3
+   Uptime:   4h 23m
+   Messages: 47
+```
+
+### /help — See all commands
+
+Lists every available command with a short description.
+
+```
+Available commands:
+
+/launch   — Deploy a new agent
+/status   — Check agent status
+/plan     — View your plan and usage
+/upgrade  — Upgrade your plan
+/help     — Show this message
+```
+
+---
+
+## What Happened Behind the Scenes
+
+When you tapped **Launch**, Lucid executed the full agent deployment pipeline:
+
+| Step | What happened | Layer |
+|------|--------------|-------|
+| **Identity** | A passport was minted for your agent on Solana devnet | Settlement |
+| **Container** | An OCI image was built and pushed to the container registry | Execution |
+| **Deploy** | The container was deployed to Railway (Lucid Cloud) | Execution |
+| **Channel** | Your Telegram chat was bound as the agent's communication channel | Coordination |
+| **Receipts** | Every message now generates a SHA-256 hashed receipt | Settlement |
+| **Epochs** | Receipts batch into Merkle Mountain Range trees and anchor on-chain | Settlement |
+| **Reputation** | Your agent's reputation score updates with every verified interaction | Settlement |
+
+Your agent is a first-class participant in the Lucid network — it has identity, earns reputation, produces cryptographic proofs, and settles on-chain.
+
+---
+
+## Next Steps
+
+- [How Agents Work](/concepts/agents) — Understand the agent lifecycle: Init, Plan, Accomplish, Execute, Validate
+- [Passport Management](/concepts/passports) — Manage your agent's on-chain identity
+- [Receipts & Proofs](/concepts/receipts) — How every interaction becomes a verifiable receipt
+- [Billing & Plans](/platform/billing) — Compare plans and manage your subscription
+- [Deploy from CLI](/deploy/from-cli) — For developers who prefer the command line
