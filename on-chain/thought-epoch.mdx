@@ -1,6 +1,91 @@
 ---
 title: "thought_epoch"
-description: "MMR root commitment program"
+description: "Solana program for committing MMR epoch roots on-chain"
 ---
 
-Coming soon.
+The `thought_epoch` program is the on-chain anchor for Lucid's receipt verification system. It stores Merkle Mountain Range (MMR) roots on Solana, making AI interaction history permanently verifiable.
+
+**Program ID (devnet):** `8QXiFjguJT4PLVzH6BYNMHXZ3eLRaoF8cwx23EBc44Q6`
+
+## Instructions
+
+| Instruction | Description |
+|-------------|-------------|
+| `init_epoch` | Create a new epoch record PDA (first time only) |
+| `commit_epoch` | Update an existing epoch record with a new MMR root |
+| `init_epochs` | Create a new batch record for up to 16 roots |
+| `commit_epochs` | Update an existing batch record with new roots |
+| `init_epoch_v2` | Create a v2 record with extended metadata |
+| `commit_epoch_v2` | Update a v2 record with new root and metadata |
+
+## Account Structures
+
+### EpochRecord
+
+Stores a single MMR root.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `merkle_root` | `[u8; 32]` | SHA-256 MMR root hash |
+| `authority` | `Pubkey` | Signer authorized to update |
+
+PDA seeds: `["epoch", authority]`
+
+### EpochRecordBatch
+
+Stores up to 16 MMR roots in a single account.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `roots` | `Vec<[u8; 32]>` | Up to 16 MMR root hashes |
+| `authority` | `Pubkey` | Signer authorized to update |
+
+PDA seeds: `["epochs", authority]`
+
+### EpochRecordV2
+
+Extended epoch record with metadata for richer on-chain queries.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `merkle_root` | `[u8; 32]` | SHA-256 MMR root hash |
+| `authority` | `Pubkey` | Signer authorized to update |
+| `epoch_id` | `u64` | Sequential epoch identifier |
+| `leaf_count` | `u64` | Number of receipts in this epoch |
+| `timestamp` | `i64` | Unix timestamp of epoch finalization |
+| `mmr_size` | `u64` | Total MMR size at finalization |
+
+PDA seeds: `["epoch_v2", authority]`
+
+## Usage
+
+The offchain engine finalizes an epoch when either threshold is met (100+ receipts or 1+ hour). It then calls `commit_epoch_v2` to anchor the root:
+
+```typescript
+import { Program } from '@coral-xyz/anchor';
+
+await program.methods
+  .commitEpochV2(
+    root,       // [u8; 32] MMR root
+    epochId,    // u64
+    leafCount,  // u64
+    timestamp,  // i64
+    mmrSize     // u64
+  )
+  .accounts({
+    authority: wallet.publicKey,
+    epochRecordV2: epochPda,
+  })
+  .rpc();
+```
+
+## Gas Costs
+
+- Single commit: 5 LUCID (mGas)
+- Batch commit (up to 16 roots): 7 LUCID total (2 base + 5 mGas)
+
+## Errors
+
+| Error | Description |
+|-------|-------------|
+| `BatchTooLarge` | Batch size exceeds MAX_BATCH (16) |

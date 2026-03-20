@@ -1,6 +1,64 @@
 ---
 title: "Use Hosted Models"
-description: "Deploy with OpenAI, Anthropic, and other hosted models"
+description: "Deploy with OpenAI, Anthropic, and other hosted models via TrustGate"
 ---
 
-Coming soon.
+Lucid agents can use any hosted LLM provider without managing infrastructure. TrustGate acts as a unified proxy, routing requests to the right provider while automatically generating cryptographic receipts for every call.
+
+## Supported Providers
+
+TrustGate uses LiteLLM wildcard routing, so any model from a configured provider works immediately -- no config changes needed when providers release new models.
+
+| Provider | Model Pattern | Example |
+|----------|--------------|---------|
+| OpenAI | `openai/*` | `openai/gpt-4.1`, `openai/gpt-4o` |
+| Anthropic | `anthropic/*` | `anthropic/claude-sonnet-4-20250514` |
+| Google | `gemini/*` | `gemini/gemini-2.5-pro` |
+| Mistral | `mistral/*` | `mistral/mistral-large-latest` |
+| Groq | `groq/*` | `groq/llama-3.1-70b` |
+| DeepSeek | `deepseek/*` | `deepseek/deepseek-chat` |
+
+Models with `format=api` are always marked as available since they route through TrustGate and require no dedicated compute.
+
+## Launching an Agent with a Hosted Model
+
+Using the CLI (Path B -- no-code):
+
+```bash
+lucid launch --runtime base \
+  --model openai/gpt-4o \
+  --prompt "You are a helpful research assistant" \
+  --target docker
+```
+
+This deploys the pre-built base runtime image which routes inference through TrustGate automatically. You do not need your own API keys -- TrustGate manages provider credentials.
+
+## Using the API Directly
+
+All hosted models are accessible through the OpenAI-compatible inference endpoint:
+
+```bash
+curl -X POST https://api.lucid.foundation/v1/chat/completions \
+  -H "Authorization: Bearer lk_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "openai/gpt-4o",
+    "messages": [{"role": "user", "content": "Hello"}]
+  }'
+```
+
+Unprefixed model names also work for common models (e.g., `gpt-4o` maps to `openai/gpt-4o`).
+
+## Listing Available Models
+
+```bash
+# All models
+curl https://api.lucid.foundation/v1/models \
+  -H "Authorization: Bearer lk_your_api_key"
+
+# Only models that can serve inference right now
+curl "https://api.lucid.foundation/v1/models?available=true" \
+  -H "Authorization: Bearer lk_your_api_key"
+```
+
+The `?available=true` filter returns only models that can serve inference now. For hosted models this is always true. For self-hosted models (`format=safetensors` or `gguf`), availability depends on healthy compute nodes with compatible hardware and a recent heartbeat (within 30 seconds).

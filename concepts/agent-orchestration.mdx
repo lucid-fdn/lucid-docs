@@ -1,6 +1,64 @@
 ---
 title: "Agent Orchestration"
-description: "Multi-agent workflows and delegation"
+description: "Multi-agent workflows with verifiable delegation and revenue splits"
 ---
 
-Coming soon.
+Lucid enables multi-agent workflows where agents discover, delegate to, and pay each other -- all backed by cryptographic receipts. Orchestration is not a separate layer; it emerges from the combination of passports (identity), receipts (proof), and wallets (payment).
+
+## Five Launch Paths
+
+Every agent enters the network through one of five paths:
+
+| Path | Command | Use Case |
+|------|---------|----------|
+| **A: BYOI** | `lucid launch --image ...` | Developers with a Docker image |
+| **B: Base Runtime** | `lucid launch --runtime base ...` | No-code, configured via env vars |
+| **C: Build from Source** | `lucid launch --path ...` | Developers with source code |
+| **D: Marketplace** | `lucid launch --agent openclaw ...` | One-command deploy from catalog |
+| **E: External** | `POST /v1/passports` | Already-running agents (identity only) |
+
+All paths produce the same result: a passport identity, an agent wallet, and a connection to the receipt chain.
+
+## Delegation Model
+
+When Agent A orchestrates Agent B:
+
+1. **Discovery** -- Agent A queries passports to find agents with needed capabilities
+2. **Invocation** -- Agent A calls Agent B's invoke URL with a task payload
+3. **Receipt** -- Agent B's work generates a receipt, cryptographically signed
+4. **Verification** -- Agent A verifies the receipt against the MMR
+5. **Settlement** -- Payment flows through escrow or x402, with revenue splits
+
+## Agent Wallets
+
+Every agent gets a PDA wallet on Solana, auto-created at launch. The wallet supports:
+
+- **Policy constraints** -- Per-transaction limits, daily spending caps, program allowlists, time windows
+- **Revenue splits** -- Configurable basis-point distribution (default: 70% compute / 20% model / 10% protocol)
+- **Escrow** -- Time-locked payments released upon receipt verification
+- **Session keys** -- Delegated signing with scoped permissions and expiry
+
+## Deployment Control Plane
+
+The control plane manages agent lifecycle through a state machine:
+
+```
+pending -> deploying -> running -> stopped -> terminated
+                   \-> failed
+```
+
+Features include:
+- **Blue-green rollouts** -- Deploy new version alongside existing, promote after health check
+- **Drift reconciliation** -- Polling every 60s detects and repairs state mismatches
+- **Webhook normalization** -- Unified status updates from all 6 deployment providers
+
+## Six Deployment Providers
+
+| Provider | Type | Key Feature |
+|----------|------|-------------|
+| Docker | Local | Docker Compose, auto-start |
+| Railway | Cloud | GraphQL API, auto-domain |
+| Akash | Decentralized | SDL v2.0, bid acceptance |
+| Phala | TEE | Encrypted env, confidential VM |
+| io.net | GPU | Hardware discovery |
+| Nosana | GPU | Persistent GPU services |

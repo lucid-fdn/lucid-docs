@@ -1,6 +1,90 @@
 ---
 title: "Runtime Configuration"
-description: "Configure the agent runtime environment"
+description: "Environment variables and configuration for the Lucid agent runtime"
 ---
 
-Coming soon.
+The Lucid base runtime (`@lucid-fdn/agent-runtime`) is a pre-built Docker image configured entirely through environment variables. It runs a minimal Express server on port 3100 that handles inference and automatic receipt creation.
+
+## Core Environment Variables
+
+These are injected automatically when you launch through Lucid:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `LUCID_API_URL` | Yes | Lucid Layer API base URL |
+| `LUCID_PASSPORT_ID` | Yes | Agent's passport identity |
+| `LUCID_API_KEY` | Yes | Authentication key for the Lucid API |
+| `LUCID_WALLET_ADDRESS` | Auto | Agent wallet address (auto-created on launch) |
+
+## Inference Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PROVIDER_URL` | -- | OpenAI-compatible inference endpoint (TrustGate, Ollama, vLLM, LiteLLM) |
+| `PROVIDER_API_KEY` | -- | API key for the inference provider |
+| `LUCID_MODEL` | -- | Model to use (e.g., `openai/gpt-4o`) |
+| `LUCID_PROMPT` | -- | System prompt for the agent |
+| `LUCID_TOOLS` | -- | Comma-separated list of enabled tools |
+| `TRUSTGATE_URL` | -- | TrustGate URL (if using Lucid-managed inference) |
+
+## Memory Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MEMORY_ENABLED` | `false` | Enable agent memory |
+| `MEMORY_STORE` | `sqlite` | Storage backend: `sqlite`, `postgres`, or `memory` |
+| `MEMORY_DB_PATH` | `./data/agents/{passport}/memory.db` | SQLite database path |
+| `MEMORY_EXTRACTION_ENABLED` | `false` | Enable LLM-based memory extraction |
+| `MEMORY_EMBEDDING_ENABLED` | `false` | Enable vector embeddings for semantic search |
+| `MEMORY_EMBEDDING_PROVIDER` | `none` | Embedding provider: `openai`, `mock`, or `none` |
+| `MEMORY_RECEIPTS_ENABLED` | `false` | Link memory writes to receipt chain |
+| `MEMORY_PROJECTION_ENABLED` | `false` | Enable outbox-based projection |
+
+## Deployment Control Plane
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DEPLOYMENT_STORE` | `postgres` | Deployment state store: `postgres` or `memory` |
+| `DEPLOYMENT_CONTROL_PLANE` | `false` | Enable deployment control plane |
+| `RECONCILER_POLL_MS` | `60000` | Reconciler polling interval |
+| `RECONCILER_MAX_RETRIES` | `3` | Maximum retry attempts for failed deployments |
+
+## DePIN and Anchoring
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DEPIN_UPLOAD_ENABLED` | `false` | Enable DePIN storage uploads |
+| `DEPIN_PERMANENT_PROVIDER` | `mock` | Provider for permanent storage: `arweave`, `lighthouse`, `mock` |
+| `DEPIN_EVOLVING_PROVIDER` | `mock` | Provider for evolving storage: `lighthouse`, `mock` |
+| `ANCHOR_REGISTRY_STORE` | `memory` | Anchor registry: `postgres` or `memory` |
+
+## NFT and Token Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `NFT_PROVIDER` | `mock` | NFT minting backend: `token2022`, `metaplex-core`, `evm-erc721`, `mock` |
+| `NFT_CHAINS` | -- | Multi-chain minting targets: `solana-devnet,base` |
+| `NFT_MINT_ON_CREATE` | `true` | Auto-mint NFT on passport creation |
+| `TOKEN_LAUNCHER` | `mock` | Share token launcher: `direct-mint`, `genesis`, `mock` |
+
+## Example: Full Configuration
+
+```bash
+# Core identity
+LUCID_API_URL=https://api.lucid.foundation
+LUCID_PASSPORT_ID=abc123
+LUCID_API_KEY=lk_your_key
+
+# Inference
+PROVIDER_URL=https://trustgate.lucid.foundation
+LUCID_MODEL=openai/gpt-4o
+LUCID_PROMPT="You are a helpful trading assistant"
+
+# Memory
+MEMORY_ENABLED=true
+MEMORY_STORE=sqlite
+
+# Anchoring
+DEPIN_UPLOAD_ENABLED=true
+DEPIN_PERMANENT_PROVIDER=arweave
+```

@@ -1,6 +1,87 @@
 ---
 title: "Channels & Routing"
-description: "Multi-channel agent communication"
+description: "How agents communicate through Telegram, Discord, Slack, and HTTP"
 ---
 
-Coming soon.
+Lucid routes messages between users and agents across multiple communication channels. All channel interactions flow through Lucid's webhook infrastructure, ensuring every message generates a verifiable receipt.
+
+## Architecture
+
+```
+User (Telegram/Discord/Slack)
+  -> Messaging platform webhook
+  -> api.lucid.foundation/v1/webhooks/:provider
+  -> Agent runtime (port 3100)
+  -> Response
+  -> Routed back to channel
+```
+
+## Channel Routing Flow
+
+When a message arrives from any channel:
+
+1. **Webhook reception** -- Lucid receives the platform webhook at `/v1/webhooks/:provider`
+2. **Identity resolution** -- Maps the platform user to a Lucid user (auto-provisioned if Telegram-only)
+3. **Agent binding** -- Looks up which agent is bound to this chat/channel
+4. **Message forwarding** -- Sends the message to the agent's runtime
+5. **Receipt creation** -- Every interaction produces a cryptographic receipt
+6. **Response routing** -- Agent's response is sent back to the originating channel
+
+## Telegram
+
+The deepest integration. Users can deploy and manage agents entirely from Telegram.
+
+### Bot Commands
+
+| Command | Description |
+|---------|-------------|
+| `/launch [slug]` | Interactive agent deployment wizard |
+| `/start <passport_id>` | Bind a chat to an existing agent |
+| `/status` | Check agent health |
+| `/list` | List deployed agents |
+| `/plan` | View current plan and usage |
+| `/upgrade` | Upgrade plan via Stripe |
+
+### User Provisioning
+
+**Telegram-only users** are auto-provisioned: the `create_telegram_user()` database function creates a profile, organization, and free plan in a single transaction.
+
+**Web users** link their Telegram via a deep link from the dashboard (`t.me/bot?start=link_TOKEN`).
+
+### Billing Gate
+
+Before deploying, `checkLaunchAllowed()` verifies the user's plan permits additional agents:
+
+| Plan | Agent Limit |
+|------|-------------|
+| Starter | 1 |
+| Professional | 10 |
+| Business | Unlimited |
+| Internal | Unlimited |
+
+## Discord and Slack
+
+Bring your own bot token. Configure via environment variables at launch time:
+
+```bash
+# Discord
+DISCORD_BOT_TOKEN=your-discord-bot-token
+
+# Slack
+SLACK_BOT_TOKEN=xoxb-your-slack-token
+```
+
+Messages from these platforms are received via provider-specific webhook endpoints, then forwarded to the bound agent.
+
+## HTTP (Direct API)
+
+Agents are always accessible via their HTTP endpoint, independent of any messaging channel:
+
+```bash
+curl -X POST https://api.lucid.foundation/v1/chat/completions \
+  -H "Authorization: Bearer lk_..." \
+  -d '{
+    "model": "openai/gpt-4o",
+    "messages": [{"role": "user", "content": "Hello"}]
+  }'
+```

@@ -1,6 +1,102 @@
 ---
 title: "lucid_reputation"
-description: "On-chain reputation program"
+description: "On-chain reputation system with feedback, validation, and revocation"
 ---
 
-Coming soon.
+The `lucid_reputation` program stores verifiable reputation data for AI assets on Solana. It tracks feedback scores, third-party validations, and supports revocation -- all linked to cryptographic receipt hashes.
+
+**Program ID (devnet):** `4FWEH1XQb7p1pU9r8Ap8xomDYVxdSdwk6fFT8XD63G3A`
+
+## Instructions
+
+| Instruction | Description |
+|-------------|-------------|
+| `init_stats` | Initialize a PassportStats PDA with zeroed counters |
+| `submit_feedback` | Submit a score (1-100) linked to a receipt hash |
+| `submit_validation` | Validate a receipt (confirms an interaction occurred) |
+| `revoke_feedback` | Revoke previously submitted feedback (original submitter only) |
+
+## Account Structures
+
+### PassportStats
+
+PDA seeds: `["stats", passport_id_bytes]`
+
+Rolling aggregates maintained atomically on every feedback submission or revocation.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `passport_id` | `String` | Passport identifier (max 64 chars) |
+| `feedback_count` | `u32` | Total feedback entries ever created |
+| `validation_count` | `u32` | Total validation entries |
+| `total_score` | `u64` | Sum of non-revoked scores |
+| `avg_score` | `u16` | Average score * 100 (2-decimal precision) |
+| `last_updated` | `i64` | Last modification timestamp |
+
+### FeedbackEntry
+
+PDA seeds: `["feedback", passport_id_bytes, index_le_bytes]`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `passport_id` | `String` | Target passport |
+| `from` | `Pubkey` | Submitter |
+| `score` | `u8` | Score (1-100) |
+| `category` | `String` | Feedback category (max 32 chars, e.g., "accuracy") |
+| `receipt_hash` | `[u8; 32]` | Receipt proving the interaction |
+| `asset_type` | `u8` | 0=model, 1=compute, 2=tool, 3=agent, 4=dataset |
+| `metadata` | `String` | Additional context (max 256 chars) |
+| `timestamp` | `i64` | Submission time |
+| `revoked` | `bool` | Whether this feedback was revoked |
+| `index` | `u32` | Sequential index (used as PDA seed) |
+
+### ValidationEntry
+
+PDA seeds: `["validation", passport_id_bytes, receipt_hash]`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `passport_id` | `String` | Target passport |
+| `validator` | `Pubkey` | Validator |
+| `valid` | `bool` | Whether the receipt is confirmed valid |
+| `receipt_hash` | `[u8; 32]` | Receipt being validated |
+| `asset_type` | `u8` | Asset type code |
+| `metadata` | `String` | Validation context (max 256 chars) |
+| `timestamp` | `i64` | Validation time |
+
+## Usage
+
+```typescript
+// Submit feedback for an agent
+await program.methods
+  .submitFeedback(
+    'agent-abc123',       // passport_id
+    85,                   // score (1-100)
+    'accuracy',           // category
+    receiptHash,          // [u8; 32]
+    3,                    // asset_type (agent)
+    'Fast and accurate'   // metadata
+  )
+  .accounts({
+    feedback: feedbackPda,
+    stats: statsPda,
+    submitter: wallet.publicKey,
+  })
+  .rpc();
+```
+
+## Revocation
+
+Only the original submitter can revoke their feedback. On revocation:
+- `feedback.revoked` is set to `true`
+- `stats.total_score` is decremented by the revoked score
+- `stats.avg_score` is recomputed from remaining non-revoked entries
+- `stats.feedback_count` is **not** decremented (it tracks total entries for PDA derivation)
+
+## Events
+
+| Event | Emitted When |
+|-------|-------------|
+| `FeedbackSubmitted` | New feedback created (includes passport_id, score, index, receipt_hash) |
+| `ValidationSubmitted` | New validation created (includes valid flag, receipt_hash) |
+| `FeedbackRevoked` | Feedback revoked (includes original score for off-chain reconciliation) |

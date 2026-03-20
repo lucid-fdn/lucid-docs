@@ -1,6 +1,149 @@
 ---
 title: "Extending the Runtime"
-description: "Add capabilities to the agent runtime"
+description: "Add capabilities to the Lucid base runtime"
 ---
 
-Coming soon.
+The base runtime (`@lucid-fdn/agent-runtime`) is a minimal Express server designed for Path B (no-code) agents. You can extend it by customizing environment variables, adding tools, enabling memory, and connecting to external services.
+
+## Base Runtime Architecture
+
+The runtime runs on port 3100 and provides:
+
+- OpenAI-compatible chat endpoint
+- Inference routing to any provider via `PROVIDER_URL`
+- Automatic receipt creation via `LUCID_API_URL` (fire-and-forget, decoupled from inference)
+
+```
+User request -> Base Runtime (:3100)
+  -> Forward to PROVIDER_URL (TrustGate, Ollama, vLLM, OpenAI)
+  <- Response
+  -> Create receipt via LUCID_API_URL (async, non-blocking)
+```
+
+## Adding Tools
+
+Enable MCP tools for your agent by setting the `LUCID_TOOLS` environment variable:
+
+```bash
+lucid launch --runtime base \
+  --model openai/gpt-4o \
+  --prompt "You are a research assistant with web access" \
+  --target docker \
+  --env LUCID_TOOLS=web-search,github
+```
+
+Tools are accessed through MCPGate. The runtime calls MCPGate to execute tool invocations and returns results to the LLM.
+
+## Enabling Memory
+
+Give your agent persistent memory across conversations:
+
+```bash
+lucid launch --runtime base \
+  --model openai/gpt-4o \
+  --prompt "You are a personal assistant that remembers context" \
+  --target docker \
+  --env MEMORY_ENABLED=true \
+  --env MEMORY_STORE=sqlite \
+  --env MEMORY_EXTRACTION_ENABLED=true
+```
+
+The six memory types available:
+
+| Type | Purpose |
+|------|---------|
+| Episodic | Conversation turns and events |
+| Semantic | Extracted facts and knowledge |
+| Procedural | Learned rules and procedures |
+| Entity | Knowledge graph nodes |
+| Trust-weighted | Cross-agent trust signals |
+| Temporal | Time-bounded facts with expiry |
+
+## Custom Inference Providers
+
+The runtime supports any OpenAI-compatible inference endpoint:
+
+```bash
+# Use TrustGate (managed)
+PROVIDER_URL=https://trustgate.lucid.foundation
+
+# Use local Ollama
+PROVIDER_URL=http://localhost:11434/v1
+
+# Use vLLM
+PROVIDER_URL=http://vllm-server:8000/v1
+
+# Use LiteLLM
+PROVIDER_URL=http://litellm:4000/v1
+```
+
+## DePIN Storage
+
+Enable decentralized storage for agent artifacts and memory snapshots:
+
+```bash
+DEPIN_UPLOAD_ENABLED=true
+DEPIN_PERMANENT_PROVIDER=arweave    # For immutable data
+DEPIN_EVOLVING_PROVIDER=lighthouse  # For mutable data
+```
+
+| Provider | Tier | Use Case |
+|----------|------|----------|
+| Arweave | Permanent | Epoch bundles, passport metadata, deploy artifacts |
+| Lighthouse | Evolving | Memory snapshots, MMR checkpoints |
+| Mock | Either | Development and testing |
+
+## Building a Custom Runtime
+
+If the base runtime does not meet your needs, build your own image and use Path A (BYOI):
+
+```typescript
+import express from 'express';
+import { LucidAgent } from '@lucid-fdn/sdk';
+
+const app = express();
+const agent = new LucidAgent({ apiKey: process.env.LUCID_API_KEY });
+
+// Add your custom logic
+app.post('/run', async (req, res) => {
+  // Custom preprocessing
+  const enrichedPrompt = await myPreprocessor(req.body.prompt);
+
+  // Inference with automatic receipt
+  const result = await agent.run({
+    model: process.env.LUCID_MODEL,
+    prompt: enrichedPrompt,
+  });
+
+  // Custom postprocessing
+  const finalResult = await myPostprocessor(result);
+  res.json(finalResult);
+});
+
+app.listen(3100);
+```
+
+Then deploy:
+
+```bash
+lucid launch --image my-custom-runtime:latest --target railway
+```
+
+## Rollout and Updates
+
+The control plane supports blue-green deployments for safe runtime updates:
+
+```bash
+# Deploy new version alongside existing
+curl -X POST https://api.lucid.foundation/v1/agents/:passportId/deploy/blue-green \
+  -H "Authorization: Bearer lk_..." \
+  -d '{"image": "my-runtime:v2.0.0"}'
+
+# Promote after health check passes
+curl -X POST https://api.lucid.foundation/v1/agents/:passportId/promote \
+  -H "Authorization: Bearer lk_..."
+
+# Or rollback if issues are detected
+curl -X POST https://api.lucid.foundation/v1/agents/:passportId/rollback \
+  -H "Authorization: Bearer lk_..."
+```

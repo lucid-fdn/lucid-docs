@@ -1,6 +1,98 @@
 ---
 title: "Bring Your Own Model"
-description: "Use your own model with Lucid agents"
+description: "Deploy a custom model or agent image with Lucid verification"
 ---
 
-Coming soon.
+Lucid supports bringing your own Docker image (Path A) or building from source (Path C). Your agent runs on the infrastructure of your choice while Lucid provides identity, receipts, and reputation.
+
+## Path A: Bring Your Own Image (BYOI)
+
+If you already have a Docker image, deploy it directly:
+
+```bash
+lucid launch \
+  --image ghcr.io/myorg/my-agent:latest \
+  --target railway \
+  --owner 0x...
+```
+
+Lucid injects these environment variables into your container automatically:
+
+| Variable | Purpose |
+|----------|---------|
+| `LUCID_API_URL` | Lucid Layer API base URL |
+| `LUCID_PASSPORT_ID` | Your agent's passport identity |
+| `LUCID_API_KEY` | Authentication key for the Lucid API |
+| `TRUSTGATE_URL` | TrustGate inference proxy URL |
+| `LUCID_WALLET_ADDRESS` | Auto-created agent wallet address |
+
+Your agent calls the Lucid API via `@lucid-fdn/sdk` to create receipts, use memory, and handle payments:
+
+```typescript
+import { LucidAgent } from '@lucid-fdn/sdk';
+
+const agent = new LucidAgent({ apiKey: process.env.LUCID_API_KEY });
+
+// Every call creates a receipt automatically
+const result = await agent.run({
+  model: 'openai/gpt-4o',
+  prompt: 'Analyze this dataset',
+});
+```
+
+## Path C: Build from Source
+
+If you have source code with a Dockerfile (or without one -- Lucid can generate it):
+
+```bash
+lucid launch \
+  --path ./my-agent \
+  --target railway \
+  --owner 0x...
+```
+
+For remote targets (Railway, Akash, etc.), configure a container registry first:
+
+```bash
+lucid registry set ghcr.io/myorg
+lucid registry set ghcr.io/myorg --username x --token y  # with auth
+```
+
+Lucid detects or generates a Dockerfile, builds the image locally, pushes to your registry, and deploys.
+
+## Verification Modes
+
+```bash
+# Full verification (default) -- receipts for every call
+lucid launch --image my-agent:latest --target docker --verification full
+
+# Minimal verification -- lightweight receipt generation
+lucid launch --image my-agent:latest --target docker --verification minimal
+```
+
+## Deployment Targets
+
+| Target | Type | Description |
+|--------|------|-------------|
+| `docker` | Local | Docker Compose, auto-starts containers |
+| `railway` | Cloud | GraphQL API, auto-generates domain |
+| `akash` | Decentralized | SDL v2.0, auto-accepts bids |
+| `phala` | TEE | Encrypted env vars, confidential VM |
+| `ionet` | GPU | Hardware discovery, container deploy |
+| `nosana` | GPU | Persistent GPU services |
+
+## External Registration (Path E)
+
+Already running an agent? Register it for identity and reputation without redeployment:
+
+```bash
+# Create a passport for your existing agent
+curl -X POST https://api.lucid.foundation/v1/passports \
+  -H "Authorization: Bearer lk_..." \
+  -d '{"type": "agent", "deployment_config": {"target": {"type": "self_hosted"}}}'
+
+# Register its endpoint
+curl -X PATCH https://api.lucid.foundation/v1/passports/:id/endpoints \
+  -H "Authorization: Bearer lk_..." \
+  -d '{"invoke_url": "https://my-agent.com/run"}'
+```

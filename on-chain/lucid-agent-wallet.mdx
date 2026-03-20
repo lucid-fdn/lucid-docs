@@ -1,6 +1,121 @@
 ---
 title: "lucid_agent_wallet"
-description: "PDA wallets, policy, escrow, and sessions"
+description: "PDA wallets for agents with policy constraints, escrow, revenue splits, and session keys"
 ---
 
-Coming soon.
+The `lucid_agent_wallet` program gives every AI agent a Solana wallet with programmable spending policies, revenue distribution, time-locked escrow, and delegated session keys.
+
+**Program ID (devnet):** `AJGpTWXbhvdYMxSah6GAKzykvfkYo2ViQpWGMbimQsph`
+
+## Instructions
+
+### Wallet Management
+
+| Instruction | Description |
+|-------------|-------------|
+| `create_wallet` | Create a PDA wallet bound to a passport NFT mint |
+| `execute` | Execute an instruction from the wallet (owner-only, policy-checked) |
+
+### Policy
+
+| Instruction | Description |
+|-------------|-------------|
+| `set_policy` | Configure spending limits, allowed programs, and time windows |
+
+### Revenue Splits
+
+| Instruction | Description |
+|-------------|-------------|
+| `configure_split` | Set recipients and basis-point shares (must sum to 10000) |
+| `distribute` | Distribute tokens to all recipients according to the configured split |
+
+### Session Keys
+
+| Instruction | Description |
+|-------------|-------------|
+| `create_session` | Delegate signing authority with permissions and expiry |
+| `revoke_session` | Revoke a session key |
+
+### Escrow
+
+| Instruction | Description |
+|-------------|-------------|
+| `create_escrow` | Lock tokens with an expected receipt hash and time limit |
+| `release_escrow` | Release funds to beneficiary upon receipt verification |
+| `claim_timeout` | Refund depositor after escrow expiry |
+| `dispute_escrow` | Freeze escrow for arbitration |
+
+## Wallet Account
+
+PDA seeds: `["agent_wallet", passport_mint]`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `owner` | `Pubkey` | Wallet owner |
+| `passport_mint` | `Pubkey` | Bound passport NFT mint |
+| `nonce` | `u64` | Transaction counter |
+| `bump` | `u8` | PDA bump seed |
+| `created_at` | `i64` | Creation timestamp |
+
+## Policy Config
+
+PDA seeds: `["policy", wallet]`
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `max_per_tx` | `u64` | Maximum spend per transaction (0 = unlimited) |
+| `daily_limit` | `u64` | Maximum daily spend (0 = unlimited, resets at UTC midnight) |
+| `daily_spent` | `u64` | Running daily counter |
+| `allowed_programs` | `Vec<Pubkey>` | Allowlist of program IDs (empty = any, max 10) |
+| `time_window_start` | `i64` | Earliest allowed execution time |
+| `time_window_end` | `i64` | Latest allowed execution time (0 = no end) |
+
+## Split Config
+
+PDA seeds: `["split", wallet]`
+
+Recipients and basis points must have equal length, sum to 10000 (100%), and contain at most 10 entries.
+
+```typescript
+// Configure a 70/20/10 split
+await program.methods
+  .configureSplit(
+    [computeProvider, modelProvider, protocolWallet],
+    [7000, 2000, 1000]
+  )
+  .accounts({ split: splitPda, wallet: walletPda, owner: wallet.publicKey })
+  .rpc();
+```
+
+## Escrow Flow
+
+1. **Create** -- Depositor locks tokens with an expected receipt hash and duration
+2. **Release** -- When the beneficiary produces a matching receipt hash, funds are released
+3. **Timeout** -- If no valid receipt by expiry, depositor reclaims funds
+4. **Dispute** -- Either party can freeze the escrow for arbitration
+
+Escrow statuses: `Created` -> `Released` | `Refunded` | `Disputed`
+
+## Session Keys
+
+Delegate signing authority with scoped permissions:
+
+```typescript
+await program.methods
+  .createSession(
+    0x0001,              // permissions bitmask
+    expiresAt,           // Unix timestamp
+    new BN(1_000_000)    // max amount
+  )
+  .accounts({
+    session: sessionPda,
+    wallet: walletPda,
+    delegate: delegatePublicKey,
+    owner: wallet.publicKey,
+  })
+  .rpc();
+```
+
+## Events
+
+`WalletCreated`, `Executed`, `PolicySet`, `SplitConfigured`, `Distributed`, `SessionCreated`, `SessionRevoked`, `EscrowCreated`, `EscrowReleased`, `EscrowRefunded`, `EscrowDisputed`

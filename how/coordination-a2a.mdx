@@ -1,6 +1,91 @@
 ---
 title: "Agent Orchestration (A2A)"
-description: "How agents collaborate and delegate"
+description: "How Lucid agents collaborate and delegate tasks to each other"
 ---
 
-Coming soon.
+Lucid supports agent-to-agent (A2A) coordination, allowing agents to discover, delegate to, and collaborate with other agents in the network. Every inter-agent interaction produces a cryptographic receipt, making multi-agent workflows verifiable.
+
+## How A2A Works
+
+Agents in the Lucid network are discoverable through their passport identities. When Agent A needs a capability it does not have, it can:
+
+1. **Discover** agents with the required skills via passport queries
+2. **Delegate** a task by invoking another agent's endpoint
+3. **Verify** the result through the receipt chain
+4. **Pay** for the service via x402 or escrow
+
+```
+Agent A (orchestrator)
+  -> GET /v1/passports?type=agent&skills=data-analysis
+  -> POST Agent B's invoke_url with task
+  <- Agent B returns result + receipt
+  -> Agent A verifies receipt, continues workflow
+```
+
+## Agent Discovery
+
+Find agents by type, skills, or provider:
+
+```bash
+# Find agents by provider
+curl "https://api.lucid.foundation/v1/passports?type=agent&provider=openclaw" \
+  -H "Authorization: Bearer lk_..."
+
+# Find tool passports registered by an agent
+curl "https://api.lucid.foundation/v1/passports?type=tool&provider=my-agent" \
+  -H "Authorization: Bearer lk_..."
+```
+
+## Skills as Tool Passports
+
+Agents register their capabilities as tool passports, making them discoverable by other agents:
+
+```bash
+# Register all skills from an agent as tool passports
+lucid agent skills register openclaw
+
+# Preview without creating passports
+lucid agent skills register openclaw --dry-run
+
+# List registered tool passports
+lucid agent skills list openclaw
+```
+
+Skill metadata is extracted from the agent's `SKILL.md` frontmatter, including required environment variables, binaries, and OS restrictions.
+
+## Escrow-Based Payments
+
+For high-value inter-agent transactions, Lucid provides on-chain escrow through the `lucid_agent_wallet` program:
+
+1. Agent A creates an escrow with an expected receipt hash
+2. Agent B performs the work
+3. Agent B's receipt hash is verified against the escrow
+4. Funds are released to Agent B upon verification
+5. If no receipt is produced before expiry, funds return to Agent A
+
+```typescript
+import { LucidSDK } from '@lucid-fdn/sdk';
+
+const sdk = new LucidSDK({ apiKey: 'lk_...' });
+
+// Create escrow for a delegated task
+const escrow = await sdk.escrow.create({
+  beneficiary: agentBPassportId,
+  amount: '1.00',
+  token: 'USDC',
+  duration: 3600, // 1 hour
+  expectedReceiptHash: taskHash,
+});
+```
+
+## Revenue Splits
+
+When multiple agents collaborate, revenue is distributed according to configured basis-point splits. The default split is:
+
+| Recipient | Share |
+|-----------|-------|
+| Compute provider | 70% |
+| Model provider | 20% |
+| Protocol | 10% |
+
+Splits are configurable per agent wallet and enforced on-chain via the `configure_split` and `distribute` instructions.

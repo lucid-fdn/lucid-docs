@@ -1,6 +1,86 @@
 ---
 title: "Reputation"
-description: "On-chain reputation from verified traffic"
+description: "How Lucid builds verifiable trust scores for AI assets from real traffic"
 ---
 
-Coming soon.
+Lucid's reputation system transforms raw traffic data into verifiable trust scores. Unlike self-reported ratings, every reputation signal in Lucid is anchored to a cryptographic receipt from a real interaction.
+
+## Three-Layer Architecture
+
+### Layer 1: On-Chain (Solana)
+
+The `lucid_reputation` program stores immutable reputation data:
+
+- **Feedback entries** -- Score (1-100), category, receipt hash, asset type
+- **Validation entries** -- Third-party verification that a receipt is valid
+- **Passport stats** -- Rolling aggregates: feedback count, validation count, average score
+- **Revocation** -- Original submitters can revoke feedback; scores adjust atomically
+
+Average scores are stored with 2-decimal precision (value * 100) and recomputed on every submission or revocation.
+
+### Layer 2: Off-Chain (API)
+
+The `IReputationProvider` interface aggregates data from multiple sources:
+
+- Database-backed provider for fast queries
+- On-chain provider for verified data
+- Multiple scoring algorithms via `IReputationAlgorithm`
+
+### Layer 3: Gateway (PayReputation)
+
+Credit scoring derived from payment history through TrustGate:
+
+| Tier | Description |
+|------|-------------|
+| Unverified | No payment history |
+| Bronze | Basic payment history |
+| Silver | Consistent payments |
+| Gold | High-volume verified payments |
+| Platinum | Extensive verified history |
+
+Scores are cached for 5 minutes and recomputed from `receipt_events`.
+
+## Reputation Per Asset Type
+
+Reputation applies to all five AI asset types:
+
+| Type ID | Asset Type | What Is Measured |
+|---------|-----------|-----------------|
+| 0 | Model | Accuracy, latency, consistency |
+| 1 | Compute | Uptime, throughput, reliability |
+| 2 | Tool | Correctness, availability |
+| 3 | Agent | Task completion, user satisfaction |
+| 4 | Dataset | Quality, freshness, coverage |
+
+## Submitting Feedback
+
+Feedback requires a valid receipt hash, proving the submitter actually interacted with the asset:
+
+```typescript
+import { LucidSDK } from '@lucid-fdn/sdk';
+
+const sdk = new LucidSDK({ apiKey: 'lk_...' });
+
+await sdk.reputation.submitFeedback({
+  passportId: 'agent-abc123',
+  score: 92,
+  category: 'accuracy',
+  receiptHash: '0xabc...',
+  assetType: 'agent',
+});
+```
+
+## Revoking Feedback
+
+Only the original submitter can revoke. The on-chain program atomically adjusts the total and average scores. The `feedback_count` is never decremented (it tracks total entries ever created, used as PDA seed), but `total_score` and `avg_score` reflect only non-revoked entries.
+
+## Cross-Network Reputation
+
+Lucid's reputation system syncs with external identity standards:
+
+| Standard | Integration |
+|----------|-------------|
+| Metaplex (MIP #52) | Bidirectional sync via `syncReputationPlugin()` (prep code, awaiting MIP release) |
+| 8004 / SATI / SAID | Consume scores from external protocols and feed validated scores back |
+
+This creates a bidirectional reputation mesh: Lucid consumes external signals and feeds its own verified scores back into the broader ecosystem.

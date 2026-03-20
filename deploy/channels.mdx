@@ -3,4 +3,89 @@ title: "Channels"
 description: "Connect your agent to Telegram, Discord, Slack, and more"
 ---
 
-Coming soon.
+Lucid agents can communicate through multiple messaging channels. Channel configuration happens during the launch wizard or via environment variables.
+
+## Supported Channels
+
+| Channel | Setup Method | Requirements |
+|---------|-------------|--------------|
+| Telegram | Managed Lucid bot or BYO token | Bot token from BotFather |
+| Discord | BYO bot token | Discord bot token + guild ID |
+| Slack | BYO bot token | Slack bot token |
+| HTTP | Built-in | No additional setup |
+
+## Configuring Channels at Launch
+
+### Interactive Wizard (Path D)
+
+When launching from the marketplace catalog, the wizard guides you through channel setup:
+
+```bash
+lucid launch --agent openclaw --target docker
+```
+
+The wizard prompts for:
+- **Telegram**: Use managed Lucid bot, bring your own bot token, or skip
+- **Discord**: Provide your Discord bot token or skip
+- **Slack**: Provide your Slack bot token or skip
+
+### Pre-filled Setup (CI Mode)
+
+Skip the interactive prompts by passing environment variables directly:
+
+```bash
+lucid launch --agent openclaw --target docker \
+  --env TELEGRAM_BOT_TOKEN=123456:ABC-DEF \
+  --env DISCORD_BOT_TOKEN=your-discord-token
+```
+
+Or use a config file for fully non-interactive deployment:
+
+```bash
+lucid launch --agent openclaw --target docker --config ./channels.env
+```
+
+## Telegram Integration
+
+Lucid provides a deep Telegram integration with its own bot infrastructure.
+
+### Managed Lucid Bot
+
+The simplest option -- your agent runs behind Lucid's Telegram bot. Users interact via commands:
+
+| Command | Description |
+|---------|-------------|
+| `/launch [slug]` | Deploy an agent interactively |
+| `/start <passport_id>` | Connect chat to an existing agent |
+| `/status` | Check agent status |
+| `/list` | List your agents |
+
+### Bring Your Own Bot
+
+Provide your own Telegram bot token for full branding control:
+
+```bash
+TELEGRAM_BOT_TOKEN=123456:ABC-DEF
+TELEGRAM_WEBHOOK_SECRET=your_secret
+```
+
+Lucid proxies Telegram webhooks through `/v1/webhooks/telegram` to your agent.
+
+### Web-to-Telegram Linking
+
+Users who sign up on the web dashboard can link their Telegram account:
+
+1. Dashboard shows "Connect Telegram" button
+2. Generates a deep link: `t.me/bot?start=link_TOKEN`
+3. User opens link in Telegram
+4. Bot consumes the token and links the accounts
+
+## Webhook Architecture
+
+```
+Messaging Platform -> api.lucid.foundation/v1/webhooks/:provider
+  -> Agent runtime (port 3100)
+  -> Response routed back to channel
+```
+
+All channel messages flow through Lucid's webhook proxy, ensuring every interaction generates a receipt.

@@ -1,6 +1,113 @@
 ---
 title: "lucid_passports"
-description: "AI asset registry and x402 payment gating"
+description: "On-chain registry for AI asset passports with payment gating"
 ---
 
-Coming soon.
+The `lucid_passports` program is the on-chain identity registry for all AI assets in the Lucid network. It supports models, datasets, tools, agents, and voice assets, with built-in payment gating via x402.
+
+**Program ID (devnet):** `38yaXUezrbLyLDnAQ5jqFXPiFurr8qhw19gYnE6H9VsW`
+
+## Instructions
+
+### Identity Management
+
+| Instruction | Description |
+|-------------|-------------|
+| `register_passport` | Register a new AI asset passport |
+| `update_passport` | Update metadata CID or status |
+| `link_version` | Create a version link between passport revisions |
+| `add_attestation` | Attach a training log, eval report, or audit |
+
+### Payment Gating
+
+| Instruction | Description |
+|-------------|-------------|
+| `set_payment_gate` | Define SOL/LUCID price for passport access |
+| `pay_for_access` | Pay for access (creates an on-chain receipt) |
+| `withdraw_revenue` | Owner withdraws collected payments from vault |
+| `revoke_access` | Owner revokes a user's access receipt |
+
+## Asset Types
+
+| Variant | Description |
+|---------|-------------|
+| `Model` | LLM or ML model |
+| `Dataset` | Training or evaluation data |
+| `Tool` | MCP tool or API |
+| `Agent` | Autonomous agent |
+| `Voice` | Voice model |
+| `Other` | Custom asset type |
+
+## Passport Account
+
+PDA seeds: `["passport", owner, asset_type_byte, sha256(slug), version_bytes]`
+
+| Field | Type | Size | Description |
+|-------|------|------|-------------|
+| `owner` | `Pubkey` | 32 | Passport owner |
+| `asset_type` | `AssetType` | 1 | Asset category |
+| `slug` | `String` | 4+64 | Human-readable identifier (max 64 chars) |
+| `version` | `Version` | 12 | Semantic version (major.minor.patch) |
+| `content_cid` | `String` | 4+64 | IPFS CID of asset content |
+| `content_hash` | `[u8; 32]` | 32 | SHA-256 of content |
+| `metadata_cid` | `String` | 4+64 | IPFS CID of metadata |
+| `license_code` | `String` | 4+32 | SPDX license identifier |
+| `policy_flags` | `u16` | 2 | Bitfield for usage policies |
+| `status` | `PassportStatus` | 1 | Active, Deprecated, Superseded, Revoked |
+
+## Policy Flags
+
+| Flag | Bit | Meaning |
+|------|-----|---------|
+| `ALLOW_COMMERCIAL` | 0 | Commercial use permitted |
+| `ALLOW_DERIVATIVES` | 1 | Derivative works permitted |
+| `ALLOW_FINETUNE` | 2 | Fine-tuning permitted |
+| `REQUIRE_ATTRIBUTION` | 3 | Attribution required |
+| `SHARE_ALIKE` | 4 | Share-alike required |
+
+## Payment Gate
+
+PDA seeds: `["payment_gate", passport]`
+
+Owners set a price in SOL lamports and/or LUCID tokens. Payments flow to a vault PDA (`["vault", passport]`). The gate tracks total revenue and access count.
+
+```typescript
+// Set a payment gate
+await program.methods
+  .setPaymentGate(
+    new BN(1_000_000),   // 0.001 SOL
+    new BN(0),            // 0 LUCID
+    SystemProgram.programId
+  )
+  .accounts({
+    paymentGate: gatePda,
+    passport: passportPda,
+    vault: vaultPda,
+    owner: wallet.publicKey,
+  })
+  .rpc();
+```
+
+## Attestation Types
+
+| Variant | Use Case |
+|---------|----------|
+| `TrainingLog` | Model training provenance |
+| `EvalReport` | Benchmark or evaluation results |
+| `SafetyAudit` | Safety review documentation |
+| `LicenseVerification` | License compliance check |
+| `TEEQuote` | Trusted Execution Environment attestation |
+| `VendorAttestation` | Third-party vendor verification |
+
+## Events
+
+| Event | Emitted When |
+|-------|-------------|
+| `PassportRegistered` | New passport created |
+| `PassportUpdated` | Metadata or status changed |
+| `VersionLinked` | Version chain extended |
+| `AttestationAdded` | New attestation attached |
+| `PaymentGateSet` | Payment gate configured |
+| `AccessPurchased` | User paid for access |
+| `RevenueWithdrawn` | Owner withdrew funds |
+| `AccessRevoked` | User access revoked |

@@ -1,6 +1,96 @@
 ---
 title: "Anchoring"
-description: "Epoch commitment to Solana and EVM"
+description: "How Lucid commits epoch roots to Solana and EVM for verifiable proof"
 ---
 
-Coming soon.
+Anchoring is how Lucid makes AI interactions permanently verifiable. Cryptographic receipts are batched into epochs, compressed into a Merkle Mountain Range (MMR) root, and committed on-chain. Anyone can later verify that a specific interaction occurred without trusting Lucid.
+
+## The Receipt-to-Chain Pipeline
+
+```
+AI interaction
+  -> Receipt created (SHA-256 of RFC 8785 canonical JSON)
+  -> Ed25519 signed by orchestrator
+  -> Appended to MMR
+  -> Epoch finalized (>100 receipts OR >1 hour)
+  -> MMR root committed on-chain (Solana + EVM)
+  -> Epoch bundle archived to DePIN storage
+```
+
+## Key Algorithms
+
+### Receipt Hashing
+
+Every receipt is hashed using SHA-256 over RFC 8785 canonical JSON (JCS). This ensures identical receipts produce identical hashes regardless of JSON key ordering or formatting.
+
+### Merkle Mountain Range (MMR)
+
+Receipts are appended to an MMR -- an append-only authenticated data structure. The root is computed via SHA-256 with right-to-left peak bagging.
+
+Properties:
+- Append-only (no rewriting history)
+- Efficient inclusion proofs (O(log N))
+- Supports batched verification
+
+### Epoch Finalization
+
+An epoch closes when either condition is met:
+- **100+ receipts** accumulated
+- **1+ hour** since epoch opened
+
+## On-Chain Commitment
+
+The `thought_epoch` Solana program stores MMR roots on-chain with three instruction variants:
+
+| Instruction | Description |
+|-------------|-------------|
+| `commit_epoch` | Single epoch root (32-byte MMR root) |
+| `commit_epochs` | Batch up to 16 roots in one transaction |
+| `commit_epoch_v2` | Extended metadata: epoch ID, leaf count, timestamp, MMR size |
+
+Each commitment is stored in a PDA derived from the authority's public key.
+
+## Multi-Chain Anchoring
+
+Lucid anchors to both Solana and EVM chains simultaneously. Configure via the `ANCHORING_CHAINS` environment variable:
+
+```bash
+ANCHORING_CHAINS=solana-devnet,base
+```
+
+EVM anchoring uses the `EpochRegistry` contract, which stores the same root hash, epoch ID, and metadata.
+
+## Gas Costs
+
+| Operation | Cost |
+|-----------|------|
+| iGas (per inference call) | 1 LUCID |
+| mGas (per epoch root commitment) | 5 LUCID |
+| Batch commit (16 roots) | 7 LUCID total |
+
+## DePIN Archival
+
+After on-chain commitment, the full epoch bundle (all receipts, MMR state, metadata) is archived to decentralized storage:
+
+| Provider | Tier | Use Case |
+|----------|------|----------|
+| Arweave | Permanent | Immutable epoch bundles, passport metadata |
+| Lighthouse | Evolving | MMR checkpoints, memory snapshots |
+
+All DePIN uploads go through the `AnchorDispatcher`, which handles storage selection, CID tracking, and deduplication.
+
+## Verifying a Receipt
+
+To verify that a specific receipt was included in an anchored epoch:
+
+```bash
+# Get an inclusion proof
+curl https://api.lucid.foundation/v1/receipts/:id/proof \
+  -H "Authorization: Bearer lk_..."
+
+# Verify against on-chain root
+curl -X POST https://api.lucid.foundation/v1/receipts/:id/verify \
+  -H "Authorization: Bearer lk_..."
+```
+
+The proof contains the receipt hash, the MMR path, and the on-chain epoch root -- sufficient for independent verification.

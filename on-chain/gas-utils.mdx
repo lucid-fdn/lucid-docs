@@ -1,6 +1,90 @@
 ---
 title: "gas_utils"
-description: "Token burn and split utilities"
+description: "Token burn and on-chain distribution for Lucid gas fees"
 ---
 
-Coming soon.
+The `gas_utils` program handles LUCID token collection for gas fees. It burns a configurable portion of tokens and distributes the remainder to specified recipients on-chain.
+
+**Program ID (devnet):** `EzuUhxtNAz1eRfAPypm6eAepe8fRQBrBPSo4Qcp1w3hm`
+
+## Instructions
+
+| Instruction | Description |
+|-------------|-------------|
+| `collect_and_split` | Collect gas tokens: burn a portion and distribute the rest |
+| `mint_and_distribute` | Mint and distribute tokens (not yet implemented) |
+
+## collect_and_split
+
+The primary instruction. Takes iGas (per-inference) and mGas (per-epoch-root) amounts, burns a percentage, and distributes the remainder to recipients proportionally.
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `m_gas_amount` | `u64` | mGas tokens (epoch root commitment fee) |
+| `i_gas_amount` | `u64` | iGas tokens (per-inference fee) |
+| `recipients` | `Vec<RecipientShare>` | Recipients with percentage shares |
+| `burn_bps` | `u16` | Burn percentage in basis points (0-10000) |
+
+### RecipientShare
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `recipient` | `Pubkey` | Recipient's public key |
+| `percentage` | `u8` | Share of distributed amount (0-100) |
+
+Percentages across all recipients must sum to exactly 100. Maximum 10 recipients.
+
+### How It Works
+
+1. Total gas = `m_gas_amount + i_gas_amount`
+2. Burn amount = `total_gas * burn_bps / 10000`
+3. Distribution amount = `total_gas - burn_amount`
+4. Each recipient gets `distribution_amount * percentage / 100`
+5. Burns are executed via CPI to the SPL Token `Burn` instruction
+6. Distributions are executed via CPI to the SPL Token `Transfer` instruction
+
+### Accounts
+
+| Account | Description |
+|---------|-------------|
+| `user_ata` | User's LUCID token account (source of funds) |
+| `lucid_mint` | LUCID token mint (required for burn) |
+| `user` | Signer paying gas |
+| `token_program` | SPL Token program |
+| *remaining_accounts* | One TokenAccount per recipient (same order as `recipients`) |
+
+### Validation
+
+- Recipient token accounts are validated against declared recipient pubkeys
+- Recipient token accounts must use the same LUCID mint
+- User ATA mint must match the provided LUCID mint
+
+## Gas Fee Schedule
+
+| Fee Type | Amount | Trigger |
+|----------|--------|---------|
+| iGas | 1 LUCID | Per inference call |
+| mGas | 5 LUCID | Per epoch root commitment |
+| Batch | 7 LUCID total | Batch commit (2 base + 5 mGas) |
+
+## Events
+
+| Event | Fields |
+|-------|--------|
+| `GasCollected` | user, m_gas_amount, i_gas_amount, total_amount, burn_amount, distribute_amount, burn_bps, recipients |
+
+## Errors
+
+| Error | Description |
+|-------|-------------|
+| `TooManyRecipients` | More than 10 recipients |
+| `NoRecipients` | Empty recipients list |
+| `InvalidPercentageSum` | Percentages do not sum to 100 |
+| `ZeroGasAmount` | Total gas is zero |
+| `InvalidBurnBps` | burn_bps exceeds 10000 |
+| `MintMismatch` | User ATA mint does not match LUCID mint |
+| `RecipientAccountMismatch` | remaining_accounts count differs from recipients |
+| `RecipientOwnerMismatch` | Recipient ATA owner does not match declared recipient |
+| `RecipientMintMismatch` | Recipient ATA mint does not match LUCID mint |

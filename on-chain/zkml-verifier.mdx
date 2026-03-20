@@ -1,6 +1,123 @@
 ---
 title: "lucid_zkml_verifier"
-description: "Groth16 zkML proof verification"
+description: "On-chain Groth16 proof verification with bloom filter deduplication"
 ---
 
-Coming soon.
+The `lucid_zkml_verifier` program verifies Groth16 zero-knowledge proofs for ML model inference on Solana. It links verified proofs to inference receipts and uses a bloom filter to prevent duplicate verification.
+
+**Program ID (devnet):** `69cJRFGWijD1FdapQ2vz7VP6x2jcXRQyBws9VzzPpqAN`
+
+## Instructions
+
+| Instruction | Description |
+|-------------|-------------|
+| `register_model` | Register a model circuit with its Groth16 verifying key |
+| `verify_proof` | Verify a single proof against a registered model |
+| `verify_batch` | Batch verify up to 10 proofs |
+| `check_proof` | Check if a proof was previously verified (bloom lookup) |
+| `init_bloom` | Initialize the bloom filter PDA |
+
+## Account Structures
+
+### ModelCircuit
+
+PDA seeds: `["model", model_hash]`
+
+Stores the Groth16 verifying key components for a registered model.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `model_hash` | `[u8; 32]` | SHA-256 hash of the model |
+| `vk_alpha_g1` | `[u8; 64]` | G1 point of verifying key |
+| `vk_beta_g2` | `[u8; 128]` | G2 point of verifying key |
+| `vk_gamma_g2` | `[u8; 128]` | G2 point |
+| `vk_delta_g2` | `[u8; 128]` | G2 point |
+| `vk_ic` | `Vec<[u8; 64]>` | IC points (length = nr_pubinputs + 1) |
+| `nr_pubinputs` | `u8` | Number of public inputs (1-8) |
+| `owner` | `Pubkey` | Model registrant |
+| `registered_at` | `i64` | Registration timestamp |
+
+### VerifiedProof
+
+Optional on-chain record for high-value proofs.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `proof_hash` | `[u8; 32]` | SHA-256 of proof components |
+| `model_hash` | `[u8; 32]` | Associated model |
+| `receipt_hash` | `[u8; 32]` | Linked inference receipt |
+| `verified_at` | `i64` | Verification timestamp |
+| `verifier` | `Pubkey` | Verifier's public key |
+
+### ProofBloomFilter
+
+PDA seeds: `["bloom", authority]`
+
+16KB bloom filter with 7 hash functions for approximately 0.1% false positive rate at 10,000 proofs.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `filter` | `[u8; 2048]` | Bloom filter bits |
+| `proof_count` | `u64` | Total proofs verified |
+| `last_updated` | `i64` | Last update timestamp |
+| `authority` | `Pubkey` | Only this signer can submit proofs |
+
+## Verification Flow
+
+1. Caller submits proof components (`proof_a`, `proof_b`, `proof_c`) and public inputs
+2. Program computes a deterministic proof hash from all components
+3. Bloom filter is checked for duplicates
+4. Proof components are validated (non-zero check)
+5. Bloom filter is updated with the new proof hash
+6. `ProofVerified` event is emitted with the linked receipt hash
+
+```typescript
+await program.methods
+  .verifyProof(
+    proofA,         // [u8; 64]
+    proofB,         // [u8; 128]
+    proofC,         // [u8; 64]
+    publicInputs,   // Vec<[u8; 32]>
+    receiptHash     // [u8; 32]
+  )
+  .accounts({
+    model: modelPda,
+    bloom: bloomPda,
+    verifier: wallet.publicKey,
+  })
+  .rpc();
+```
+
+## Batch Verification
+
+Verify up to 10 proofs in a single transaction for gas efficiency:
+
+```typescript
+await program.methods
+  .verifyBatch(proofs) // Vec<ProofData>, max 10
+  .accounts({
+    bloom: bloomPda,
+    verifier: wallet.publicKey,
+  })
+  .rpc();
+```
+
+## Bloom Filter Details
+
+- **Size:** 2048 bytes (16,384 bits)
+- **Hash functions:** 7 (double hashing: `h(i) = (h1 + i * h2) mod bit_count`)
+- **False positive rate:** ~0.1% at 10,000 proofs
+- **Purpose:** Prevents the same proof from being verified twice on-chain
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `ModelRegistered` | New model circuit registered |
+| `ProofVerified` | Single proof verified (includes proof_hash, model_hash, receipt_hash) |
+| `BatchVerified` | Batch of proofs verified |
+| `ProofChecked` | Bloom filter lookup result |
+
+## Current Status
+
+The Groth16 pairing check is currently a stub -- proof components are validated for non-zero values and authority is checked, but the full `e(-A, B) * e(alpha, beta) * e(vk_x, gamma) * e(C, delta) == 1` pairing equation is not yet computed on-chain. Full verification requires Solana's `alt_bn128` syscalls (available since v1.16). Only the bloom authority can submit proofs, preventing unauthorized verification while the pairing check is being finalized.

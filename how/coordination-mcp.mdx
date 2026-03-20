@@ -1,6 +1,105 @@
 ---
 title: "Tool Access (MCP)"
-description: "88+ tools via the Model Context Protocol"
+description: "Access 88+ tools via the Model Context Protocol through MCPGate"
 ---
 
-Coming soon.
+MCPGate is Lucid's tool gateway, exposing 88 built-in MCP (Model Context Protocol) servers plus tenant-registered external servers. It provides RBAC, audit logging, credential injection, and metering for every tool call.
+
+## How MCPGate Works
+
+```
+Agent request
+  -> Bearer auth + RBAC scopes
+  -> Plan enforcement + quota check
+  -> Route to builtin:* (in-process) or registered server (StreamableHTTP/SSE)
+  -> Tool metering
+  -> Audit log
+  -> Response
+```
+
+## Making Tool Calls
+
+```bash
+curl -X POST https://mcpgate.lucid.foundation/v1/tools/call \
+  -H "Authorization: Bearer lk_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "server": "builtin:github",
+    "tool": "search_repositories",
+    "arguments": {
+      "query": "lucid AI",
+      "per_page": 5
+    }
+  }'
+```
+
+## Built-in Servers
+
+MCPGate ships with 88 built-in MCP servers covering common integrations:
+
+| Server | Category | Capabilities |
+|--------|----------|-------------|
+| `builtin:github` | Dev Tools | Repos, issues, PRs, search |
+| `builtin:slack` | Communication | Messages, channels, users |
+| `builtin:notion` | Productivity | Pages, databases, search |
+| `builtin:coingecko` | Finance | Prices, charts, market data |
+| `builtin:web-search` | Search | Web search, scraping |
+
+## Credential Injection
+
+MCPGate handles authentication for tool servers through a pluggable credential adapter system:
+
+| Adapter | Source | Use Case |
+|---------|--------|----------|
+| `EnvVarAdapter` | Environment variables | Simple token-based auth (e.g., `GITHUB_TOKEN`) |
+| `DatabaseAdapter` | `credential_store` table | Per-tenant stored credentials |
+| `CompositeAdapter` | Chains multiple adapters | Production: tries each adapter, first match wins |
+| `NangoAdapter` | Nango OAuth flows | Full OAuth integration (SaaS only) |
+
+Agents never handle raw credentials -- MCPGate injects them at call time.
+
+## Registering External Servers
+
+Tenants on the Growth plan or above can register their own MCP servers:
+
+```bash
+curl -X POST https://control-plane.lucid.foundation/admin/tenants/my-tenant/servers \
+  -H "X-Admin-Key: ..." \
+  -d '{
+    "name": "my-custom-server",
+    "url": "https://my-server.com/mcp",
+    "transport": "streamable-http",
+    "scopes": ["my-tool:read", "my-tool:write"]
+  }'
+```
+
+## RBAC Scopes
+
+API keys can be scoped to specific servers and tools:
+
+```json
+{
+  "scopes": ["builtin:github:*", "builtin:slack:send_message"]
+}
+```
+
+- `builtin:github:*` -- access to all GitHub tools
+- `builtin:slack:send_message` -- access to only the Slack send_message tool
+
+## Audit Logging
+
+Every tool call is logged to the `mcpgate_audit_log` table with tenant identity, server/tool name, redacted input arguments, response status, latency, and timestamp.
+
+## SDK Usage
+
+```typescript
+import { LucidSDK } from '@lucid-fdn/sdk';
+
+const sdk = new LucidSDK({ apiKey: 'lk_...' });
+
+const result = await sdk.tools.call({
+  server: 'builtin:github',
+  tool: 'search_repositories',
+  arguments: { query: 'lucid AI' },
+});
+```

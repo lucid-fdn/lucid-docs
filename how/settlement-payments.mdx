@@ -1,6 +1,83 @@
 ---
 title: "Payments (x402)"
-description: "Native payments for agent services"
+description: "Native payments for AI agent services using the HTTP 402 protocol"
 ---
 
-Coming soon.
+Lucid uses x402 (HTTP 402) as its payment enforcement mechanism. Agents pay for services with USDC on any supported chain. The gateway never holds funds -- facilitators handle all on-chain verification. Payments go 100% to the API provider.
+
+## How It Works
+
+1. Agent sends a request without a payment proof
+2. Gateway checks for a PayStream session credit -- if available, debit and proceed
+3. If no session, returns HTTP 402 with payment options (one per chain per facilitator)
+4. Agent selects a chain, pays USDC on-chain, retries with proof header
+5. `X-Payment-Proof` carries the tx hash; `X-Payment-Chain` specifies the chain
+6. SpentProofsStore prevents replay (10-minute TTL)
+7. Facilitator verifies the payment
+8. If overpayment occurs, excess becomes PayStream session credit
+
+## Supported Chains
+
+| Chain | Type | USDC Address |
+|-------|------|-------------|
+| Base | EVM | `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` |
+| Ethereum | EVM | `0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48` |
+| Arbitrum | EVM | `0xaf88d065e77c8cC2239327C5EDb3A432268e5831` |
+| Optimism | EVM | `0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85` |
+| Polygon | EVM | `0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359` |
+| ApeChain | EVM | `0xA2235d059F80e176D931Ef76b6C51953Eb3fBEf4` |
+| Monad | EVM | `0x754704Bc059F8C67012fEd69BC8A327a5aafb603` |
+| Solana | Solana | `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` |
+| Sui | Move | `0xdba34...::usdc::USDC` |
+
+## Using @lucid-fdn/pay
+
+The `@lucid-fdn/pay` package provides a drop-in `fetch()` wrapper that auto-handles 402 responses:
+
+```typescript
+import { payFetch } from '@lucid-fdn/pay';
+
+// Automatically handles the 402 payment flow
+const response = await payFetch('https://api.provider.com/v1/chat', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ model: 'gpt-4o', messages: [...] }),
+});
+```
+
+## Enabling Payments (API Providers)
+
+API providers enable x402 on their tenant via the control plane:
+
+```bash
+curl -X PUT https://control-plane.lucid.foundation/admin/tenants/my-tenant/payment \
+  -H "X-Admin-Key: ..." \
+  -d '{
+    "enabled": true,
+    "defaultPrice": "0.01",
+    "payoutAddress": "0x...",
+    "acceptedTokens": ["USDC"],
+    "acceptedChains": ["base", "ethereum", "solana"],
+    "payStreamEnabled": true
+  }'
+```
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **PayRoute** | Intelligent multi-facilitator routing -- weighted scoring (gas 40%, latency 30%, success 20%, preference 10%) |
+| **PayStream** | Session credit balances -- deposit once, call many times with zero per-call gas |
+| **PayCascade** | Composable multi-hop revenue pipelines -- BPS-based splits across model/compute/tool/protocol |
+| **PayReputation** | Agent credit scoring from receipt history -- tiers: unverified, bronze, silver, gold, platinum |
+| **Zero-Config** | One API call enables payment enforcement on all routes |
+
+## Facilitators
+
+| Facilitator | Chains | Method |
+|-------------|--------|--------|
+| Direct | Base, Monad | On-chain EVM RPC (`eth_getTransactionReceipt`) |
+| Coinbase | EVM | Coinbase x402 API |
+| PayAI | Base, Ethereum, Arbitrum, Solana, Monad | PayAI API + RPC fallback |
+| Sui | Sui | Sui RPC verification |
+| Thirdweb | 14 EVM chains | Thirdweb API + ERC-3009 signed authorizations |

@@ -1,6 +1,119 @@
 ---
 title: "Compute & Models"
-description: "How agents select models and compute"
+description: "How agents select models and compute nodes through policy-based matching"
 ---
 
-Coming soon.
+Lucid's compute layer connects AI agents with model providers and compute nodes through a policy-based matching engine. Every model and compute node is registered as a passport, and the matching engine selects the best provider based on runtime compatibility, hardware requirements, and policy constraints.
+
+## Compute Heartbeat System
+
+Compute nodes maintain an in-memory registry with a 30-second TTL. Nodes send periodic heartbeats to stay discoverable:
+
+```bash
+curl -X POST https://api.lucid.foundation/v1/compute/nodes/heartbeat \
+  -H "Authorization: Bearer lk_..." \
+  -d '{
+    "compute_passport_id": "compute-abc123",
+    "status": "healthy",
+    "queue_depth": 2,
+    "p95_ms_estimate": 150
+  }'
+```
+
+| Status | Meaning |
+|--------|---------|
+| `healthy` | Accepting requests, normal operation |
+| `degraded` | Accepting requests, reduced capacity |
+| `down` | Not accepting requests |
+
+A node is considered expired if no heartbeat is received within 30 seconds.
+
+## Model Availability
+
+The `/v1/models` endpoint reports availability based on model format:
+
+| Format | Availability Check |
+|--------|-------------------|
+| `api` | Always available (routed through TrustGate) |
+| `safetensors` / `gguf` | Requires at least one healthy compute node |
+
+For self-hosted models, availability requires a compute node with:
+1. **Compatible runtime** -- `runtimeCompatible()` check
+2. **Sufficient hardware** -- VRAM and context length via `hardwareCompatible()`
+3. **Recent heartbeat** -- within 30s via `ComputeRegistry.isHealthy()`
+
+## Matching Engine
+
+When a request arrives at `/v1/match`, the matching engine evaluates candidates:
+
+```
+Runtime compatibility check
+  -> Hardware compatibility check
+  -> Policy evaluation
+  -> Scoring
+  -> Selection
+```
+
+```bash
+curl -X POST https://api.lucid.foundation/v1/match \
+  -H "Authorization: Bearer lk_..." \
+  -d '{
+    "model": "mistral-7b-instruct",
+    "requirements": {
+      "min_vram_gb": 8,
+      "min_context_length": 4096
+    }
+  }'
+```
+
+## Model Passports
+
+Every model in the network is registered as a passport with metadata:
+
+```bash
+curl -X POST https://api.lucid.foundation/v1/passports \
+  -H "Authorization: Bearer lk_..." \
+  -d '{
+    "type": "model",
+    "slug": "mistral-7b-instruct-v0.2",
+    "version": { "major": 0, "minor": 2, "patch": 0 },
+    "metadata": {
+      "format": "safetensors",
+      "api_model_id": "mistral/mistral-7b-instruct",
+      "parameters": "7B",
+      "context_length": 32768,
+      "license": "Apache-2.0"
+    }
+  }'
+```
+
+## Compute Passports
+
+Compute nodes register their hardware capabilities:
+
+```bash
+curl -X POST https://api.lucid.foundation/v1/passports \
+  -H "Authorization: Bearer lk_..." \
+  -d '{
+    "type": "compute",
+    "slug": "gpu-node-01",
+    "metadata": {
+      "gpu": "A100",
+      "vram_gb": 80,
+      "runtime": "vllm",
+      "max_context_length": 128000
+    }
+  }'
+```
+
+## Revenue Splits
+
+When inference flows through a compute node, revenue is split according to configurable basis points:
+
+| Recipient | Default Share |
+|-----------|-------------|
+| Compute provider | 70% (7000 bps) |
+| Model provider | 20% (2000 bps) |
+| Protocol | 10% (1000 bps) |
+
+Splits are enforced on-chain through the `lucid_agent_wallet` program's `configure_split` and `distribute` instructions.

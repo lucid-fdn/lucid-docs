@@ -1,6 +1,145 @@
 ---
 title: "Custom Agents"
-description: "Build and deploy your own agent"
+description: "Build and deploy your own agent with Lucid identity, receipts, and payments"
 ---
 
-Coming soon.
+Lucid provides three paths for developers who want to build custom agents. All paths result in the same outcome: a verified agent with a passport identity, an auto-created wallet, and automatic receipt generation.
+
+## Path A: Bring Your Own Image
+
+The fastest path if you already have a working agent packaged as a Docker image.
+
+```bash
+lucid launch \
+  --image ghcr.io/myorg/my-agent:latest \
+  --target railway \
+  --owner 0x...
+```
+
+Lucid injects environment variables into your container so your agent can connect to the network:
+
+```typescript
+// Your agent code
+import { LucidAgent } from '@lucid-fdn/sdk';
+
+const agent = new LucidAgent({
+  apiKey: process.env.LUCID_API_KEY,
+  // LUCID_API_URL, LUCID_PASSPORT_ID, PROVIDER_URL read from env automatically
+});
+
+// Every call to agent.run() creates a receipt automatically
+const result = await agent.run({
+  model: 'openai/gpt-4o',
+  prompt: 'Summarize this document',
+});
+```
+
+The SDK's `LucidAgent` class handles:
+- Inference via any OpenAI-compatible endpoint
+- Automatic receipt creation on every call (fire-and-forget)
+- Failed receipts queued in-memory with exponential backoff (max 5 attempts)
+- Environment-based configuration (zero manual setup)
+
+## Path C: Build from Source
+
+If you have source code but no Docker image:
+
+```bash
+# Set up a container registry for remote targets
+lucid registry set ghcr.io/myorg --username x --token y
+
+# Launch from source directory
+lucid launch --path ./my-agent --target railway --owner 0x...
+```
+
+Lucid will:
+1. Detect your Dockerfile (or generate one)
+2. Build the image locally
+3. Push to your configured registry
+4. Deploy to the target provider
+
+For Docker-only targets, the registry push is skipped.
+
+## Agent Structure
+
+A minimal Lucid-compatible agent needs:
+
+```typescript
+// server.ts
+import express from 'express';
+import { LucidAgent } from '@lucid-fdn/sdk';
+
+const app = express();
+const agent = new LucidAgent({ apiKey: process.env.LUCID_API_KEY });
+
+app.post('/run', async (req, res) => {
+  const result = await agent.run({
+    model: process.env.LUCID_MODEL || 'openai/gpt-4o',
+    prompt: req.body.prompt,
+  });
+  res.json(result);
+});
+
+app.listen(3100);
+```
+
+```dockerfile
+FROM node:20-slim
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --production
+COPY . .
+EXPOSE 3100
+CMD ["node", "server.js"]
+```
+
+## Registering Skills
+
+If your agent has capabilities other agents should discover, register them as tool passports:
+
+```bash
+# Register all skills from your agent
+lucid agent skills register my-agent
+
+# Preview what would be registered
+lucid agent skills register my-agent --dry-run
+```
+
+Skills are extracted from `SKILL.md` frontmatter in the Docker image, or from the catalog manifest.
+
+## Connecting Channels
+
+Add messaging channels during launch or afterward:
+
+```bash
+# At launch with env vars
+lucid launch --image my-agent:latest --target docker \
+  --env TELEGRAM_BOT_TOKEN=123:ABC \
+  --env DISCORD_BOT_TOKEN=xyz
+
+# Or via config file
+lucid launch --image my-agent:latest --target docker --config ./my.env
+```
+
+## Choosing a Deployment Target
+
+| Target | Best For |
+|--------|----------|
+| `docker` | Local development and testing |
+| `railway` | Quick cloud deployment with auto-domain |
+| `akash` | Decentralized, cost-effective compute |
+| `phala` | Privacy-sensitive agents (TEE) |
+| `ionet` | GPU-intensive workloads |
+| `nosana` | Persistent GPU services |
+
+## Memory Integration
+
+Enable agent memory for persistent context:
+
+```bash
+lucid launch --image my-agent:latest --target docker \
+  --env MEMORY_ENABLED=true \
+  --env MEMORY_STORE=sqlite
+```
+
+Your agent can then use the memory API for 6 memory types: episodic, semantic, procedural, entity, trust-weighted, and temporal.

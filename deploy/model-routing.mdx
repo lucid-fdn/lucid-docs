@@ -1,6 +1,73 @@
 ---
 title: "Model Routing"
-description: "How Lucid routes requests to the best model"
+description: "How TrustGate routes inference requests to the best model provider"
 ---
 
-Coming soon.
+TrustGate is Lucid's AI gateway -- an OpenAI-compatible LLM proxy that handles authentication, quota enforcement, model routing, and metering for every inference request.
+
+## How Routing Works
+
+```
+Client request
+  -> Bearer auth (SHA-256 key lookup)
+  -> x402 payment check (if tenant enabled)
+  -> Plan enforcement + quota check
+  -> Zod validation
+  -> Passport model resolution
+  -> LiteLLM fetch (provider routing)
+  -> Usage metering (fire-and-forget)
+  -> Receipt event (for on-chain anchoring)
+  -> Response
+```
+
+## Wildcard Routing
+
+TrustGate uses LiteLLM with **wildcard routing** (`provider/*` patterns). Any model from a configured provider works instantly without configuration changes. When a provider releases a new model, it is available immediately.
+
+```yaml
+# LiteLLM config example
+model_list:
+  - model_name: "openai/*"
+    litellm_params:
+      model: "openai/*"
+      api_key: "os.environ/OPENAI_API_KEY"
+  - model_name: "anthropic/*"
+    litellm_params:
+      model: "anthropic/*"
+      api_key: "os.environ/ANTHROPIC_API_KEY"
+```
+
+## Model Name Resolution
+
+The model router resolves names in this order:
+
+1. **Passport lookup** -- checks `api_model_id` in passport metadata (preferred)
+2. **Prefixed names** -- `openai/gpt-4.1` routes directly to the OpenAI provider
+3. **Backward-compat aliases** -- unprefixed names like `gpt-4o` map to `openai/gpt-4o`
+
+## Availability Filtering
+
+The `/v1/models` endpoint supports a tri-state availability filter:
+
+| Query | Returns |
+|-------|---------|
+| `?available=true` | Only models that can serve inference now |
+| `?available=false` | Only models missing compute (useful for debugging) |
+| *(omitted)* | All models regardless of availability |
+
+For API-format models (hosted providers), availability is always `true`. For self-hosted models (`safetensors`, `gguf`), availability requires at least one healthy compute node with compatible runtime, sufficient VRAM, and a recent heartbeat (within 30s).
+
+## Plan-Based Access
+
+Access to models is governed by tenant plan tiers:
+
+| Plan | Requests/Day | Features |
+|------|-------------|----------|
+| Free | 1,000 | Basic routing |
+| Pro | 50,000 | Streaming, chains, plugins |
+| Growth | 500,000 | Custom servers, priority support |
+| Internal | Unlimited | All features |
+
+## Receipts Are Automatic
+
+Every routed request produces a cryptographic receipt. This is not opt-in -- receipts are an unavoidable byproduct of using TrustGate. Each receipt is SHA-256 hashed, Ed25519 signed, appended to the Merkle Mountain Range (MMR), and periodically anchored on-chain.

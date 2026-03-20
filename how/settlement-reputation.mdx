@@ -1,6 +1,80 @@
 ---
 title: "Reputation"
-description: "Trust scores from real traffic data"
+description: "Trust scores derived from real traffic data and on-chain verification"
 ---
 
-Coming soon.
+Lucid's reputation system builds trust scores for AI assets from real traffic data. Unlike self-reported metrics, Lucid reputation is backed by cryptographic receipts -- every score is traceable to verified interactions.
+
+## Architecture
+
+Reputation operates across three layers:
+
+| Layer | Component | Purpose |
+|-------|-----------|---------|
+| On-chain | `lucid_reputation` Solana program | Immutable feedback, validation, revocation |
+| Off-chain | `IReputationProvider` | Aggregation algorithms, scoring, caching |
+| Gateway | `PayReputation` | Credit scoring from payment history |
+
+## How Scores Are Computed
+
+Reputation scores combine multiple signals:
+
+1. **Feedback** -- Users submit scores (1-100) per interaction, linked to a receipt hash
+2. **Validation** -- Third parties validate receipts, confirming interactions occurred
+3. **Revocation** -- Submitters can revoke feedback; the score adjusts atomically
+4. **Traffic volume** -- More verified interactions increase confidence
+5. **Payment history** -- Consistent payments improve credit tier
+
+The on-chain program maintains rolling statistics per passport: feedback count, validation count, total score, and average score (stored with 2-decimal precision).
+
+## Submitting Feedback
+
+```bash
+curl -X POST https://api.lucid.foundation/v1/reputation/feedback \
+  -H "Authorization: Bearer lk_..." \
+  -d '{
+    "passportId": "agent-abc123",
+    "score": 85,
+    "category": "accuracy",
+    "receiptHash": "0xabc..."
+  }'
+```
+
+Feedback requires a valid receipt hash, ensuring that only users who actually interacted with the asset can rate it.
+
+## Reputation Tiers (PayReputation)
+
+At the gateway level, agents accumulate a credit tier based on payment history:
+
+| Tier | Requirements |
+|------|-------------|
+| Unverified | No payment history |
+| Bronze | Basic payment history |
+| Silver | Consistent payment record |
+| Gold | High-volume verified payments |
+| Platinum | Extensive verified history |
+
+Higher tiers unlock benefits like reduced payment verification overhead and higher trust in multi-agent delegation.
+
+## Querying Reputation
+
+```bash
+# Get reputation for an agent
+curl https://api.lucid.foundation/v1/reputation/agent-abc123 \
+  -H "Authorization: Bearer lk_..."
+
+# Via the control plane (admin)
+curl https://control-plane.lucid.foundation/admin/reputation/agent-abc123 \
+  -H "X-Admin-Key: ..."
+```
+
+## Cross-Network Sync
+
+Lucid reputation syncs with external identity standards:
+
+| Standard | Direction | Status |
+|----------|-----------|--------|
+| Metaplex (MIP #52) | Bidirectional | Prep code (awaiting MIP release) |
+| 8004 / SATI / SAID | Consume + Feed | Active |
+
+Lucid extends Metaplex identity beyond agents to all AI assets (models, compute, tools, datasets), creating a bidirectional reputation mesh.
