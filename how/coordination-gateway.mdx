@@ -1,6 +1,40 @@
 ---
 title: "Gateway (TrustGate)"
-description: "LLM routing, x402 payment, metering"
+description: "Plan-based quota enforcement and feature gating."
 ---
 
-Coming soon.
+## Gateway (TrustGate)
+
+Lucid's Gateway, also known as TrustGate, is responsible for plan-based quota enforcement and feature gating. This ensures that users have access to the appropriate features and resources based on their subscription plan.
+
+### Plan Definitions
+
+Lucid offers several plans, each with specific quotas and feature access. Below is a summary of the available plans:
+
+| Plan      | Requests/day | Tool calls/day | Features                               | Use case                  |
+|-----------|--------------|----------------|----------------------------------------|---------------------------|
+| `free`    | 1,000        | 500            | None                                   | Default for new tenants   |
+| `pro`     | 50,000       | 25,000         | chains, plugins, streaming             | Paying customers          |
+| `growth`  | 500,000      | 250,000        | + custom_servers, priority_support     | High-volume               |
+| `internal`| Unlimited    | Unlimited      | All features                           | Platform team only        |
+
+### Enforcing Policies and Quotas
+
+The Gateway uses two main functions to manage plan-based access:
+
+- **`enforcePolicyAsync()`**: This function checks the feature gates associated with each plan. It ensures that users can only access the features included in their plan.
+
+- **`assertWithinQuotaAsync()`**: This function enforces the request and tool call quotas for each plan. It ensures that users do not exceed their daily limits. Note that this quota enforcement is skipped for users on the `internal` plan, which has unlimited access.
+
+### Feature Gates
+
+The following features are controlled by the plan-based feature gates:
+
+- **chains**: Access to chain-related functionalities.
+- **plugins**: Ability to use various plugins.
+- **streaming**: Access to streaming capabilities.
+- **custom_servers**: Option to use custom servers, available in the `growth` plan.
+- **priority_support**: Access to priority support, available in the `growth` plan.
+- **admin**: Administrative features, typically reserved for internal use.
+
+These mechanisms ensure that users have a seamless experience while adhering to the constraints of their chosen plan.

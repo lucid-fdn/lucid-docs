@@ -1,6 +1,59 @@
 ---
 title: "Deploy from Source"
-description: "Build and deploy an agent from your source code"
+description: "Build and deploy an agent directly from source code."
 ---
 
-Coming soon.
+## Deploy from Source
+
+This guide will walk you through building and deploying an agent directly from source code using Lucid. This process is ideal for developers who have access to the source code and want to deploy their agent to a target environment.
+
+### Prerequisites
+
+Before you begin, ensure you have the following:
+
+- Access to the source code of the agent you wish to deploy.
+- Lucid CLI installed on your machine.
+- A configured Docker registry if deploying to a remote target.
+
+### Steps to Deploy
+
+1. **Navigate to Your Agent's Source Code**
+
+   Ensure you are in the directory containing your agent's source code. This directory should contain a Dockerfile or be capable of generating one.
+
+2. **Launch the Deployment Command**
+
+   Use the following command to build and deploy your agent:
+
+   ```bash
+   lucid launch --path ./my-agent --target railway --owner 0x...
+   ```
+
+   - `--path ./my-agent`: Specifies the path to your agent's source code.
+   - `--target railway`: Indicates the deployment target. Replace `railway` with your desired target.
+   - `--owner 0x...`: Replace with the appropriate owner identifier.
+
+3. **Dockerfile Detection and Image Building**
+
+   The command will detect the presence of a Dockerfile in your source directory. If a Dockerfile is not present, Lucid will generate one for you. It will then build the Docker image locally.
+
+4. **Push to Docker Registry**
+
+   If you are deploying to a remote target, you need to push the Docker image to a configured registry. Set your registry with the following command:
+
+   ```bash
+   lucid registry set ghcr.io/myorg
+   ```
+
+   Replace `ghcr.io/myorg` with your registry's URL.
+
+5. **Deploy the Agent**
+
+   After the image is pushed to the registry, Lucid will proceed to deploy your agent to the specified target environment.
+
+### Notes
+
+- For Docker-only targets, the image will not be pushed to a registry, and the deployment will proceed directly from the local build.
+- Ensure your Docker registry credentials are correctly configured to allow image pushes.
+
+By following these steps, you can efficiently build and deploy your agent from source code using Lucid. If you encounter any issues, refer to the Lucid documentation or seek support from the community.

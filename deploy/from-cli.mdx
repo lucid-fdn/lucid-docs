@@ -1,6 +1,33 @@
 ---
 title: "Deploy from CLI"
-description: "Launch an agent using the Lucid CLI"
+description: "Launch an agent using the base runtime from the command line."
 ---
 
-Coming soon.
+## Deploy from CLI
+
+### Launch an Agent Using the Base Runtime
+
+To deploy an agent using the base runtime from the command line, you can use the following command:
+
+```bash
+lucid launch --runtime base --model gpt-4o --prompt "You are a helpful agent" --target docker
+```
+
+This command launches a pre-built Docker image of the agent runtime, specifically `ghcr.io/lucid-fdn/agent-runtime:v1.0.0`. This image is designed to work with any OpenAI-compatible endpoint for inference, which you can specify using the `PROVIDER_URL` environment variable.
+
+### Configuration
+
+The deployment is configured through several environment variables:
+
+- **LUCID_MODEL**: Specifies the model to be used.
+- **LUCID_PROMPT**: Defines the prompt for the agent.
+- **LUCID_TOOLS**: Lists any additional tools or configurations.
+
+### Inference and Receipts
+
+- **Inference**: Handled via the `PROVIDER_URL`, allowing you to connect to any compatible endpoint.
+- **Receipts**: Managed through the `LUCID_API_URL`, which is decoupled from the inference process to ensure flexibility and modularity.
+
+### Verification
+
+The deployment process includes full verification to ensure that the agent is functioning as expected. This ensures reliability and consistency in the agent's performance.

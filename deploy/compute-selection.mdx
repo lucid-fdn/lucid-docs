@@ -1,6 +1,49 @@
 ---
 title: "Compute Selection"
-description: "How agents choose where to run"
+description: "In-memory compute registry with heartbeat-based health tracking."
 ---
 
-Coming soon.
+# Compute Selection
+
+Lucid provides an in-memory compute registry that uses heartbeat-based health tracking to manage the availability and health status of compute nodes. This system ensures that compute nodes are actively monitored and can be filtered based on their current state.
+
+## Heartbeat Mechanism
+
+Compute nodes must send periodic heartbeats to the registry to maintain their active status. Each heartbeat updates the node's status and optional performance metrics.
+
+### Heartbeat Endpoint
+
+- **Endpoint:** `POST /v1/compute/nodes/heartbeat`
+- **Request Body:**
+  - `compute_passport_id`: Unique identifier for the compute node.
+  - `status`: Current health status of the node. Possible values are:
+    - `"healthy"`
+    - `"degraded"`
+    - `"down"`
+  - `queue_depth` (optional): Current depth of the node's processing queue.
+  - `p95_ms_estimate` (optional): Estimated 95th percentile of processing time in milliseconds.
+
+### Health Check Endpoint
+
+To check the health status of a specific compute node, use the following endpoint:
+
+- **Endpoint:** `GET /v1/compute/nodes/:id/health`
+- **Response:** Returns the live state of the node. If the node's heartbeat has expired, a 503 status code is returned.
+
+## Compute Registry
+
+The compute registry is implemented as a singleton (`ComputeRegistry`) using an in-memory map. This design choice eliminates the need for a database, allowing for fast, transient storage of compute node states.
+
+## Usage
+
+The compute registry is utilized by various endpoints and features within Lucid, including:
+
+- `/v1/match`
+- `/v1/route`
+- Model filtering with the `?available=true|false` query parameter
+
+## MCP Tool
+
+As an alternative to using the REST endpoint for sending heartbeats, the `lucid_heartbeat` tool is available within the MCP server. This tool provides a programmatic way to send heartbeat signals to the registry.
+
+By maintaining an up-to-date registry of compute nodes, Lucid ensures efficient resource allocation and reliable compute operations.

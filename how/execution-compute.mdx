@@ -1,6 +1,32 @@
 ---
 title: "Compute"
-description: "How agents run on any infrastructure"
+description: "Schema validation for passport metadata across all asset types."
 ---
 
-Coming soon.
+### Compute Schema Validation
+
+When working with Lucid, it's essential to ensure that the metadata associated with various asset types is correctly validated. This is particularly important for the creation of passports, which are used to manage and verify asset metadata.
+
+### Passport Metadata Validation
+
+In Lucid, each asset type has a corresponding schema that defines the structure and requirements for its metadata. These schemas are crucial for validating the information associated with each asset type during passport creation. The `TYPE_SCHEMA_MAP` is a key component in this process, mapping asset types to their respective schemas.
+
+### Asset Type Schemas
+
+Here's a breakdown of the schemas used for different asset types:
+
+- **Model**: Uses `ModelMeta.schema.json` for validation. This schema ensures that all necessary metadata for models is correctly structured and complete.
+
+- **Compute**: Validated using `ComputeMeta.schema.json`. This schema is specifically designed to handle metadata related to computational assets, ensuring that all relevant information is accurately captured.
+
+- **Tool**: The `ToolMeta.schema.json` is used here, with `additionalProperties: true`. This allows for more flexible metadata, supporting fields like `skill_md`, `setup`, and other rich metadata elements. This flexibility is crucial for tools that may have diverse and complex metadata requirements.
+
+- **Agent**: Uses `AgentMeta.schema.json` for validation. This schema ensures that agent-related metadata is properly structured, facilitating effective management and deployment of agents within the Lucid ecosystem.
+
+- **Dataset**: Unlike other asset types, datasets do not have a dedicated schema. Instead, they undergo basic validation to ensure that the fundamental metadata is present and correctly formatted.
+
+### Practical Application
+
+When creating or managing assets in Lucid, it's important to understand the schema requirements for each asset type. This ensures that all metadata is validated correctly, preventing errors and ensuring the integrity of the asset management process.
+
+By adhering to these schema validations, developers can maintain consistency and reliability across all asset types, facilitating smoother operations and interactions within the Lucid platform.

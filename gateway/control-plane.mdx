@@ -1,6 +1,162 @@
 ---
 title: "Control Plane"
-description: "Tenant, key, and quota management"
+description: "Admin API for tenant, key, quota, and plan management."
 ---
 
-Coming soon.
+# Control Plane
+
+The Control Plane provides an Admin API for managing tenants, API keys, quotas, and plans within the Lucid platform. This API is essential for administrators who need to oversee and configure various aspects of tenant management and usage monitoring.
+
+## Authentication
+
+All endpoints, except `/health` and `/webhooks/stripe`, require an `X-Admin-Key` header for authentication. Ensure that your requests include this header to successfully interact with the API.
+
+## Endpoints
+
+### Tenant Management
+
+- **Create Tenant**
+  - **Method:** POST
+  - **Endpoint:** `/admin/tenants`
+  - **Description:** Create a new tenant.
+
+- **Get Tenant**
+  - **Method:** GET
+  - **Endpoint:** `/admin/tenants/:id`
+  - **Description:** Retrieve information about a specific tenant.
+
+- **List Tenants**
+  - **Method:** GET
+  - **Endpoint:** `/admin/tenants`
+  - **Description:** Retrieve a list of all tenants.
+
+- **Update Tenant**
+  - **Method:** PATCH
+  - **Endpoint:** `/admin/tenants/:id`
+  - **Description:** Update details of a specific tenant.
+
+- **Delete Tenant**
+  - **Method:** DELETE
+  - **Endpoint:** `/admin/tenants/:id`
+  - **Description:** Remove a tenant from the system.
+
+### API Key Management
+
+- **Create API Key**
+  - **Method:** POST
+  - **Endpoint:** `/admin/tenants/:id/keys`
+  - **Description:** Generate a new API key for a tenant. The raw key is returned only once.
+
+- **List API Keys**
+  - **Method:** GET
+  - **Endpoint:** `/admin/tenants/:id/keys`
+  - **Description:** List all API keys for a tenant. Raw keys or hashes are not included.
+
+- **Disable API Key**
+  - **Method:** DELETE
+  - **Endpoint:** `/admin/keys/:id`
+  - **Description:** Disable a specific API key.
+
+- **Update API Key Scopes**
+  - **Method:** PATCH
+  - **Endpoint:** `/admin/keys/:id`
+  - **Description:** Modify the scopes associated with an API key.
+
+### Quota Management
+
+- **Get Quota Usage**
+  - **Method:** GET
+  - **Endpoint:** `/admin/tenants/:id/quotas`
+  - **Description:** Retrieve the current quota usage for a tenant.
+
+- **Set Quota Limit**
+  - **Method:** PUT
+  - **Endpoint:** `/admin/tenants/:id/quotas`
+  - **Description:** Define the quota limits for a tenant.
+
+- **Reset Quota Usage**
+  - **Method:** POST
+  - **Endpoint:** `/admin/tenants/:id/quotas/reset`
+  - **Description:** Reset the quota usage for a tenant.
+
+### Plan Management
+
+- **List Plans**
+  - **Method:** GET
+  - **Endpoint:** `/admin/plans`
+  - **Description:** Retrieve a list of all available plans with their limits.
+
+- **Get Plan Limits**
+  - **Method:** GET
+  - **Endpoint:** `/admin/plans/:plan`
+  - **Description:** Get the limits for a specific plan.
+
+- **Upgrade Plan**
+  - **Method:** POST
+  - **Endpoint:** `/admin/tenants/:id/upgrade`
+  - **Description:** Upgrade a tenant's plan. This operation requires Stripe integration.
+
+### Usage and Health Monitoring
+
+- **Get Usage Stats**
+  - **Method:** GET
+  - **Endpoint:** `/admin/tenants/:id/usage`
+  - **Description:** Retrieve usage statistics for a specific tenant.
+
+- **Aggregate Usage**
+  - **Method:** GET
+  - **Endpoint:** `/admin/usage/aggregate`
+  - **Description:** Aggregate usage statistics across all tenants.
+
+- **Health Check**
+  - **Method:** GET
+  - **Endpoint:** `/health`
+  - **Description:** Perform a health check on the system.
+
+### Payment Configuration
+
+- **Get Payment Config**
+  - **Method:** GET
+  - **Endpoint:** `/admin/tenants/:id/payment`
+  - **Description:** Retrieve the payment configuration for a tenant.
+
+- **Set Payment Config**
+  - **Method:** PUT
+  - **Endpoint:** `/admin/tenants/:id/payment`
+  - **Description:** Set the payment configuration for a tenant.
+
+- **Disable Payment**
+  - **Method:** DELETE
+  - **Endpoint:** `/admin/tenants/:id/payment`
+  - **Description:** Disable payment for a tenant, granting free access.
+
+### Payment Pipelines
+
+- **Create Payment Pipeline**
+  - **Method:** POST
+  - **Endpoint:** `/admin/tenants/:id/pipelines`
+  - **Description:** Create a new payment pipeline for a tenant.
+
+- **List Payment Pipelines**
+  - **Method:** GET
+  - **Endpoint:** `/admin/tenants/:id/pipelines`
+  - **Description:** List all payment pipelines for a tenant.
+
+- **Get Payment Pipeline**
+  - **Method:** GET
+  - **Endpoint:** `/admin/tenants/:id/pipelines/:name`
+  - **Description:** Retrieve details of a specific payment pipeline.
+
+- **Delete Payment Pipeline**
+  - **Method:** DELETE
+  - **Endpoint:** `/admin/tenants/:id/pipelines/:name`
+  - **Description:** Remove a payment pipeline from a tenant.
+
+### Reputation Management
+
+- **Get Agent Reputation Score**
+  - **Method:** GET
+  - **Endpoint:** `/admin/reputation/:agentId`
+  - **Description:** Retrieve the reputation score for a specific agent. 
+
+This comprehensive set of endpoints allows administrators to effectively manage and monitor the Lucid platform's tenants and their associated resources.

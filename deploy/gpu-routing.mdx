@@ -1,6 +1,19 @@
 ---
 title: "GPU vs CPU Routing"
-description: "Hardware-aware compute selection"
+description: "Six deployment providers for GPU and CPU workloads."
 ---
 
-Coming soon.
+When deploying workloads, choosing the right infrastructure is crucial, especially when deciding between GPU and CPU resources. Lucid supports six deployment providers, each tailored to handle different types of workloads efficiently. Below is an overview of these providers, detailing their APIs and functionalities.
+
+### Deployment Providers for GPU and CPU Workloads
+
+| Deployer | API | Functionality |
+|----------|-----|---------------|
+| **Docker** | Local | Utilizes `docker-compose.yml` to manage and auto-start containers when Docker is available on the local machine. This is ideal for local development and testing environments. |
+| **Railway** | GraphQL API | Facilitates the creation of services by setting environment variables, generating domains, and polling the status of deployments. Railway is suitable for developers looking for a streamlined deployment process with minimal configuration. |
+| **Akash** | REST API | Leverages SDL v2.0 to define deployments, automatically accepts bids, and sends manifests. Akash is designed for decentralized cloud computing, offering flexibility and cost-effectiveness. |
+| **Phala** | REST API | Provides a two-phase CVM (Confidential Virtual Machine) provisioning process with encrypted environment variables and Trusted Execution Environment (TEE) support. Phala is ideal for secure and confidential computing needs. |
+| **io.net** | REST API | Conducts hardware discovery and container deployment, continuously polling for the deployment URL. This provider is suitable for dynamic environments where hardware specifications might frequently change. |
+| **Nosana** | REST API | Implements the INFINITE strategy for persistent GPU services, making it an excellent choice for long-running GPU-intensive tasks. |
+
+All deployers are compatible with either a Docker image reference or a RuntimeArtifact, providing flexibility in how you package and deploy your applications. Whether you're running local tests or deploying to a decentralized cloud, these providers offer a range of options to suit your specific needs.

@@ -1,6 +1,31 @@
 ---
 title: "Identity (Passports)"
-description: "On-chain identity for AI assets"
+description: "Chain-agnostic NFT minting for AI asset identity."
 ---
 
-Coming soon.
+## Identity (Passports)
+
+Lucid provides a chain-agnostic approach to NFT minting, specifically designed for AI asset identity. This functionality is accessible through the `INFTProvider` interface, which supports string-based addresses compatible with both Solana's base58 and Ethereum's 0x formats.
+
+### NFT Providers
+
+Lucid supports multiple NFT providers, each tailored to different blockchain environments. The following table outlines the available providers, their corresponding environment values, and the chains they support:
+
+| Provider               | Env Value      | Chain                        |
+|------------------------|----------------|------------------------------|
+| `Token2022Provider`    | `token2022`    | Solana                       |
+| `MetaplexCoreProvider` | `metaplex-core`| Solana                       |
+| `EVMNFTProvider`       | `evm-erc721`   | EVM (wraps EVMAdapter + TBA) |
+| `MockNFTProvider`      | `mock`         | Dev/test                     |
+
+### Configuration
+
+To configure the NFT minting process, you can set the following environment variables:
+
+- **`NFT_PROVIDER`**: Specifies the NFT provider to use. The default value is `mock`, which is suitable for development and testing purposes.
+  
+- **`NFT_CHAINS`**: Allows for multi-chain support. You can specify multiple chains by separating them with commas, such as `solana-devnet,base`.
+
+- **`NFT_MINT_ON_CREATE`**: When set to `true`, NFTs are minted automatically upon creation.
+
+These configurations enable developers to seamlessly integrate NFT minting into their applications, regardless of the underlying blockchain technology.

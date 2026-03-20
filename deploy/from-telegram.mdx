@@ -1,6 +1,95 @@
 ---
 title: "Deploy from Telegram"
-description: "Launch an agent directly from Telegram — no terminal needed"
+description: "Deploy and manage AI agents directly from Telegram."
 ---
 
-Coming soon.
+Deploy and manage AI agents directly from Telegram without needing a terminal or website. This guide will walk you through the commands and architecture necessary to utilize this feature.
+
+### Commands
+
+Here are the available commands you can use to interact with your AI agents via Telegram:
+
+| Command | Description | Requires DB |
+|---------|-------------|-------------|
+| `/launch [slug]` | Start an interactive agent deployment wizard. | No (catalog from Layer API) |
+| `/start <passport_id>` | Connect the chat to an existing agent. | Yes |
+| `/start link_TOKEN` | Link your Telegram account to your web account using a token from the dashboard. | MergedDb |
+| `/status` | Check the current status of your agent. | Yes |
+| `/list` | List all agents associated with your account. | Yes |
+| `/plan` | Display your current plan and usage statistics. | MergedDb |
+| `/upgrade` | Show available upgrade options and initiate a Stripe checkout. | MergedDb |
+| `/help` | Display all available commands. | No |
+
+### Architecture
+
+The architecture for deploying and managing AI agents from Telegram is as follows:
+
+```
+Telegram webhook → api.lucid.foundation/v1/webhooks/telegram (proxy)
+  → localhost:4050/webhooks/telegram (bot server)
+    → dispatchCommand() or routeMessage()
+    → Layer API (catalog, deploy, status)
+    → LucidMerged DB (profiles, plans, billing)
+    → Stripe (checkout sessions for /upgrade)
+```
+
+### User Identity
+
+There are two primary flows for user identity management:
+
+1. **Telegram-only**: Automatically provision a profile, organization, and free plan using `ensureUser()` and `create_telegram_user()` RPC.
+2. **Web→Telegram**: Generate a link token from the dashboard, use `t.me/bot?start=link_TOKEN`, and the bot will link to your existing account.
+
+### Billing Gate
+
+Before deploying with `/launch`, the system checks if deployment is allowed by comparing the plan's `agents_deployed` limit with `usage_metrics`. After a successful deployment, `trackAgentDeploy()` increments the usage count.
+
+### Module Structure
+
+The following is the structure of the Telegram bot module:
+
+```
+types.ts            # Types for TelegramUpdate, MergedDb, UserLink, BillingCheckResult
+webhook.ts          # Handles secret verification and update parsing
+router.ts           # Routes messages to bound agents and provides Telegram API helpers
+bindings.ts         # CRUD operations for telegram_chat_bindings in the platform-core DB
+user-link.ts        # Functions for resolving, ensuring, and linking users in LucidMerged DB
+billing.ts          # Functions for checking launch permissions, tracking deployments, and handling billing
+layer-client.ts     # HTTP client for interacting with the Lucid Layer API
+wizard.ts           # Multi-step launch wizard with a 30-minute TTL
+keyboards.ts        # Builders for inline keyboards
+callbacks.ts        # Handler for callback queries (button taps)
+commands/
+  index.ts          # Command dispatcher
+  start.ts          # Handles /start command for agent binding and account linking
+  launch.ts         # Handles /launch command for the deployment wizard
+  status.ts         # Handles /status command
+  list.ts           # Handles /list command
+  plan.ts           # Handles /plan command
+  upgrade.ts        # Handles /upgrade command for Stripe checkout
+  help.ts           # Handles /help command
+```
+
+### Environment Variables
+
+Configure the following environment variables in your `.env` file:
+
+```
+TELEGRAM_BOT_TOKEN              # Token from BotFather
+TELEGRAM_WEBHOOK_SECRET         # Secret for webhook verification
+TELEGRAM_BOT_USERNAME           # Bot @username for deep links
+LUCID_LAYER_API_URL             # Base URL for Layer API
+LUCID_LAYER_API_KEY             # Bearer token for Layer API
+DATABASE_URL                    # URL for platform-core Supabase (chat bindings)
+LUCIDMERGED_DATABASE_URL        # URL for LucidMerged Supabase (profiles, plans, billing)
+STRIPE_SECRET_KEY               # Secret key for Stripe checkout sessions
+APP_URL                         # URL for upgrade deep links
+```
+
+### LucidMerged Migrations
+
+The following migrations are applied to manage Telegram user links and plan limits:
+
+- `079_telegram_user_links.sql` — Creates the `telegram_user_links` table and sets agent deployment plan limits.
+- `080_telegram_user_provisioning.sql` — Implements the `create_telegram_user()` RPC.
+- `081_telegram_account_link_tokens.sql` — Manages link tokens and their creation/consumption through RPCs.

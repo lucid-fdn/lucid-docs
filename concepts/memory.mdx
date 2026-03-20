@@ -1,6 +1,99 @@
 ---
 title: "Portable Memory"
-description: "Agent memory that persists across environments"
+description: "Local-first, portable, provable agent memory with 6 memory types."
 ---
 
-Coming soon.
+# Portable Memory
+
+Lucid provides a local-first, portable, and provable agent memory system with six distinct memory types. This system is designed to ensure that agent memory is both secure and easily transferable.
+
+## Memory Architecture
+
+The memory system is structured into three layers:
+
+### Layer 1: Core Memory Store
+- **IMemoryStore**: Supports both Postgres and in-memory storage.
+- **Type Managers**: Manages six types of memory.
+- **Query Engine**: Facilitates efficient data retrieval.
+- **Vector Search**: Enables semantic recall through vector embeddings.
+
+### Layer 2: Memory Service
+- **MemoryService Orchestrator**: Coordinates memory operations.
+- **LLM Extraction**: Extracts meaningful data using large language models.
+- **SHA-256 Hash Chain**: Ensures data integrity through cryptographic hashing.
+- **Receipt Linkage**: Connects memory operations to receipts.
+- **Access Control List (ACL)**: Manages permissions.
+- **Archive/Compaction Pipelines**: Organizes data storage efficiently.
+
+### Layer 3: API and Tools
+- **REST API**: `/v1/memory/*` routes for interacting with memory.
+- **MCP Tools**: Management and control tools.
+- **SDK**: `lucid.memory.*` for developer integration.
+
+## Memory Types
+
+Lucid supports six types of memory, each serving a unique purpose:
+
+1. **Episodic**: Stores conversation turns.
+2. **Semantic**: Holds extracted facts.
+3. **Procedural**: Contains learned rules.
+4. **Entity**: Represents knowledge graph nodes.
+5. **Trust-Weighted**: Manages cross-agent trust.
+6. **Temporal**: Captures time-bounded facts.
+
+Each memory write is secured with a hash chain linked to a receipt Merkle Mountain Range (MMR) and anchored on-chain. Memory is portable through `.lmf` (Lucid Memory File), which are signed, hash-chained snapshots stored on DePIN.
+
+## Semantic Recall
+
+Semantic recall is a two-stage retrieval process:
+
+1. **Vector Search**: Retrieves top-K candidates using `pgvector` with cosine distance.
+2. **Metadata-Aware Reranking**: Adjusts ranking based on similarity, recency, type bonus, and quality.
+3. **Intent Classifier**: Prioritizes memory types with episodic > procedural > semantic.
+4. **Overfitting Guard**: Limits type bonus to prevent overfitting.
+
+## Memory Lanes
+
+Memory is organized into lanes: `self`, `user`, `shared`, and `market`. Each lane has specific compaction policies to manage data efficiently.
+
+## Tiered Compaction
+
+The `CompactionPipeline` manages data through three tiers:
+
+- **Hot**: Keeps recent episodics active.
+- **Warm**: Archives older episodics, with optional extraction.
+- **Cold**: Prunes archived entries beyond retention limits.
+
+## Extraction Hardening
+
+Extraction processes include schema validation and error categorization, ensuring robust data handling.
+
+## Snapshot and Restore
+
+Snapshots can be created and restored using the `ArchivePipeline`. This includes namespace filtering and identity verification.
+
+## API Endpoints
+
+- `POST /v1/memory/episodic`: Store episodic memory.
+- `POST /v1/memory/semantic`: Store semantic memory.
+- `POST /v1/memory/procedural`: Store procedural memory.
+- `POST /v1/memory/entity`: Store entity memory.
+- `POST /v1/memory/trust-weighted`: Store trust-weighted memory.
+- `POST /v1/memory/temporal`: Store temporal memory.
+- `POST /v1/memory/recall`: Perform semantic recall.
+- `POST /v1/memory/compact`: Trigger data compaction.
+- `POST /v1/memory/snapshots`: Create a DePIN snapshot.
+- `POST /v1/memory/snapshots/restore`: Restore from a snapshot.
+- `POST /v1/memory/verify`: Verify hash chain integrity.
+
+## Key Files
+
+The memory system is implemented across several key files, each responsible for different aspects of memory management, such as type definitions, service orchestration, storage implementations, and more.
+
+## Environment Variables
+
+Configure the memory system using environment variables like `MEMORY_ENABLED`, `MEMORY_STORE`, and others to tailor the setup to your needs.
+
+## Version 3 Enhancements
+
+Version 3 introduces a local truth and global projection model, featuring SQLite per-agent stores, an async embedding pipeline, and a memory event bus. New environment variables support these enhancements, ensuring robust and scalable memory management.

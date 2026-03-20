@@ -1,6 +1,44 @@
 ---
-title: "MCPGate"
-description: "MCP tool gateway with 88+ builtin servers"
+title: "MCPGate (Tool Gateway)"
+description: "MCP tool gateway with RBAC, audit logging, and credential injection."
 ---
 
-Coming soon.
+# MCPGate (Tool Gateway)
+
+The MCPGate serves as a robust tool gateway within the Lucid platform, providing essential features such as Role-Based Access Control (RBAC), audit logging, and credential injection. This gateway ensures secure and efficient routing of requests to various tools and services.
+
+## Workflow Overview
+
+The request processing in MCPGate follows a structured workflow to ensure security, compliance, and efficient resource management. Here’s a step-by-step breakdown of the process:
+
+1. **Request Authentication and Authorization**: 
+   - Incoming requests are authenticated using Bearer tokens.
+   - RBAC scopes are applied to ensure that the requestor has the necessary permissions to access the requested resources.
+
+2. **Plan Enforcement**:
+   - The system checks the user's subscription plan to enforce any limitations or special conditions associated with their plan.
+
+3. **Quota Check**:
+   - Before routing the request, the system verifies that the user has not exceeded their allocated quota for the requested service or tool.
+
+4. **Routing**:
+   - Requests are routed to either:
+     - `builtin:*`: In-process services that are handled internally.
+     - Registered servers: External services that are accessed via StreamableHTTP or Server-Sent Events (SSE).
+
+5. **Tool Metering**:
+   - Usage of tools is metered to track consumption and ensure compliance with usage policies.
+
+6. **Audit Logging**:
+   - All actions and requests are logged for auditing purposes, providing a detailed record of activities for security and compliance reviews.
+
+7. **Response**:
+   - After processing, a response is generated and sent back to the requester, completing the request lifecycle.
+
+## Key Features
+
+- **RBAC**: Ensures that only authorized users can access specific tools and services, enhancing security.
+- **Audit Logging**: Provides a comprehensive log of all actions and requests for transparency and accountability.
+- **Credential Injection**: Automatically manages and injects necessary credentials for accessing various tools, simplifying the user experience.
+
+By following this structured process, MCPGate ensures that all requests are handled securely, efficiently, and in compliance with user plans and quotas. This gateway is a critical component of the Lucid platform, facilitating seamless interaction with a wide range of tools and services.

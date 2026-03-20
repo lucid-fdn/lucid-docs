@@ -1,6 +1,49 @@
 ---
 title: "Deploy from Image (BYOI)"
-description: "Bring your own Docker image and deploy it on Lucid"
+description: "Deploy a pre-built Docker image into the Lucid verified network."
 ---
 
-Coming soon.
+## Deploy from Image (BYOI)
+
+Deploying a pre-built Docker image into the Lucid verified network allows you to bring your own image and leverage Lucid's infrastructure for seamless integration and deployment. This guide will walk you through the process of deploying your Docker image using the Lucid CLI.
+
+### Prerequisites
+
+- Ensure you have the Lucid CLI installed and configured on your machine.
+- Have a Docker image ready that you wish to deploy.
+
+### Deploying Your Docker Image
+
+To deploy your Docker image to the Lucid network, use the following command:
+
+```bash
+lucid launch --image ghcr.io/myorg/my-agent:latest --target railway --owner 0x...
+```
+
+### Command Breakdown
+
+- `--image`: Specifies the Docker image you want to deploy. Replace `ghcr.io/myorg/my-agent:latest` with the path to your Docker image.
+- `--target`: Defines the target provider where the image will be deployed. In this example, `railway` is used as the target.
+- `--owner`: Your unique identifier in the Lucid network. Replace `0x...` with your actual owner address.
+
+### Environment Variables
+
+When you deploy your image, Lucid automatically injects the following environment variables into your container:
+
+- `LUCID_API_URL`: The URL for accessing the Lucid API.
+- `LUCID_PASSPORT_ID`: Your unique passport ID within the Lucid network.
+- `LUCID_API_KEY`: The API key for authenticating your requests to the Lucid API.
+- `TRUSTGATE_URL`: The URL for the Trustgate service.
+
+These environment variables allow your agent to interact with the Lucid API using the `@lucid-fdn/sdk` for functionalities such as receipts, memory management, and payment processing.
+
+### Verification Options
+
+The `lucid launch` command supports two verification modes:
+
+- `--verification full`: Performs a comprehensive verification of your deployment (default setting).
+- `--verification minimal`: Conducts a basic verification, which may be faster but less thorough.
+
+Choose the verification mode that best suits your deployment needs.
+
+By following these steps, you can successfully deploy your Docker image into the Lucid verified network, taking advantage of Lucid's robust infrastructure and API capabilities.

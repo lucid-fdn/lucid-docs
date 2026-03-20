@@ -1,6 +1,115 @@
 ---
 title: "Configuration"
-description: "Environment variables and system configuration"
+description: "Environment variables for the Lucid L2 offchain API, parsed from .env.example."
 ---
 
-Coming soon.
+### Configuration
+
+This document outlines the environment variables used for configuring the Lucid L2 offchain API. These variables are parsed from a sample `.env` file and are crucial for setting up the environment correctly.
+
+#### OBSERVABILITY
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `SENTRY_DSN`              | `—`                                      | Sentry — error tracking & performance monitoring. Leave blank to disable Sentry (safe for local development). |
+| `OTEL_ENABLED`            | `false`                                  | OpenTelemetry — distributed tracing. Set to "true" to enable OTel trace collection.          |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4318`               | Endpoint for the OpenTelemetry exporter.                                                      |
+| `LUCID_ENV`               | `development`                            | Environment identifier used by both Sentry and OpenTelemetry. Typical values: development, staging, production. |
+
+#### TRUSTGATE
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `TRUSTGATE_URL`           | `https://trustgate-api-production.up.railway.app` | TrustGate inference gateway (OpenAI-compatible).                                             |
+| `TRUSTGATE_API_KEY`       | `your_tenant_api_key`                   | API key for accessing TrustGate services.                                                    |
+| `TRUSTGATE_ADMIN_KEY`     | `your_admin_key`                        | Control-plane admin key (X-Admin-Key header, for tenant/key management).                     |
+
+#### HUGGINGFACE
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `HF_TOKEN`                | `your_huggingface_token`                | HuggingFace API token for model/dataset/space discovery synchronization.                     |
+
+#### DEPIN STORAGE (Decentralized Permanent/Evolving File Storage)
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `DEPIN_PERMANENT_PROVIDER`| `mock`                                   | Permanent storage provider (epoch proofs, NFT metadata, attestations). Options: 'arweave' (production), 'mock' (dev/test). |
+| `DEPIN_EVOLVING_PROVIDER` | `mock`                                   | Evolving storage provider (agent memory, mutable metadata). Options: 'lighthouse' (production), 'mock' (dev/test). |
+| `DEPIN_UPLOAD_ENABLED`    | `true`                                   | Kill switch — set to 'false' to disable all DePIN uploads globally. Default: enabled (any value other than 'false' means enabled). |
+| `IRYS_NETWORK`            | `devnet`                                 | Required when `DEPIN_PERMANENT_PROVIDER=arweave`. Sign up at [Irys](https://irys.xyz) and fund with SOL on devnet or mainnet. Network: 'devnet' (free, testnet) or 'mainnet' (real SOL cost). |
+| `IRYS_TOKEN`              | `solana`                                 | Token for Irys operations.                                                                    |
+| `IRYS_PRIVATE_KEY`        | `—`                                      | Ed25519 private key (base58 or JSON array) for signing Irys uploads. Generate with: `solana-keygen new --no-bip39-passphrase -o irys-key.json`. |
+| `LIGHTHOUSE_API_KEY`      | `—`                                      | Required when `DEPIN_EVOLVING_PROVIDER=lighthouse`. Sign up at [Lighthouse](https://files.lighthouse.storage) for a free tier (5 GB). Get API key from dashboard after email verification. |
+
+#### SOLANA
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `LUCID_ORCHESTRATOR_SECRET_KEY` | `your_base64_or_json_keypair`     | Orchestrator signing key for receipts + epoch anchoring (Ed25519). Generate with: `solana-keygen new --no-bip39-passphrase -o orchestrator.json`, then base64-encode: `cat orchestrator.json | base64`. |
+| `SOLANA_RPC_URL`         | `https://api.mainnet-beta.solana.com`   | Solana RPC endpoints for mainnet.                                                            |
+| `SOLANA_DEVNET_RPC_URL`  | `https://api.devnet.solana.com`         | Solana RPC endpoints for devnet.                                                             |
+| `SOLANA_PRIVATE_KEY`      | `(commented out)`                       | Solana private key for transaction signing (base58 or JSON byte array). Generate with: `solana-keygen new --no-bip39-passphrase -o wallet.json`. |
+| `ANCHOR_WALLET`          | `~/.config/solana/id.json`              | Path to the Anchor wallet file.                                                               |
+
+#### SOLANA PROGRAM IDS (Defaults Point to Devnet Deployments)
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `THOUGHT_EPOCH_PROGRAM_ID` | `9YhfaLoUZYLzu3xRQevRom4qj8oTf5TGpuoWptvStKDu` | Core epoch commitment program.                                                                |
+| `PASSPORTS_PROGRAM_ID`    | `FhoemNdqwPMt8nmX4HT3WpSqUuqeAUXRb7WchAehmSaL` | Passport NFT registry (Token-2022 + x402 payment gating).                                   |
+| `GAS_UTILS_PROGRAM_ID`    | `EzuUhxtNAz1eRfAPypm6eAepe8fRQBrBPSo4Qcp1w3hm` | Gas burn/split utility program.                                                               |
+| `AGENT_WALLET_PROGRAM_ID` | `AJGpTWXbhvdYMxSah6GAKzykvfkYo2ViQpWGMbimQsph` | Agent wallet (PDA wallets, policy, escrow, splits, sessions).                                |
+| `ZKML_VERIFIER_PROGRAM_ID` | `69cJRFGWijD1FdapQ2vz7VP6x2jcXRQyBws9VzzPpqAN` | zkML Groth16 proof verifier (bloom filter deduplication, model registry).                     |
+
+#### ANCHORING PIPELINE
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `ANCHORING_MOCK_MODE`     | `true`                                   | Set to 'true' to disable real Solana anchoring (for local development).                      |
+| `EPOCH_FINALIZATION_INTERVAL_MS` | `60000`                        | How often to check for finalizable epochs (in milliseconds). Default is 60000 ms.           |
+| `ANCHORING_JOB_INTERVAL_MS` | `600000`                             | How often to run the anchoring job (in milliseconds). Default is 600000 ms (10 minutes).    |
+| `ANCHORING_CHAINS`       | `solana-devnet`                          | Multi-chain epoch anchoring (comma-separated chain IDs). Default is `solana-devnet`. Example: `solana-devnet,base-sepolia,apechain-testnet`. |
+
+#### EVM CHAINS
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `EVM_ENABLED_CHAINS`      | `base-sepolia,ethereum-sepolia`        | Which EVM chains to register adapters for (comma-separated). Default is all testnet chains. Override for production. |
+| `BASE_SEPOLIA_RPC_URL`    | `https://sepolia.base.org`             | RPC URLs (defaults use public RPCs, override for production).                               |
+| `ETHEREUM_SEPOLIA_RPC_URL` | `https://ethereum-sepolia-rpc.publicnode.com` | RPC URL for Ethereum Sepolia.                                                              |
+| `APECHAIN_TESTNET_RPC_URL` | `https://rpc.curtis.apechain.com/http` | RPC URL for Apechain testnet.                                                               |
+| `EVM_PRIVATE_KEY`         | `0x...`                                  | EVM private key for transaction signing (hex, with 0x prefix).                              |
+| `BASE_SEPOLIA_CONTRACTS`  | `{"epochRegistry":"0x...","passportRegistry":"0x...","escrow":"0x..."}` | Per-chain contract addresses (override defaults from chains/configs.ts). Format: JSON object with contract addresses. |
+| `ETHEREUM_SEPOLIA_CONTRACTS` | `{"epochRegistry":"0x...","passportRegistry":"0x..."}` | Contract addresses for Ethereum Sepolia.                                                   |
+| `BASE_SEPOLIA_SESSION_MANAGER` | `0x...`                           | EVM session manager contract (for session key support).                                     |
+| `BASE_SEPOLIA_PAYMASTER`  | `0x...`                                 | EVM paymaster contract (ERC-4337 gas sponsorship).                                          |
+
+#### DATABASE (PostgreSQL — Optional, Falls Back to In-Memory)
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `DATABASE_URL`            | `postgresql://user:password@localhost:5432/lucid` | PostgreSQL connection string for receipt/epoch persistence.                                  |
+| `PLATFORM_CORE_DB_URL`    | `postgresql://user:password@localhost:5432/lucid_platform` | Agent Mirror (cross-DB sync from platform-core). Required for agentMirrorConsumer to poll agent_created_events. |
+
+#### PAYOUT & TREASURY
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `PROTOCOL_TREASURY_ADDRESS` | `(commented out)`                     | Protocol treasury wallet address (receives protocol fee split). Must be set for production payout execution. |
+
+#### GAS & EPOCH TUNING
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `IGAS_PER_CALL`           | `1`                                      | Gas rates in LUCID tokens (operators can adjust fees).                                       |
+| `MGAS_PER_ROOT`           | `5`                                      | Gas rate per root.                                                                          |
+| `IGAS_PER_BATCH`          | `2`                                      | Gas rate per batch.                                                                          |
+| `MAX_RECEIPTS_PER_EPOCH`  | `100`                                   | Epoch auto-finalization thresholds.                                                           |
+| `MAX_EPOCH_DURATION_MS`   | `3600000`                               | Maximum duration of an epoch in milliseconds.                                                |
+
+#### MMR PERSISTENCE & CHECKPOINTING
+
+| Variable                  | Default                                   | Description                                                                                   |
+|---------------------------|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `MMR_CHECKPOINT_INTERVAL_MS` | `1800000`                             | How often to checkpoint MMR state to DePIN evolving storage (ms, default 1800000 = 30 min). Checkpoints enable recovery from DePIN if fast DB is lost. |

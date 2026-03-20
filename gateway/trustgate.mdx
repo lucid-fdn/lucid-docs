@@ -1,6 +1,45 @@
 ---
-title: "TrustGate"
-description: "OpenAI-compatible LLM gateway with x402 payments"
+title: "TrustGate (LLM Gateway)"
+description: "OpenAI-compatible LLM proxy with tenant auth, quota, and payment enforcement."
 ---
 
-Coming soon.
+# TrustGate (LLM Gateway)
+
+TrustGate is an OpenAI-compatible language model (LLM) proxy designed to manage tenant authentication, quota, and payment enforcement. It acts as a gateway to ensure secure and efficient access to language models while providing robust tenant management features.
+
+## Workflow Overview
+
+The request processing in TrustGate follows a structured workflow to ensure that all necessary checks and validations are performed before accessing the language model. Below is a step-by-step breakdown of the process:
+
+1. **Request**: The process begins when a request is made to the TrustGate.
+
+2. **Bearer Authentication**: The request includes a bearer token, which is authenticated using a SHA-256 key lookup. This step ensures that only authorized users can proceed.
+
+3. **Payment Check (x402)**: If the tenant has payment enforcement enabled, the system performs a payment check. This ensures that the tenant has fulfilled any necessary payment obligations before accessing the service.
+
+4. **Plan Enforcement**: The system checks the tenant's plan to ensure that the request complies with the terms and conditions of their subscription plan.
+
+5. **Quota Check**: The request is evaluated against the tenant's usage quota. This step ensures that the tenant has not exceeded their allocated usage limits.
+
+6. **Zod Validation**: The request undergoes validation using Zod, a schema validation library. This step ensures that the request data is correctly structured and meets the required specifications.
+
+7. **Passport Model Resolution**: The system resolves the passport model, which involves determining the appropriate language model and configuration for the request based on the tenant's profile.
+
+8. **LiteLLM Fetch**: The request is forwarded to the LiteLLM, where the language model processes it and generates a response.
+
+9. **Usage Metering**: Usage data is recorded in a fire-and-forget manner, ensuring that the tenant's usage is tracked without impacting the response time.
+
+10. **Receipt Event**: A receipt event is generated for Solana anchoring, providing a verifiable record of the transaction.
+
+11. **Response**: Finally, the processed response is returned to the requester.
+
+## Key Features
+
+- **OpenAI Compatibility**: TrustGate is designed to be compatible with OpenAI's language models, making it easy to integrate with existing systems.
+- **Tenant Authentication**: Secure authentication mechanisms ensure that only authorized users can access the service.
+- **Payment and Quota Enforcement**: TrustGate enforces payment and usage quotas, providing a fair and sustainable usage model.
+- **Schema Validation**: Zod validation ensures that requests are well-formed and meet the required specifications.
+- **Efficient Usage Tracking**: Usage metering is performed efficiently to provide accurate tracking without affecting performance.
+- **Solana Anchoring**: Receipt events are anchored on Solana, offering a secure and verifiable record of transactions.
+
+TrustGate provides a comprehensive solution for managing access to language models, ensuring security, compliance, and efficient resource utilization.

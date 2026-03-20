@@ -1,6 +1,190 @@
 ---
-title: "Payments (x402)"
-description: "HTTP 402 protocol for agent payments"
+title: "Payments (x402) — @lucid-fdn/pay"
+description: "Drop-in `fetch()` replacement with automatic x402 payments for AI agents. Multi-chain: Base, Ethereum, Arbitrum, Optimism, Polygon, ApeChain, Monad, Solana, Sui."
 ---
 
-Coming soon.
+# Payments (x402) — @lucid-fdn/pay
+
+The `@lucid-fdn/pay` package provides a drop-in replacement for the `fetch()` function, enabling automatic x402 payments for AI agents. It supports multiple blockchain networks, including Base, Ethereum, Arbitrum, Optimism, Polygon, ApeChain, Monad, Solana, and Sui.
+
+## Installation
+
+To get started, install the package using npm:
+
+```bash
+npm install @lucid-fdn/pay
+```
+
+## Quick Start
+
+Here's a quick example to demonstrate how to use `@lucid-fdn/pay`:
+
+```ts
+import { createWalletClient, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { base } from "viem/chains";
+import { createLucidFetch, ViemWallet } from "@lucid-fdn/pay";
+
+const client = createWalletClient({
+  account: privateKeyToAccount(process.env.PRIVATE_KEY as `0x${string}`),
+  chain: base,
+  transport: http(),
+});
+
+const lucidFetch = createLucidFetch({
+  wallet: new ViemWallet(client),
+  maxAmountPerRequest: "100000", // 0.10 USDC (6 decimals)
+});
+
+// Use exactly like fetch() -- payments are handled automatically
+const response = await lucidFetch(
+  "https://api.lucid.foundation/v1/chat/completions",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "gpt-4o",
+      messages: [{ role: "user", content: "Hello" }],
+    }),
+  },
+);
+```
+
+## How It Works
+
+1. Your request is sent to the API as a normal `fetch()` call.
+2. If the server returns HTTP 402, the response body contains an x402 v2 `options[]` array — one entry per supported chain and facilitator, each with the recipient address, token, amount, and chain.
+3. `@lucid-fdn/pay` selects the option matching your wallet's chain (or falls back to the first option), checks the amount against your budget, sends an on-chain USDC transfer, and retries with `X-Payment-Proof` (tx hash) and `X-Payment-Chain` headers.
+4. The server delegates verification to the appropriate facilitator and returns the response.
+
+This setup works with any x402-enabled API, including Lucid TrustGate and MCPGate endpoints.
+
+### Supported Chains
+
+| Chain | Token | Facilitators |
+|-------|-------|-------------|
+| Base | USDC | Direct, Coinbase, PayAI, Thirdweb |
+| Ethereum | USDC | PayAI, Thirdweb |
+| Arbitrum | USDC | PayAI, Thirdweb |
+| Optimism | USDC | PayAI, Thirdweb |
+| Polygon | USDC | Thirdweb |
+| ApeChain | USDC | Thirdweb |
+| Monad | USDC | Direct, PayAI, Thirdweb |
+| Solana | USDC | PayAI |
+| Sui | USDC | Sui (native) |
+
+## API Reference
+
+### `createLucidFetch(config): lucidFetch`
+
+This function returns a configured fetch function that automatically handles x402 payments.
+
+```ts
+const lucidFetch = createLucidFetch(config);
+const response = await lucidFetch(url, init);
+```
+
+### `lucidFetch(url, init?, config?)`
+
+A one-shot convenience function that accepts an inline config as the third argument. If no config is provided, it behaves as a standard `fetch()`.
+
+```ts
+import { lucidFetch } from "@lucid-fdn/pay";
+
+const response = await lucidFetch(
+  "https://api.lucid.foundation/v1/chat/completions",
+  { method: "POST", body: "..." },
+  { wallet: myWallet },
+);
+```
+
+### Configuration (`LucidPayConfig`)
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `wallet` | `PaymentWallet` | required | Wallet adapter used for payments |
+| `maxAmountPerRequest` | `string` | no limit | Maximum amount per request in micro-units (USDC has 6 decimals, so `"1000000"` = 1 USDC) |
+| `maxRetries` | `number` | `1` | Number of retries after payment |
+| `onPayment` | `(info: PaymentInfo) => void` | -- | Called after a successful payment |
+| `onPaymentSkipped` | `(info) => void` | -- | Called when a payment exceeds the budget |
+
+### Per-Request Overrides (`LucidFetchOptions`)
+
+This extends the standard `RequestInit` and allows you to override the wallet or budget on individual requests:
+
+```ts
+const response = await lucidFetch(url, {
+  method: "POST",
+  body: "...",
+  wallet: alternateWallet, // override wallet for this call
+  maxAmount: "50000",      // override budget for this call
+});
+```
+
+### `PaymentInfo`
+
+The object passed to the `onPayment` callback includes:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `txHash` | `string` | On-chain transaction hash |
+| `amount` | `string` | Amount paid (micro-units) |
+| `recipient` | `string` | Payment recipient address |
+| `chain` | `string` | Chain identifier (e.g. `"base-sepolia"`) |
+| `token` | `string` | Token symbol (e.g. `"USDC"`) |
+| `url` | `string` | The URL that required payment |
+
+## Wallets
+
+### `ViemWallet` (production)
+
+This wallet wraps a [viem](https://viem.sh) `WalletClient` to sign and send real ERC-20 transfers on-chain. Consumers need to bring their own `viem` dependency.
+
+```ts
+import { createWalletClient, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { base } from "viem/chains";
+import { ViemWallet } from "@lucid-fdn/pay";
+
+const wallet = new ViemWallet(
+  createWalletClient({
+    account: privateKeyToAccount("0x..."),
+    chain: base,
+    transport: http(),
+  }),
+);
+```
+
+### `MemoryWallet` (testing)
+
+An in-memory wallet that records payments without sending real transactions. This is useful for tests and local development.
+
+```ts
+import { MemoryWallet } from "@lucid-fdn/pay";
+
+const wallet = new MemoryWallet("0xYourAddress", "base-sepolia");
+
+// After running requests:
+console.log(wallet.payments); // array of recorded payments
+```
+
+### Custom Wallets
+
+You can implement the `PaymentWallet` interface to use any signing backend:
+
+```ts
+import type { PaymentWallet } from "@lucid-fdn/pay";
+
+const myWallet: PaymentWallet = {
+  address: "0x...",
+  chain: "base",
+  async sendPayment({ to, amount, tokenAddress, chain }) {
+    // Sign and broadcast an ERC-20 transfer
+    return txHash;
+  },
+};
+```
+
+## License
+
+MIT

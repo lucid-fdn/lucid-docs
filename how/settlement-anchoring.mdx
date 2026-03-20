@@ -1,6 +1,75 @@
 ---
 title: "Anchoring"
-description: "On-chain commitment to Solana and EVM"
+description: "Unified DePIN anchoring control plane for permanent data availability."
 ---
 
-Coming soon.
+### Anchoring
+
+The Anchoring Control Plane in Lucid provides a unified interface for managing DePIN (Decentralized Physical Infrastructure Network) uploads, ensuring permanent data availability. This system routes all uploads through a centralized dispatcher, maintaining consistency and reliability across different storage providers.
+
+#### Overview
+
+All features that require data anchoring must interact with the Anchoring Control Plane, specifically through the `AnchorDispatcher.dispatch()` method. This ensures that no feature directly touches the `IDepinStorage` interface.
+
+```
+Any feature → AnchorDispatcher.dispatch() → IDepinStorage → AnchorRegistry
+```
+
+#### Storage Providers
+
+The `IDepinStorage` interface supports multiple storage providers, which can be swapped based on the use case:
+
+| Provider              | Env Value   | Tier      | Use Case                                         |
+|-----------------------|-------------|-----------|--------------------------------------------------|
+| `ArweaveStorage`      | `arweave`   | Permanent | Immutable artifacts such as epochs, passports, and deploys |
+| `LighthouseStorage`   | `lighthouse`| Evolving  | Mutable or supersedable data like memory snapshots and MMR checkpoints |
+| `MockStorage`         | `mock`      | Either    | Development and testing with local SHA-256 files |
+
+#### Anchoring Control Plane
+
+The Anchoring Control Plane is utilized by seven different producers, each responsible for handling specific artifact types and storage tiers:
+
+| Producer                  | Artifact Type       | Storage Tier |
+|---------------------------|---------------------|--------------|
+| `epochArchiver`           | `epoch_bundle`      | Permanent    |
+| `anchoringService`        | `epoch_proof`       | Permanent    |
+| `archivePipeline`         | `memory_snapshot`   | Evolving     |
+| `agentDeploymentService`  | `deploy_artifact`   | Permanent    |
+| `passportSyncService`     | `passport_metadata` | Permanent    |
+| `passportManager`         | `nft_metadata`      | Permanent    |
+| `mmrCheckpoint`           | `mmr_checkpoint`    | Evolving     |
+
+#### Key Behaviors
+
+- **Dispatching**: The `dispatch()` method returns an `AnchorResult` or `null`. If `DEPIN_UPLOAD_ENABLED` is set to `false`, it returns `null`, and all callers must handle this case.
+- **Content Hash**: Uses SHA-256 of `canonicalJson(payload)`, ensuring it is always populated and never null.
+- **Deduplication**: Enforces a UNIQUE constraint on `(artifact_type, artifact_id, content_hash)`. If the same payload is uploaded twice, it returns the existing record.
+- **Lineage**: Supports cross-referencing with `parent_anchor_id`, allowing snapshots to supersede prior snapshots.
+- **Registry**: Functions as an L3 projection, rebuildable from on-chain data and DePIN.
+
+#### Components
+
+The Anchoring Control Plane consists of several key components:
+
+| Component           | Purpose                                                      |
+|---------------------|--------------------------------------------------------------|
+| `AnchorDispatcher`  | Handles uploads to DePIN and writes registry records         |
+| `IAnchorRegistry`   | Provides CRUD operations for `anchor_records` (supports InMemory and Postgres) |
+| `AnchorVerifier`    | Verifies the existence of CIDs on the provider               |
+| Factory             | Provides `getAnchorDispatcher()`, `getAnchorRegistry()`, and `getAnchorVerifier()` |
+
+#### API Routes
+
+The following API routes are available for interacting with the anchoring system:
+
+- `GET /v1/anchors?agent_passport_id=X&artifact_type=Y`: Query the registry for specific anchors.
+- `GET /v1/anchors/:id`: Retrieve a single anchor record.
+- `GET /v1/anchors/:id/lineage`: Trace the lineage of an anchor by walking the parent chain.
+- `GET /v1/anchors/cid/:cid`: Perform a reverse lookup for a CID.
+- `POST /v1/anchors/:id/verify`: Verify that a CID still exists on the provider.
+
+#### Environment Configuration
+
+- `DEPIN_PERMANENT_PROVIDER` and `DEPIN_EVOLVING_PROVIDER` determine the storage provider (default: `mock`).
+- `DEPIN_UPLOAD_ENABLED=false` acts as a kill switch for uploads.
+- `ANCHOR_REGISTRY_STORE` can be set to `postgres` or `memory` for registry storage options.

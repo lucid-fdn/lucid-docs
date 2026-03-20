@@ -1,6 +1,53 @@
 ---
 title: "Interactive Setup"
-description: "Configure your agent with the interactive setup wizard"
+description: "Interactive clack-based setup wizard for agent deployment."
 ---
 
-Coming soon.
+# Interactive Setup
+
+The interactive setup wizard for agent deployment in Lucid provides a streamlined process for configuring and launching your AI agents. This setup is designed to guide you through the necessary steps using an intuitive command-line interface powered by `@clack/prompts`. The setup is particularly tailored for deploying agents from the marketplace catalog, under the "Internet of AI" branding, and is driven by an agent manifest that is provider-agnostic.
+
+## Key Features of the Interactive Setup
+
+### LLM Inference Mode
+
+During the setup, you will be prompted to choose your preferred LLM inference mode. You have two options:
+
+- **Lucid Cloud**: Automatically injects the `PROVIDER_URL` for seamless integration.
+- **Own API Key**: Allows you to use your own API key for more control over the inference process.
+
+### Channel Setup
+
+The setup wizard supports multiple communication channels, allowing you to configure how your agent interacts with users. The available options include:
+
+- **Telegram**: Choose between using a managed Lucid bot, bringing your own token, or skipping this setup.
+- **Discord**: Set up your agent to operate within Discord channels.
+- **Slack**: Integrate your agent with Slack for team collaboration.
+
+### Environment Variables
+
+The wizard will collect both required and optional environment variables as specified in the agent manifest. This ensures that your agent has all the necessary configurations to operate effectively.
+
+### Skill Selection
+
+You can select from a range of skills for your agent. The setup allows you to choose bundled skills as well as additional optional skills from the marketplace catalog, tailoring the agent's capabilities to your specific needs.
+
+### Pre-launch Confirmation
+
+Before launching, the setup provides a confirmation summary. This summary allows you to review all the configurations and selections made during the setup process, ensuring everything is set up correctly.
+
+## Advanced Setup Options
+
+### Pre-filling Prompts
+
+You can use the `--env KEY=VALUE` flags to pre-fill prompts. This feature is particularly useful if you have predefined configurations, as it allows the setup wizard to skip questions that have already been answered.
+
+### Configuration File
+
+For a completely automated setup, you can use the `--config ./my.env` option. This bypasses the interactive prompts entirely, making it ideal for continuous integration (CI) environments where manual input is not feasible.
+
+### Non-TTY Environments
+
+In environments where TTY is not available, the setup wizard falls back to using readline-based prompts. This ensures that the setup process remains accessible and functional across different environments.
+
+By following these steps, you can efficiently deploy and configure your AI agents using the Lucid interactive setup wizard, ensuring a smooth and effective deployment process.

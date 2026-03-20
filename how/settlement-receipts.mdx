@@ -1,6 +1,55 @@
 ---
-title: "Receipts (Proofs)"
-description: "Cryptographic proof of every AI action"
+title: "Receipts & Proofs"
+description: "Cryptographic receipt creation, MMR proofs, and epoch settlement."
 ---
 
-Coming soon.
+# Receipts & Proofs
+
+In Lucid, cryptographic receipts and proofs are essential components for ensuring the integrity and verification of transactions within the network. This guide provides an overview of the mechanisms involved in receipt creation, MMR proofs, and epoch settlement.
+
+## Merkle Mountain Range (MMR)
+
+Lucid utilizes a Merkle Mountain Range (MMR) for cryptographic proofs, employing SHA-256 for hashing and right-to-left peak bagging. An epoch is finalized when either more than 100 receipts are generated or more than one hour has passed since the last finalization.
+
+## Receipt Hashing
+
+Each receipt is hashed using the SHA-256 algorithm. The receipt is first converted into a canonical JSON format as per RFC 8785, ensuring a consistent and standardized representation before hashing.
+
+## Signing
+
+Receipts are signed using the Ed25519 algorithm via the `tweetnacl` library. The signing process requires the `LUCID_ORCHESTRATOR_SECRET_KEY`, which is used to authenticate and verify the integrity of the receipt.
+
+## Gas Costs
+
+Transactions in Lucid incur gas costs, which are divided into two categories:
+
+- **iGas**: Costs 1 LUCID per call.
+- **mGas**: Costs 5 LUCID per root.
+
+For a batch transaction, the total gas cost is 7 LUCID (2 LUCID for calls and 5 LUCID for roots).
+
+## Revenue Split
+
+The default revenue split in Lucid is structured as follows:
+
+- 70% for compute resources
+- 20% for the model
+- 10% for the protocol
+
+These percentages are calculated in basis points.
+
+## x402 Payment Protocol
+
+Lucid implements the HTTP 402 payment protocol, where the server returns payment instructions. The agent is required to pay using USDC on-chain and then retry the request with the `X-Payment-Proof` header. This process is facilitator-agnostic, supporting various facilitators such as DirectFacilitator, CoinbaseFacilitator, and PayAIFacilitator. Dynamic pricing is determined per asset from the `asset_pricing` table. To prevent replay attacks, the SpentProofsStore (using Redis or in-memory storage) is employed.
+
+## Compute Matching
+
+The compute matching process in Lucid involves several steps:
+
+1. **Runtime Compatibility**: Ensures that the runtime environment is compatible with the task requirements.
+2. **Hardware Check**: Verifies that the necessary hardware resources are available.
+3. **Policy Evaluation**: Assesses policies to ensure compliance and suitability.
+4. **Scoring**: Assigns a score based on various factors to determine the best match.
+5. **Selection**: Selects the optimal compute resource based on the score.
+
+This structured approach ensures efficient and effective allocation of compute resources within the Lucid network.

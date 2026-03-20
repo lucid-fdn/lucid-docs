@@ -1,6 +1,31 @@
 ---
 title: "Deploy from Catalog"
-description: "One-command deploy of pre-built agents"
+description: "Deploy a pre-configured agent from the marketplace catalog."
 ---
 
-Coming soon.
+### Deploy from Catalog
+
+Deploying a pre-configured agent from the Lucid marketplace catalog is a straightforward process that can be accomplished with a single command. This method is ideal for quickly setting up agents with minimal configuration effort.
+
+#### One-Command Deploy
+
+To deploy an agent from the marketplace catalog, use the following command:
+
+```bash
+lucid launch --agent openclaw --target docker
+```
+
+This command performs several actions:
+
+1. **Fetches the Agent Manifest**: It retrieves the agent manifest from the `lucid-fdn/lucid-agents` catalog.
+2. **Runs Interactive Setup Wizard**: An interactive setup wizard (clack UI) is initiated to guide you through the configuration process.
+3. **Collects Environment Variables**: During the setup, you will be prompted to provide necessary environment variables such as LLM keys and channel tokens.
+4. **Deploys the Agent**: Once the setup is complete, the agent is deployed to the specified target, in this case, Docker.
+
+#### Configuration Options
+
+- **Pre-fill Environment Variables**: You can pre-fill environment variables using the `--env KEY=VALUE` option. This is useful for automating deployments and reducing manual input during the setup process.
+  
+- **Use Configuration Files**: For continuous integration (CI) environments, you can specify a configuration file with the `--config ./my.env` option. This file should contain the necessary environment variables and their values.
+
+For more details on the interactive setup wizard, refer to the "Launch UI" section below. This section provides additional guidance on navigating the setup process and ensuring a successful deployment.

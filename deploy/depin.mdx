@@ -1,6 +1,72 @@
 ---
 title: "DePIN Providers"
-description: "Deploy on decentralized compute — Akash, io.net, Nosana, Phala"
+description: "Decentralized storage providers for data availability and anchoring."
 ---
 
-Coming soon.
+### DePIN Providers
+
+Decentralized storage providers play a crucial role in ensuring data availability and anchoring within the Lucid ecosystem. This guide explains how these providers are integrated and utilized.
+
+### Overview
+
+In Lucid, no feature interacts directly with the `IDepinStorage` interface. Instead, all decentralized storage uploads are managed through the Anchoring Control Plane. The process flow is as follows:
+
+```
+Any feature → AnchorDispatcher.dispatch() → IDepinStorage → AnchorRegistry
+```
+
+### Storage Providers
+
+The `IDepinStorage` interface supports multiple storage providers, which can be swapped based on the use case:
+
+| Provider             | Env Value   | Tier      | Use Case                                      |
+|----------------------|-------------|-----------|-----------------------------------------------|
+| `ArweaveStorage`     | `arweave`   | Permanent | Immutable artifacts (epochs, passports, deploys) |
+| `LighthouseStorage`  | `lighthouse`| Evolving  | Mutable/supersedable (memory snapshots, MMR checkpoints) |
+| `MockStorage`        | `mock`      | Either    | Development/testing (local SHA-256 files)     |
+
+### Anchoring Control Plane
+
+The Anchoring Control Plane is responsible for managing the data anchoring process. All producers utilize the `getAnchorDispatcher().dispatch()` method:
+
+| Producer                | Artifact Type      | Storage Tier |
+|-------------------------|--------------------|--------------|
+| `epochArchiver`         | `epoch_bundle`     | Permanent    |
+| `anchoringService`      | `epoch_proof`      | Permanent    |
+| `archivePipeline`       | `memory_snapshot`  | Evolving     |
+| `agentDeploymentService`| `deploy_artifact`  | Permanent    |
+| `passportSyncService`   | `passport_metadata`| Permanent    |
+| `passportManager`       | `nft_metadata`     | Permanent    |
+| `mmrCheckpoint`         | `mmr_checkpoint`   | Evolving     |
+
+### Key Behaviors
+
+- **Dispatch Method**: The `dispatch()` method returns an `AnchorResult` or `null`. If `DEPIN_UPLOAD_ENABLED=false`, it returns `null`. All callers must handle null values.
+- **Content Hash**: Uses SHA-256 of `canonicalJson(payload)`. This is always populated and never null.
+- **Deduplication**: Enforced by a UNIQUE constraint on `(artifact_type, artifact_id, content_hash)`. If the same payload is uploaded twice, the existing record is returned.
+- **Lineage**: Uses `parent_anchor_id` for cross-referencing, such as when a snapshot supersedes a prior snapshot.
+- **Registry**: Acts as an L3 projection, rebuildable from on-chain data and DePIN.
+
+### Components
+
+| Component           | Purpose                                           |
+|---------------------|---------------------------------------------------|
+| `AnchorDispatcher`  | Handles uploads to DePIN and writes registry records |
+| `IAnchorRegistry`   | Manages CRUD operations for `anchor_records` (InMemory and Postgres) |
+| `AnchorVerifier`    | Verifies CID existence on the provider            |
+| Factory             | Provides `getAnchorDispatcher()`, `getAnchorRegistry()`, and `getAnchorVerifier()` |
+
+### API Routes
+
+- `GET /v1/anchors?agent_passport_id=X&artifact_type=Y`: Query the registry.
+- `GET /v1/anchors/:id`: Retrieve a single record.
+- `GET /v1/anchors/:id/lineage`: Walk through the parent chain.
+- `GET /v1/anchors/cid/:cid`: Perform a reverse CID lookup.
+- `POST /v1/anchors/:id/verify`: Check if a CID still exists on the provider.
+
+### Environment Configuration
+
+- **Permanent Provider**: Set with `DEPIN_PERMANENT_PROVIDER`.
+- **Evolving Provider**: Set with `DEPIN_EVOLVING_PROVIDER` (default is `mock`).
+- **Upload Enablement**: Controlled by `DEPIN_UPLOAD_ENABLED=false` (acts as a kill switch).
+- **Registry Store**: Configured with `ANCHOR_REGISTRY_STORE=postgres|memory`.

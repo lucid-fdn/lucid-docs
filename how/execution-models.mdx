@@ -1,6 +1,30 @@
 ---
 title: "Models"
-description: "Model selection and provider flexibility"
+description: "Model availability filtering, compute matching, and format-aware routing."
 ---
 
-Coming soon.
+## Models
+
+In Lucid, models can be filtered and routed based on their availability and compatibility with the required compute resources. This ensures efficient and format-aware model deployment.
+
+### Model Availability Filtering
+
+Lucid uses a tri-state filter to determine the availability of models:
+
+- **`?available=true`**: Returns only models that are currently capable of serving inference requests. These models have the necessary compute resources available.
+- **`?available=false`**: Returns models that are currently missing the required compute resources. This is particularly useful for debugging purposes.
+- **Omitted**: Returns all models, regardless of their availability status.
+
+### Availability Check per Model
+
+The availability of a model is determined by its format and the compute resources required:
+
+- **`format=api`**: Models in this format are always available. They are routed through TrustGate and do not require additional compute resources.
+- **`format=safetensors`** or **`gguf`**: These formats require at least one healthy compute node. The node must meet the following criteria:
+  1. **Compatible Runtime**: The node must have a runtime that is compatible with the model (`runtimeCompatible()`).
+  2. **Sufficient Hardware**: The node must have adequate hardware resources, such as VRAM and context length, to support the model (`hardwareCompatible()`).
+  3. **Recent Heartbeat**: The node must have sent a heartbeat signal within the last 30 seconds to be considered healthy (`ComputeRegistry.isHealthy()`).
+
+### Compute Matching
+
+The function `hasAvailableCompute()` is used to determine if a model has the necessary compute resources available. This function is implemented in the `matchingEngine.ts` file and is designed to short-circuit as soon as a suitable compute resource is found, ensuring efficient matching and routing of models.

@@ -1,6 +1,87 @@
 ---
 title: "Agent Deployment Lifecycle"
-description: "From launch to running to termination"
+description: "Durable deployment state machine with reconciliation and blue-green rollout."
 ---
 
-Coming soon.
+# Agent Deployment Lifecycle
+
+The Agent Deployment Lifecycle in Lucid is designed to manage deployments with a durable state machine, supporting reconciliation and blue-green rollouts. This guide provides an overview of the deployment process, state management, and associated features.
+
+## Deployment State Management
+
+Deployments in Lucid are tracked using a durable state machine, with states stored in Supabase tables: `deployments` and `deployment_events`. The state machine transitions through the following states:
+
+- `pending`
+- `deploying`
+- `running`
+- `stopped`
+- `terminated`
+- `failed` (alternative path)
+
+The deployment process involves comparing the desired state with the actual state, while the provider status is tracked separately in the `provider_status` column. Optimistic locking is implemented via the `version` column, and deployment revisions are tracked with the `revision` column. The `deployment_slot` supports blue-green deployments, with 'primary' as the default slot.
+
+### Deployment Events
+
+Deployment events are logged in an append-only audit log, capturing key events such as `created`, `succeeded`, `failed`, `terminated`, and `health_changed`.
+
+### Deployment Store Interface
+
+The `IDeploymentStore` interface provides implementations for both Postgres (production) and InMemory (tests). The deployment event history can be accessed via the route:
+
+```
+GET /v1/agents/:passportId/events
+```
+
+Environment configuration for the deployment store can be set with:
+
+```
+DEPLOYMENT_STORE=postgres|memory
+```
+
+## Reconciliation and Drift Detection
+
+The Reconciler is responsible for polling every 60 seconds to detect drift and repair stuck deployments. It includes a LeaseManager and WebhookHandler for provider status synchronization. Provider capabilities include support for stopping, resuming, extending, scaling, and logging.
+
+### Drift Repair Rules
+
+- `running` + `stopped` -> redeploy
+- `terminated` + `running` -> terminate
+- `failed` + `terminated` -> terminated
+
+### Stuck Repair
+
+The Reconciler checks the provider status to transition deployments to `running` or `failed`, with retries implemented using a backoff strategy.
+
+Environment variables for configuring the Reconciler include:
+
+- `RECONCILER_POLL_MS`
+- `RECONCILER_STUCK_TIMEOUT_MS`
+- `RECONCILER_STALENESS_MS`
+- `RECONCILER_LEASE_WARNING_MS`
+- `RECONCILER_MAX_RETRIES`
+- `LEASE_EXTENSION_HOURS`
+
+## Blue-Green Rollout and Secrets Management
+
+The RolloutManager handles blue-green rollouts, rollbacks, and promotions, separate from the Reconciler. Secrets are resolved at deploy time using the `ISecretsResolver` interface, ensuring they are never stored.
+
+### Blue-Green Deployment Routes
+
+- `POST .../deploy/blue-green`
+- `POST .../promote`
+- `POST .../rollback`
+- `GET .../blue`
+- `POST .../blue/cancel`
+
+### Secrets Resolver
+
+Implementations include `EnvSecretsResolver` for environment variables and `MockSecretsResolver` for testing. The `getSecretsResolver()` factory is used to obtain the appropriate resolver.
+
+Environment configuration for secrets and rollout management:
+
+- `SECRETS_PROVIDER=env|mock`
+- `ROLLOUT_HEALTH_GATE_MS=30000`
+- `ROLLOUT_AUTO_PROMOTE=false`
+- `ROLLOUT_AUTO_ROLLBACK=false`
+
+This comprehensive deployment lifecycle ensures robust management of agent deployments, with features to handle state transitions, drift detection, and blue-green rollouts effectively.

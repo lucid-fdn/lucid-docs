@@ -1,6 +1,35 @@
 ---
 title: "Self-Hosting"
-description: "Run Lucid Layer on your own infrastructure"
+description: "```bash"
 ---
 
-Coming soon.
+## Quick Start
+
+To get started with self-hosting Lucid, follow these steps:
+
+1. **Install Dependencies**: Use npm to install the necessary packages.
+   ```bash
+   npm install
+   ```
+
+2. **Configure Environment**: Copy the example environment file and edit it with your specific values.
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Start the API**: Launch the API server, which will be available on port 3001.
+   ```bash
+   npm start
+   ```
+
+4. **Run Tests**: Execute the test suites to ensure everything is working correctly. This will run 104 test suites with a total of 1,622 tests.
+   ```bash
+   npm test
+   ```
+
+5. **Type Checking**: Perform TypeScript compilation to check for type errors.
+   ```bash
+   npm run type-check
+   ```
+
+By following these steps, you can quickly set up and run a self-hosted instance of Lucid. Make sure to adjust the `.env` file with your specific configuration details to ensure proper operation.
