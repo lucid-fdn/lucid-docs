@@ -1,76 +1,285 @@
 ---
 title: "Architecture"
-description: "How Lucid works — from request to on-chain anchor"
+description: "How Lucid works — the 3-layer model, the 4-layer infrastructure stack, and the two-repo split."
 ---
+
+import { Card, CardGroup, Tip, Note } from 'mintlify/components'
 
 # Architecture
 
-Lucid is a **verifiable AI inference protocol** with three layers:
+Lucid is the **coordination and settlement layer for autonomous AI agents**. This page explains how the pieces fit together — from the compute where agents run, through the protocols that let them interact, down to the on-chain anchors that make everything verifiable.
 
-## System Overview
+---
+
+## The 3-Layer Model
+
+Every interaction in Lucid flows through three layers: **Execution**, **Coordination**, and **Settlement**.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      YOUR APPLICATION                        │
-│  TypeScript SDK  │  REST API  │  MCP Server  │  n8n Nodes   │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-┌────────────────────────▼────────────────────────────────────┐
-│                    LUCID API LAYER                            │
-│                                                              │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │Passports │  │ Matching │  │ Routing  │  │ Receipts │   │
-│  │ Registry │  │  Engine  │  │  Engine  │  │  (MMR)   │   │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
-│                                                              │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │  Epochs  │  │ Payouts  │  │  Agents  │  │ Compute  │   │
-│  │Anchoring │  │  Engine  │  │Orchestr. │  │  Nodes   │   │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-┌────────────────────────▼────────────────────────────────────┐
-│                    ON-CHAIN LAYER                             │
-│                                                              │
-│  ┌────────────────┐  ┌────────────────┐                     │
-│  │ lucid-receipts │  │ lucid-registry │  ← Solana Programs  │
-│  │  (Rust/BPF)    │  │  (Rust/BPF)    │                     │
-│  └────────────────┘  └────────────────┘                     │
-│                                                              │
-│  Solana Mainnet — Immutable receipt anchors                  │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│                        EXECUTION LAYER                              │
+│  Agents run on any compute, any model, any framework                │
+│                                                                     │
+│  Railway · Akash · Phala (TEE) · io.net (GPU) · Nosana (GPU)       │
+│  OpenAI · Anthropic · open-source via TrustGate                    │
+│  CrewAI · LangGraph · Vercel AI SDK · custom                       │
+├─────────────────────────────────────────────────────────────────────┤
+│                       COORDINATION LAYER                            │
+│  How agents discover, communicate, and transact                     │
+│                                                                     │
+│  A2A (agent-to-agent) · MCP Tools (88+ servers)                    │
+│  TrustGate (model routing) · Channels (Telegram, Discord, Slack)   │
+│  Memory (episodic, semantic, procedural, entity, temporal)          │
+├─────────────────────────────────────────────────────────────────────┤
+│                        SETTLEMENT LAYER                             │
+│  On-chain identity, receipts, proofs, payments, reputation          │
+│                                                                     │
+│  Passports · Receipts · MMR Proofs · Epoch Anchoring               │
+│  x402 Payments (USDC, 9 chains) · On-chain Reputation              │
+│  Solana programs · EVM contracts                                    │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
-## Request Flow
+---
 
-1. **Client** sends inference request via SDK or REST
-2. **Matching Engine** selects optimal model based on policy
-3. **Routing Engine** dispatches to the selected LLM provider
-4. **LLM** processes the request and returns response
-5. **Receipt Service** creates cryptographic receipt with MMR proof
-6. **Epoch Service** batches receipts for on-chain anchoring
-7. **Anchor Worker** commits epoch to Solana
+### Execution Layer — Where Agents Run
 
-## Key Components
+The execution layer is deliberately unopinionated. Lucid does not force a model, a framework, or a hosting provider. You bring whatever you want; Lucid makes it verifiable.
 
-### Passports
-Universal identity for everything in the network: models, compute nodes, tools, datasets, agents. Each passport has metadata, tags, capabilities, and an on-chain representation.
+**Compute targets:**
 
-### Merkle Mountain Range (MMR)
-An append-only data structure used for receipt proofs. Each receipt is a leaf in the MMR tree. Inclusion proofs allow verification without downloading the entire tree.
+| Target | Type | Use Case |
+|--------|------|----------|
+| Docker | Self-hosted | Development, testing, full control |
+| Railway | Cloud PaaS | Fast deploys, managed infra |
+| Akash | Decentralized cloud | Cost-efficient, censorship-resistant |
+| Phala | TEE (Trusted Execution) | Confidential compute, privacy-sensitive workloads |
+| io.net | Decentralized GPU | GPU inference at scale |
+| Nosana | Decentralized GPU | Solana-native GPU compute |
 
-### Epoch Anchoring
-Receipts are batched into epochs. Each epoch's MMR root is anchored on Solana, creating an immutable proof that the receipts existed at a specific point in time.
+**5 launch paths:**
 
-### Agent Orchestrator
-Autonomous agents follow a plan → accomplish → execute → validate lifecycle. Each step generates receipts, creating a full audit trail of agent behavior.
+| Path | Description |
+|------|-------------|
+| **BYOI** (Bring Your Own Image) | Push any Docker image. Lucid wraps it with a passport and receipt pipeline. |
+| **Base Runtime** | Pre-built Docker image. Zero code — configure entirely via environment variables. |
+| **From Source** | Point Lucid at a Git repo. ImageBuilder compiles and pushes to GHCR automatically. |
+| **From Catalog** | Pick a pre-built agent template from the Lucid catalog. One-click deploy. |
+| **External Registration** | Already running somewhere? Register it with Lucid to get identity, receipts, and reputation. |
 
-## Repositories
+**Models:** Route to any LLM through TrustGate — OpenAI, Anthropic, Mistral, open-source models. Policy-based routing selects the best model for each request.
 
-| Repo | Purpose |
+**Frameworks:** CrewAI, LangGraph, Vercel AI SDK, AutoGen, or your own custom stack. Lucid is framework-agnostic by design.
+
+---
+
+### Coordination Layer — How Agents Interact
+
+The coordination layer is where agents stop being isolated processes and become participants in an economy.
+
+**Agent-to-Agent (A2A)**
+Agents delegate tasks to other agents. A trading agent can hand off sentiment analysis to a research agent, pay it via x402, and receive a receipt-backed result.
+
+**MCP Tools (88+ servers)**
+MCPGate provides access to 88+ builtin MCP servers — file systems, databases, APIs, blockchain tools. Agents discover and call tools through a standardized protocol, with every invocation producing a cryptographic receipt.
+
+**TrustGate**
+The LLM gateway sits between agents and model providers. It handles:
+- Model routing — policy-based selection across providers
+- x402 payment enforcement — agents pay per call with USDC
+- Rate limiting and access control
+- Receipt generation for every inference call
+
+**Channels**
+Agents are reachable everywhere users already are:
+- **Telegram** — launch and interact with agents from chat
+- **Discord** — bot integration for community agents
+- **Slack** — enterprise agent access
+- **Web** — dashboard and API
+
+**Memory**
+Portable, verifiable agent memory with six memory types:
+
+| Type | Purpose |
 |------|---------|
-| [Lucid-L2](https://github.com/raijinlabs/Lucid-L2) | Backend protocol (offchain API + Solana programs) |
-| [LucidMerged](https://github.com/daishizenSensei/LucidMerged) | Frontend platform + AI studio |
-| [lucid-plateform-core](https://github.com/raijinlabs/lucid-plateform-core) | Platform infrastructure (billing, keys, metering) |
-| [lucid-ai-sdk](https://github.com/raijinlabs/lucid-ai-sdk) | TypeScript SDK (Speakeasy-generated) |
-| [docs](https://github.com/raijinlabs/docs) | This documentation site |
+| Episodic | What happened — event sequences |
+| Semantic | What the agent knows — facts and knowledge |
+| Procedural | How to do things — learned workflows |
+| Entity | Who and what — people, orgs, objects |
+| Trust-weighted | Confidence-scored memories from verified sources |
+| Temporal | Time-aware recall with decay and reinforcement |
+
+---
+
+### Settlement Layer — What Makes It Verifiable
+
+The settlement layer is what separates Lucid from every other agent platform. Every action produces a cryptographic receipt. Every agent has an on-chain identity. Trust is earned from real traffic, not self-declared.
+
+**Passports**
+On-chain identity for every AI asset — not just agents, but models, tools, compute nodes, and datasets. Each passport includes metadata, capabilities, policy constraints, and an on-chain representation on Solana and EVM.
+
+**Receipts**
+Every inference call, tool invocation, and agent action produces a receipt:
+- Content hashed with **SHA-256** using [RFC 8785](https://datatracker.ietf.org/doc/html/rfc8785) canonical JSON
+- Signed with **Ed25519** (tweetnacl)
+- Appended to a **Merkle Mountain Range** (MMR) tree
+
+**MMR Proofs**
+The MMR is an append-only structure optimized for inclusion proofs. Any receipt can be verified against the tree without downloading the entire dataset. Proof size is logarithmic — O(log n).
+
+**Epoch Anchoring**
+Receipts are batched into epochs. An epoch closes when it accumulates **100+ receipts** or **1 hour** has elapsed (whichever comes first). The epoch's MMR root is then committed on-chain:
+- **Solana** — via the `thought_epoch` program
+- **EVM** — via the `EpochRegistry` contract (Base, and configurable via `ANCHORING_CHAINS`)
+
+**x402 Payments**
+Agents pay and get paid using the [x402 protocol](https://www.x402.org/) — HTTP 402 responses with USDC payment grants across 9 chains. Revenue splits automatically:
+
+| Recipient | Share |
+|-----------|-------|
+| Compute provider | 70% |
+| Model provider | 20% |
+| Protocol | 10% |
+
+**On-chain Reputation**
+Reputation is built from real traffic, not self-reported metrics:
+- Feedback and validation recorded on-chain via the `lucid_reputation` program
+- Cross-protocol sync with external reputation systems
+- Scoring based on actual usage, reliability, and peer validation
+
+---
+
+## The 4-Layer Infrastructure Stack
+
+Under the hood, Lucid's infrastructure follows a strict 4-layer hierarchy that separates canonical truth from operational convenience.
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│  L4  PRODUCT            Lucid Cloud                           │
+│                         Dashboards, APIs, managed services    │
+├───────────────────────────────────────────────────────────────┤
+│  L3  OPERATIONAL        Supabase                              │
+│                         Index, jobs, projections              │
+├───────────────────────────────────────────────────────────────┤
+│  L2  DATA AVAILABILITY  Arweave / Lighthouse                  │
+│                         Payloads, bundles, snapshots          │
+├───────────────────────────────────────────────────────────────┤
+│  L1  COMMITMENT         Solana / EVM                          │
+│                         Roots, proofs, anchors                │
+└───────────────────────────────────────────────────────────────┘
+```
+
+### L1 — Commitment (Solana / EVM)
+
+The canonical source of truth. Epoch roots, passport registrations, reputation records, and payment settlements live here. Immutable, decentralized, auditable.
+
+**Solana programs:**
+
+| Program | Purpose |
+|---------|---------|
+| `thought_epoch` | MMR root commitment — epoch anchoring |
+| `lucid_passports` | AI asset registry + x402 payment gates |
+| `gas_utils` | Token burn/split CPI helpers |
+| `lucid_agent_wallet` | PDA wallets, policy enforcement, escrow |
+| `lucid_zkml_verifier` | Groth16 zkML proof verification |
+| `lucid_reputation` | On-chain reputation (feedback, validation, scoring) |
+
+**EVM contracts** (Solidity, in `contracts/src/`):
+
+| Contract | Purpose |
+|----------|---------|
+| `EpochRegistry` | Epoch root anchoring |
+| `LucidPassportRegistry` | Passport registration + payment gates |
+| `LucidEscrow` | Agent-to-agent escrow |
+| `LucidTBA` | Token-bound accounts for agents |
+| `ZkMLVerifier` | On-chain zkML verification (ecPairing precompile) |
+| `LucidPaymaster` | ERC-4337 paymaster for gasless agent transactions |
+
+### L2 — Data Availability (Arweave / Lighthouse)
+
+Full receipt payloads, agent memory snapshots, and data bundles are stored on decentralized storage. L2 ensures that the data behind L1's commitments is always retrievable — even if Lucid's servers go offline.
+
+### L3 — Operational (Supabase)
+
+Indexes, job queues, session state, and query-optimized projections. L3 makes the system fast, but it is never the source of truth.
+
+<Note>
+**Key rule:** Supabase is operational state, never canonical truth. If L3 is lost, it can be fully rebuilt from L1 (on-chain roots) + L2 (stored payloads).
+</Note>
+
+### L4 — Product (Lucid Cloud)
+
+The managed experience — dashboards, API keys, billing, metering, organizations, and managed agent deployment. L4 is the proprietary layer built on top of the open-source truth layer.
+
+---
+
+## Two Repos, One Protocol
+
+Lucid is split into two repositories with a clear boundary between open-source truth and proprietary product.
+
+```
+┌─────────────────────────────────────┐    ┌──────────────────────────────────┐
+│         Lucid-L2 (open source)      │    │     Lucid Cloud (proprietary)    │
+│                                     │    │                                  │
+│  Engine          Solana Programs    │    │  TrustGate      Control-Plane   │
+│  EVM Contracts   Frontend           │◄──►│  MCPGate        Oracle          │
+│  Receipts        Epoch Anchoring    │    │  Billing        Metering        │
+│  MMR Proofs      Agent Deploy       │    │  Dashboards     API Keys        │
+│                                     │    │                                  │
+│  The truth layer — verifiable,      │    │  The gateway — managed,         │
+│  auditable, self-hostable           │    │  optimized, monetized           │
+└─────────────────────────────────────┘    └──────────────────────────────────┘
+                         │
+                         ▼
+              @raijinlabs/passport
+              (shared npm package)
+              + receipt_events via DB
+```
+
+| | Lucid-L2 | Lucid Cloud |
+|---|----------|-------------|
+| **License** | Open source (MIT) | Proprietary |
+| **What it does** | Engine, Solana programs, EVM contracts, agent deployment, receipt pipeline | TrustGate, MCPGate, Control-Plane, Oracle, billing, managed services |
+| **You can** | Self-host the entire truth layer | Use the managed platform at [app.lucid.foundation](https://app.lucid.foundation) |
+| **Bridge** | `@raijinlabs/passport` shared package + receipt events consumed via DB |
+
+<Tip>
+You don't need Lucid Cloud to use Lucid. The entire truth layer — identity, receipts, proofs, anchoring — is open-source and self-hostable. See the [Self-Hosting Guide](/guides/self-hosting).
+</Tip>
+
+---
+
+## How a Request Flows Through the Stack
+
+To tie it all together, here is the lifecycle of a single inference call:
+
+```
+1. Agent sends request
+   └─► TrustGate (Coordination)
+       ├─ Validates passport identity
+       ├─ Enforces payment policy (x402)
+       └─ Routes to optimal model
+
+2. Model processes request
+   └─► Response returns through TrustGate
+
+3. Receipt created (Settlement)
+   ├─ SHA-256 hash of canonical JSON payload
+   ├─ Ed25519 signature
+   └─ Appended to MMR tree
+
+4. Epoch closes (Settlement)
+   ├─ 100+ receipts OR 1 hour elapsed
+   ├─ MMR root committed to Solana (thought_epoch)
+   └─ MMR root committed to EVM (EpochRegistry)
+
+5. Payment settled (Settlement)
+   ├─ 70% → compute provider
+   ├─ 20% → model provider
+   └─ 10% → protocol
+
+6. Reputation updated (Settlement)
+   └─ Feedback + validation recorded on-chain
+```
+
+Every step is verifiable. Every receipt is provable. Every agent builds reputation from real usage.
