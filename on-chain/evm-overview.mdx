@@ -1,6 +1,25 @@
 ---
 title: "EVM Contracts"
-description: "10 Solidity contracts on Base and Ethereum"
+description: "10 Solidity contracts for epoch commitment, passports, escrow, wallets, and zkML on Base and Ethereum"
 ---
 
-Coming soon.
+Lucid deploys 10 EVM contracts that mirror the Solana programs:
+
+| Contract | Purpose |
+|----------|---------|
+| `EpochRegistry` | Epoch commitment (mirrors thought_epoch) |
+| `LucidPassportRegistry` | Passport registry + payment gates |
+| `LucidEscrow` | Escrow lifecycle (create/release/timeout/dispute) |
+| `LucidTBA` | ERC-6551 Token Bound Accounts for agent wallets |
+| `ZkMLVerifier` | Groth16 verification via ecPairing precompile |
+| `LucidPaymaster` | ERC-4337 gas sponsorship |
+| `LucidPolicyModule` | ERC-7579 policy enforcement |
+| `LucidPayoutModule` | ERC-7579 revenue splitting |
+| `LucidReceiptModule` | ERC-7579 receipt tracking |
+| `LucidSessionManager` | Session key management |
+
+Contracts are written in Solidity and target Base and Ethereum networks.
+
+## Chain Parity
+
+Both Solana and EVM implementations provide equivalent functionality. The key difference is architectural: Solana uses PDAs + Anchor constraints, while EVM uses TBAs + ERC-7579 installable modules.

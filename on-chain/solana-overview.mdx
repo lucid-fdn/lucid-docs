@@ -1,6 +1,31 @@
 ---
 title: "Solana Programs"
-description: "6 Anchor programs on Solana devnet"
+description: "6 Anchor programs deployed on Solana devnet — identity, epochs, wallets, reputation, gas, and zkML verification"
 ---
 
-Coming soon.
+Lucid deploys 6 Solana programs that form the on-chain truth layer:
+
+| Program | Devnet ID | Purpose |
+|---------|-----------|---------|
+| `thought_epoch` | `8QXiFjguJT4PLVzH6BYNMHXZ3eLRaoF8cwx23EBc44Q6` | MMR root commitment (single/batch/v2) |
+| `lucid_passports` | `38yaXUezrbLyLDnAQ5jqFXPiFurr8qhw19gYnE6H9VsW` | AI asset registry + x402 payment gating |
+| `gas_utils` | `EzuUhxtNAz1eRfAPypm6eAepe8fRQBrBPSo4Qcp1w3hm` | Token burn/split CPI |
+| `lucid_agent_wallet` | `AJGpTWXbhvdYMxSah6GAKzykvfkYo2ViQpWGMbimQsph` | PDA wallets, policy, escrow, splits, sessions |
+| `lucid_zkml_verifier` | `69cJRFGWijD1FdapQ2vz7VP6x2jcXRQyBws9VzzPpqAN` | Groth16 zkML proof verification |
+| `lucid_reputation` | `4FWEH1XQb7p1pU9r8Ap8xomDYVxdSdwk6fFT8XD63G3A` | On-chain reputation (feedback, validation) |
+
+All programs are built with [Anchor](https://www.anchor-lang.com/) and deployed to **Solana devnet**.
+
+## Authority
+
+Programs are controlled by a single authority keypair. In production, this will transition to a multisig or DAO governance.
+
+## Verification
+
+Every epoch root committed by `thought_epoch` can be independently verified:
+
+```bash
+curl https://api.lucid.foundation/v1/epochs/{epoch_id}/verify
+```
+
+This checks the on-chain PDA against the off-chain MMR root.
