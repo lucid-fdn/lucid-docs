@@ -59,6 +59,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install docs validation dependencies
+        run: python -m pip install openapi-spec-validator pyyaml
+
       - name: Rebuild public source docs
         run: python scripts/rebuild-public-sources.py
       
@@ -67,6 +70,9 @@ jobs:
 
       - name: Validate docs
         run: python scripts/validate-docs.py
+
+      - name: Validate local OpenAPI
+        run: python scripts/validate-openapi.py
 
       - name: Remove source checkouts
         run: rm -rf .sources
