@@ -54,7 +54,7 @@
       "id": "lucid-wiki",
       "publicSafe": true,
       "repo": "lucid-fdn/lucid-wiki",
-      "root": "/Users/quentinbrosseau/Documents/Codex/2026-05-01/do-a-deep-analysis-of-code/lucid-wiki",
+      "root": "/home/runner/work/lucid-docs/lucid-docs/.sources/lucid-wiki",
       "skipped": [
         {
           "reason": "excluded",
@@ -101,7 +101,7 @@
       "id": "lucid-l2-modules",
       "publicSafe": true,
       "repo": "lucid-fdn/Lucid-L2",
-      "root": "/Users/quentinbrosseau/Documents/Codex/2026-05-01/do-a-deep-analysis-of-code/Lucid-L2",
+      "root": "/home/runner/work/lucid-docs/lucid-docs/.sources/Lucid-L2",
       "skipped": [],
       "visibility": "public"
     },
@@ -135,7 +135,7 @@
       "id": "lucid-cloud-gateway-sdk",
       "publicSafe": true,
       "repo": "lucid-fdn/lucid-cloud",
-      "root": "/Users/quentinbrosseau/Documents/Codex/2026-05-01/do-a-deep-analysis-of-code/lucid-cloud",
+      "root": "/home/runner/work/lucid-docs/lucid-docs/.sources/lucid-cloud",
       "skipped": [],
       "visibility": "private"
     },
@@ -146,7 +146,7 @@
       "id": "lucid-cloud-internal-inventory",
       "publicSafe": false,
       "repo": "lucid-fdn/lucid-cloud",
-      "root": "/Users/quentinbrosseau/Documents/Codex/2026-05-01/do-a-deep-analysis-of-code/lucid-cloud",
+      "root": "/home/runner/work/lucid-docs/lucid-docs/.sources/lucid-cloud",
       "skipped": [
         {
           "reason": "private-default",

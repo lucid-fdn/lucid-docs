@@ -13,13 +13,13 @@
       "title": "Glossary"
     },
     {
-      "content_sha256": "48f0f6f38b51df7f0e2431e17a9dcf422ea4e13d39565456903ae7c27f00a43c",
+      "content_sha256": "173fd79c8524f43a981cb4aab9b1c8703b4023009ca5e1b42c060f121abc83d2",
       "description": "Build & Operate on the Internet of AI. Enterprise-grade.",
       "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai",
       "source_id": "lucid-wiki",
       "source_path": "lucid-ai/architecture-what-is-lucid-ai/README.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "f4de735d0b379b18cd42d2dadb69526712b9a6fb867df59ada893cd4499b1c44",
+      "source_sha256": "2215252a9ab83bbcbdb5697976dce08c637622c935ebe4f7900c082899af13fc",
       "title": "Architecture \u2014 What is Lucid AI"
     },
     {
@@ -43,13 +43,13 @@
       "title": "App Lab"
     },
     {
-      "content_sha256": "1ac226c5081fd95a454641898497af02fe6d395a95f919bf9b4d37e9fae7f5d4",
+      "content_sha256": "57bb122b0f56ef1037aa432b398c14608291d1cc885cd77dc7cc5331c16b616e",
       "description": "Visual logic for the Internet of AI. Build, connect, and prove \u2014 with Synapse.",
       "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/build-with-synapse-visual-builder",
       "source_id": "lucid-wiki",
       "source_path": "lucid-ai/architecture-what-is-lucid-ai/build-with-synapse-visual-builder.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "1bdf356de7372e828f250162a53da86534ec4ebf939fbae6dd24551296966416",
+      "source_sha256": "034305e09c5550bb51d7025c65d8c3810fb81b659a508a1577973c7074999ead",
       "title": "Build with Synapse (Visual Builder)"
     },
     {
@@ -143,13 +143,13 @@
       "title": "On-Chain Options (Opt-In)"
     },
     {
-      "content_sha256": "b81d95644ae3de2b410d913393a9cbecc978575f88ef78c856a95a0569d118f9",
+      "content_sha256": "2cefe57a81f3cf9334e8bb996efb91d380e41de83a71e35423e10db9fc181980",
       "description": "Type your idea. Watch it come alive. Powered by Synapse.",
       "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/start-with-a-prompt-one-click",
       "source_id": "lucid-wiki",
       "source_path": "lucid-ai/architecture-what-is-lucid-ai/start-with-a-prompt-one-click.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "d50640c4b00fd699dab392e68c1577c77f8a4e1976576ff72d97925c2c366e65",
+      "source_sha256": "177508ba99373472c2b23060089033b15eabbf0a04ff880951669cfde7c84815",
       "title": "Start with a Prompt (one-click)"
     },
     {
@@ -273,23 +273,23 @@
       "title": "Security, Privacy & Compliance"
     },
     {
-      "content_sha256": "5617350909d1418f0b20ae73e27ea805c46926a464ca2ea847324fd9bd4d5f29",
+      "content_sha256": "87ab7ae05ac72f770dd11bb882d4442dae716a7b5c2940bd43f634d8cd994a4d",
       "description": "Verifiable AI at Enterprise Scale. Turns DePIN Into Enterprise-grade.",
       "page_path": "knowledge/lucid-ai/trustgate-managed-inference-and-depins-orchestration",
       "source_id": "lucid-wiki",
       "source_path": "lucid-ai/trustgate-managed-inference-and-depins-orchestration.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "3b71bfa6c222d956cef15b586c2547febc541acac008eeacd4f573c63f572f3b",
+      "source_sha256": "fca18c103c17ee2c758679e3fccbf18f4fe3150bffdedc42fddeaaf31f4feb4b",
       "title": "TrustGate - Managed Inference & DePINs orchestration"
     },
     {
-      "content_sha256": "f44352d7d019b5e40dcd2bda159ad7b6274866623294235256a434da47c92986",
+      "content_sha256": "55ca7788b61a58ffd4e586e46cfd9ff9ef95d8bea84c1841ede98005d5c550e2",
       "description": "A no\u2011jargon look at how Lucid powers the Internet of AI.",
       "page_path": "knowledge/lucid-chain/architecture-how-lucid-works",
       "source_id": "lucid-wiki",
       "source_path": "lucid-chain/architecture-how-lucid-works/README.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "d146e6d033e50fd6a48eea11b3f3bc19125f25cae134a915f43cd963df9b8850",
+      "source_sha256": "c156be9eedd4b499a58f6da981fb41c4e5fe3bb1f77875721ba8fb0aa40d5387",
       "title": "Architecture \u2014 How Lucid Works"
     },
     {
@@ -303,13 +303,13 @@
       "title": "Lucid Browser Extension"
     },
     {
-      "content_sha256": "3ee5e87801fa73e9386841817aff07adf09a73356c202176cd6f643b59ca70fd",
+      "content_sha256": "d11a61741b5912061c3145f8073431bf96777f367fbf25f0b7f811135d9c100b",
       "description": ">-",
       "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/dual-gas-economics",
       "source_id": "lucid-wiki",
       "source_path": "lucid-chain/architecture-how-lucid-works/dual-gas-economics.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "107599d1c55e0c317c3394c901d996bd2b11514eca2c3b7e3cc391dfe6ad1417",
+      "source_sha256": "a9812b8351ca1e6ddd39a4f7a8c4ca1452e0b5845b53d54beeace9dfa0b96802",
       "title": "Dual\u2011Gas Economics"
     },
     {
@@ -393,13 +393,13 @@
       "title": "Thought Epochs\u2014 Verifiable Proofs of AI Activity"
     },
     {
-      "content_sha256": "ea44ac820a3b8a36c020105732daaab64deda6e68e1c3bae0d35846357a4aae5",
+      "content_sha256": "7e0e17145cb8eddf5676a85bcb5877ff85339c7b7fb14c1a4d7987f24bc3d837",
       "description": ">-",
       "page_path": "knowledge/lucid-chain/competition-landscape-where-lucid-fits-and-why-its-a-must-have",
       "source_id": "lucid-wiki",
       "source_path": "lucid-chain/competition-landscape-where-lucid-fits-and-why-its-a-must-have.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "417abb2100cb8f073adebc51acfdb8b771b3d3fabd73993ba673d87c5509f082",
+      "source_sha256": "53682a68873e917af2562a7ec5aa33c1ff657fed60d0088e25eef46cae4d8af8",
       "title": "Competition Landscape \u2013 Where Lucid Fits (and Why It\u2019s a Must-Have)"
     },
     {
@@ -433,33 +433,33 @@
       "title": "Tokenomics & Incentives \u2013 Fueling the Lucid Ecosystem"
     },
     {
-      "content_sha256": "c5e5d4d65315f6a28dfd3f2544b339e94b4e5d04c031d02e23ea475739d95b8a",
+      "content_sha256": "9774c9d518f88330a292770a0f2eb04f0f1d2c4b99c90e636d6459d3dae7a540",
       "description": "Lucid connects the Internet of AIs with the tools to build on it.",
       "page_path": "knowledge/lucid-in-one-breath/two-products-one-ecosystem",
       "source_id": "lucid-wiki",
       "source_path": "lucid-in-one-breath/two-products-one-ecosystem.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "bae9a17ab5ecd08e534cad2c1ed4d5a231a6a139b49738c0470b3070847d6e17",
+      "source_sha256": "7e00984e40cc172e28a377886a9f03d6b5fbc266f23d8fce2671ce2fe66a6003",
       "title": "Two Products, One Ecosystem"
     },
     {
-      "content_sha256": "45d5b7d759aa1e757af7d3c39e80d2fc96fb0a9ed166022c418bfe730a7b1e1e",
+      "content_sha256": "bca7b73fd0b8c2dc4f8b74b2875a10af55fd433d84ccf0eccaa132e955516fdd",
       "description": "Symbiotic Web. The living interface between humans and machines.",
       "page_path": "knowledge/lucid-in-one-breath/what-is-web4",
       "source_id": "lucid-wiki",
       "source_path": "lucid-in-one-breath/what-is-web4.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "7b89272ea11241bd7dbae4e552a8eb9cce390fe1818b70ac26b1c680913d8124",
+      "source_sha256": "0c0d4975805127633c42f6e337aa1435ff626d578a984aa55a0809b5a2d17bc8",
       "title": "What is Web4"
     },
     {
-      "content_sha256": "6e22acd7b4794a7fc44d4edb0bb45058898f3439bb8725c32af262217861914b",
+      "content_sha256": "aed4dacce24cb6a8f5ccf11c1e796a0bfcdd40f67509ac4998746304893ce170",
       "description": "Web2 Speed \u00b7 Web3 Trust \u00b7 Web4 Intelligence",
       "page_path": "knowledge/overview",
       "source_id": "lucid-wiki",
       "source_path": "README.md",
       "source_repo": "lucid-fdn/lucid-wiki",
-      "source_sha256": "2ef77cc8d4101090457df9ec67bb462357323a7e744359c6892eec5ab118a0ed",
+      "source_sha256": "8631e263b89edcb6428ad7cc677be1d5ab023cf48cbd3d8ecdd8df0f428c6335",
       "title": "The Internet of AI (IoAI)"
     },
     {
