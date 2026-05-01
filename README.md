@@ -1,43 +1,36 @@
-# Mintlify Starter Kit
+# Lucid Docs
 
-Use the starter kit to get your docs deployed and ready to customize.
+Public Mintlify documentation for Lucid.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## Local Preview
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+Install the Mintlify CLI, then run the docs site from this repository root:
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
+```bash
 npm i -g mint
-```
-
-Run the following command at the root of your documentation, where your `docs.json` is located:
-
-```
 mint dev
 ```
 
-View your local preview at `http://localhost:3000`.
+## SDK Documentation Sync
 
-## Publishing changes
+SDK pages are generated from the current Speakeasy TypeScript SDK docs in
+[`lucid-fdn/lucid-ai-sdk`](https://github.com/lucid-fdn/lucid-ai-sdk).
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+Regenerate locally:
 
-## Need help?
+```bash
+python scripts/rebuild-sdk-docs.py
+python scripts/validate-docs.py
+```
 
-### Troubleshooting
+The GitHub Actions workflow `.github/workflows/sync-sdk-docs.yml` runs the same
+sync every 6 hours, can be triggered manually, and also accepts
+`repository_dispatch` events from the SDK repo.
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+## API Reference
 
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+Mintlify generates the endpoint reference from:
+
+```text
+https://raw.githubusercontent.com/lucid-fdn/lucid-ai-sdk/main/openapi-with-code-samples.yaml
+```
