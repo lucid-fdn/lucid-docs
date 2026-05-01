@@ -389,6 +389,8 @@ def update_docs_json(namespaces: list[str]) -> None:
     path = DOCS_ROOT / "docs.json"
     docs_json = json.loads(path.read_text(encoding="utf-8"))
     namespace_pages = [f"sdks/namespaces/{namespace}" for namespace in namespaces]
+    docs_json.setdefault("api", {})["openapi"] = "/openapi-spec.yaml"
+    docs_json.setdefault("api", {})["baseUrl"] = "https://api.lucid.foundation"
 
     for tab in docs_json.get("navigation", {}).get("tabs", []):
         if tab.get("tab") != "API & SDK":

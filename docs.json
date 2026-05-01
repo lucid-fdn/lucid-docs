@@ -445,6 +445,7 @@
     "family": "Montserrat"
   },
   "api": {
-    "baseUrl": "https://api.lucid.foundation"
+    "baseUrl": "https://api.lucid.foundation",
+    "openapi": "/openapi-spec.yaml"
   }
 }
