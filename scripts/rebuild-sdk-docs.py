@@ -395,7 +395,7 @@ def update_docs_json(namespaces: list[str]) -> None:
             continue
         for group in tab.get("groups", []):
             if group.get("group") == "API Endpoints":
-                group["openapi"] = "openapi-spec.yaml"
+                group["openapi"] = "/openapi-spec.yaml"
             if group.get("group") == "SDKs":
                 group["pages"] = ["sdks/typescript", "sdks/examples", "sdks/reference"]
 

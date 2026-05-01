@@ -146,7 +146,7 @@
           },
           {
             "group": "API Endpoints",
-            "openapi": "openapi-spec.yaml"
+            "openapi": "/openapi-spec.yaml"
           },
           {
             "group": "SDKs",
