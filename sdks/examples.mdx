@@ -1,199 +1,87 @@
 ---
-title: "Examples"
-description: "Code examples for common Lucid operations"
+title: "SDK Examples"
+description: "Generated examples for common Lucid SDK usage."
 ---
 
-Practical examples using the `@lucid-fdn/sdk` TypeScript SDK and the REST API.
+# SDK Examples
 
-## Install the SDK
+These examples are rebuilt from the current generated TypeScript SDK docs.
 
-```bash
-npm install @lucid-fdn/sdk
-```
-
-## Create a Passport
-
-Register an AI model in the Lucid network:
+## Inference Example
 
 ```typescript
-import { LucidSDK } from '@lucid-fdn/sdk';
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
 
-const sdk = new LucidSDK({
-  apiKey: 'lk_your_api_key',
-  baseUrl: 'https://api.lucid.foundation',
-});
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
 
-const passport = await sdk.passports.create({
-  type: 'model',
-  slug: 'my-custom-model-v1',
-  version: { major: 1, minor: 0, patch: 0 },
-  metadata: {
-    format: 'safetensors',
-    parameters: '7B',
-    context_length: 32768,
-    license: 'Apache-2.0',
-  },
-});
+async function run() {
+  const result = await raijinLabsLucidAi.run.chatCompletions({
+    body: {
+      model: "mistral-7b-instruct",
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful AI assistant.",
+        },
+        {
+          role: "user",
+          content: "Explain how MMR proofs work in one paragraph.",
+        },
+      ],
+      maxTokens: 256,
+      temperature: 0.7,
+    },
+  });
 
-console.log('Passport ID:', passport.id);
+  console.log(result);
+}
+
+run();
 ```
 
-With curl:
+## Standalone Function Example
 
-```bash
-curl -X POST https://api.lucid.foundation/v1/passports \
-  -H "Authorization: Bearer lk_your_api_key" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "type": "model",
-    "slug": "my-custom-model-v1",
-    "version": { "major": 1, "minor": 0, "patch": 0 },
-    "metadata": {
-      "format": "safetensors",
-      "parameters": "7B",
-      "context_length": 32768,
-      "license": "Apache-2.0"
-    }
-  }'
-```
-
-## Run Inference
-
-Use the OpenAI-compatible endpoint:
+Standalone functions are useful for browser, edge, and serverless bundles where tree-shaking matters.
 
 ```typescript
-const response = await sdk.inference.chat({
-  model: 'openai/gpt-4o',
-  messages: [
-    { role: 'system', content: 'You are a helpful assistant.' },
-    { role: 'user', content: 'Explain zero-knowledge proofs in one paragraph.' },
-  ],
-});
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { runChatCompletions } from "raijin-labs-lucid-ai/funcs/runChatCompletions.js";
 
-console.log(response.choices[0].message.content);
-```
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
 
-With curl:
-
-```bash
-curl -X POST https://api.lucid.foundation/v1/chat/completions \
-  -H "Authorization: Bearer lk_your_api_key" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "openai/gpt-4o",
-    "messages": [
-      {"role": "user", "content": "Explain zero-knowledge proofs in one paragraph."}
-    ]
-  }'
-```
-
-## High-Level Agent (Auto-Receipts)
-
-The `LucidAgent` class wraps inference with automatic receipt creation:
-
-```typescript
-import { LucidAgent } from '@lucid-fdn/sdk';
-
-// Reads LUCID_API_URL, LUCID_PASSPORT_ID, PROVIDER_URL from env
-const agent = new LucidAgent({ apiKey: 'lk_your_api_key' });
-
-const result = await agent.run({
-  model: 'openai/gpt-4o',
-  prompt: 'Analyze market trends for Q1 2026',
-});
-
-// Receipt was created automatically (fire-and-forget)
-console.log(result);
-```
-
-## Verify a Receipt
-
-Check that a receipt is included in an anchored epoch:
-
-```typescript
-const verification = await sdk.receipts.verify(receiptId);
-
-console.log('Valid:', verification.valid);
-console.log('Epoch:', verification.epochId);
-console.log('On-chain root:', verification.merkleRoot);
-```
-
-With curl:
-
-```bash
-curl -X POST https://api.lucid.foundation/v1/receipts/receipt_abc123/verify \
-  -H "Authorization: Bearer lk_your_api_key"
-```
-
-## Submit Reputation Feedback
-
-Rate an AI asset after interacting with it:
-
-```typescript
-await sdk.reputation.submitFeedback({
-  passportId: 'agent-abc123',
-  score: 90,
-  category: 'accuracy',
-  receiptHash: '0xabc...',
-  assetType: 'agent',
-});
-```
-
-## Launch an Agent
-
-Deploy an agent programmatically:
-
-```typescript
-const launch = await sdk.agentLaunch.launch({
-  image: 'ghcr.io/myorg/my-agent:latest',
-  target: 'railway',
-  env: {
-    LUCID_MODEL: 'openai/gpt-4o',
-    LUCID_PROMPT: 'You are a helpful assistant',
-  },
-});
-
-console.log('Passport ID:', launch.passportId);
-console.log('Status:', launch.status);
-```
-
-## Query Anchoring Records
-
-Look up DePIN anchoring records:
-
-```bash
-# By agent passport
-curl "https://api.lucid.foundation/v1/anchors?agent_passport_id=abc123" \
-  -H "Authorization: Bearer lk_your_api_key"
-
-# Verify a CID still exists on the storage provider
-curl -X POST "https://api.lucid.foundation/v1/anchors/anchor_id/verify" \
-  -H "Authorization: Bearer lk_your_api_key"
-
-# Walk the lineage chain (parent references)
-curl "https://api.lucid.foundation/v1/anchors/anchor_id/lineage" \
-  -H "Authorization: Bearer lk_your_api_key"
-```
-
-## Auto-Pay with @lucid-fdn/pay
-
-Drop-in `fetch()` replacement that handles x402 payment flows automatically:
-
-```typescript
-import { payFetch } from '@lucid-fdn/pay';
-
-const response = await payFetch(
-  'https://api.provider.com/v1/chat/completions',
-  {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'gpt-4o',
-      messages: [{ role: 'user', content: 'Hello' }],
-    }),
+async function run() {
+  const res = await runChatCompletions(raijinLabsLucidAi, {
+    body: {
+      model: "mistral-7b-instruct",
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful AI assistant.",
+        },
+        {
+          role: "user",
+          content: "Explain how MMR proofs work in one paragraph.",
+        },
+      ],
+      maxTokens: 256,
+      temperature: 0.7,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("runChatCompletions failed:", res.error);
   }
-);
+}
 
-// 402 payment was handled transparently
-const data = await response.json();
+run();
 ```
+
+## More Examples
+
+- [Full TypeScript SDK overview](/sdks/typescript)
+- [Namespace reference](/sdks/reference)
+- [Generated SDK source](https://github.com/lucid-fdn/lucid-ai-sdk/tree/main/typescript)

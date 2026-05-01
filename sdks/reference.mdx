@@ -1,50 +1,36 @@
 ---
-title: "TypeScript SDK"
-description: "Install and use the generated TypeScript SDK for the LucidLayer API."
+title: "SDK Reference"
+description: "Generated namespace index for the Lucid TypeScript SDK."
 ---
 
-# TypeScript SDK
+# SDK Reference
 
-LucidLayer API: LucidLayer Offchain API.
+This page is generated from the current Speakeasy SDK docs in `lucid-fdn/lucid-ai-sdk`.
 
-Route groups:
-- `/v1/*` — Passports, Match, Run, Receipts, Epochs, Payouts, Compute
-- `/health/*` — System health and dependency checks
-- `/api/agents/*` — AI Agent MMR, Planner, and Orchestrator
+## Summary
 
-## Installation
+- Namespaces: `33`
+- Operations: `185`
+- Package: `raijin-labs-lucid-ai`
+- API base URL: `https://api.lucid.foundation`
 
-```bash
-npm install raijin-labs-lucid-ai
-```
+## Common Namespaces
 
-## Quick Start
+- [`sdk.passports`](/sdks/namespaces/passports)
+- [`sdk.match`](/sdks/namespaces/match)
+- [`sdk.run`](/sdks/namespaces/run)
+- [`sdk.receipts`](/sdks/namespaces/receipts)
+- [`sdk.epochs`](/sdks/namespaces/epochs)
+- [`sdk.payouts`](/sdks/namespaces/payouts)
+- [`sdk.compute`](/sdks/namespaces/compute)
+- [`sdk.health`](/sdks/namespaces/health)
+- [`sdk.agents`](/sdks/namespaces/agents)
+- [`sdk.deploy`](/sdks/namespaces/deploy)
+- [`sdk.memory`](/sdks/namespaces/memory)
+- [`sdk.payments`](/sdks/namespaces/payments)
+- [`sdk.webhooks`](/sdks/namespaces/webhooks)
 
-```typescript
-import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
-
-const sdk = new RaijinLabsLucidAi({
-  serverURL: "https://api.lucid.foundation",
-});
-
-// Check system health
-const health = await sdk.health.checkSystemHealth();
-console.log("Status:", health.status);
-```
-
-## Authentication
-
-```typescript
-import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
-
-const sdk = new RaijinLabsLucidAi({
-  serverURL: "https://api.lucid.foundation",
-  // Add API key auth when the endpoint requires it.
-  // security: { bearerAuth: process.env.LUCID_API_KEY },
-});
-```
-
-## Namespaces
+## All Namespaces
 
 | Namespace | Description | Operations |
 | --- | --- | ---: |
@@ -81,58 +67,3 @@ const sdk = new RaijinLabsLucidAi({
 | [`sdk.wallet`](/sdks/namespaces/wallet) | Wallet and account helpers. | 4 |
 | [`sdk.webhooks`](/sdks/namespaces/webhooks) | Deployment webhook receivers — normalizes provider-specific callbacks into deployment events | 1 |
 | [`sdk.zkml`](/sdks/namespaces/zkml) | Zero-knowledge ML — prove inference, verify proofs, register models on-chain | 4 |
-
-## Supported Runtimes
-
-This SDK is intended to be used in JavaScript runtimes that support ECMAScript 2020 or newer. The SDK uses the following features:
-
-- [Web Fetch API][web-fetch]
-- [Web Streams API][web-streams] and in particular `ReadableStream`
-- [Async iterables][async-iter] using `Symbol.asyncIterator`
-
-[web-fetch]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-[web-streams]: https://developer.mozilla.org/en-US/docs/Web/API/Streams_API
-[async-iter]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_async_iterator_and_async_iterable_protocols
-
-Runtime environments that are explicitly supported are:
-
-- Evergreen browsers which include: Chrome, Safari, Edge, Firefox
-- Node.js active and maintenance LTS releases
-  - Currently, this is v18 and v20
-- Bun v1 and above
-- Deno v1.39
-  - Note that Deno does not currently have native support for streaming file uploads backed by the filesystem ([issue link][deno-file-streaming])
-
-[deno-file-streaming]: https://github.com/denoland/deno/issues/11018
-
-## Recommended TypeScript compiler options
-
-The following `tsconfig.json` options are recommended for projects using this
-SDK in order to get static type support for features like async iterables,
-streams and `fetch`-related APIs ([`for await...of`][for-await-of],
-[`AbortSignal`][abort-signal], [`Request`][request], [`Response`][response] and
-so on):
-
-[for-await-of]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of
-[abort-signal]: https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal
-[request]: https://developer.mozilla.org/en-US/docs/Web/API/Request
-[response]: https://developer.mozilla.org/en-US/docs/Web/API/Response
-
-```jsonc
-{
-  "compilerOptions": {
-    "target": "es2020", // or higher
-    "lib": ["es2020", "dom", "dom.iterable"]
-  }
-}
-```
-
-While `target` can be set to older ECMAScript versions, it may result in extra,
-unnecessary compatibility code being generated if you are not targeting old
-runtimes.
-
-## Source
-
-- [SDK repository](https://github.com/lucid-fdn/lucid-ai-sdk/tree/main/typescript)
-- [npm package](https://www.npmjs.com/package/raijin-labs-lucid-ai)
-- [OpenAPI with code samples](https://raw.githubusercontent.com/lucid-fdn/lucid-ai-sdk/main/openapi-with-code-samples.yaml)

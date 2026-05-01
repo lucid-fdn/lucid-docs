@@ -1,0 +1,884 @@
+---
+title: "Epochs SDK"
+description: "Epoch lifecycle — creation, finalization, on-chain anchoring, and retry"
+---
+
+# Epochs SDK
+
+Epoch lifecycle — creation, finalization, on-chain anchoring, and retry
+
+## Operations
+
+| Method | Description |
+| --- | --- |
+| `getCurrent` | Get current epoch |
+| `list` | List epochs |
+| `create` | Create epoch |
+| `get` | Get epoch |
+| `retry` | Retry failed epoch |
+| `verify` | Verify epoch anchor |
+| `getTransaction` | Get epoch anchoring transaction |
+| `commitRoot` | Commit epoch root |
+| `commitRootsBatch` | Commit multiple epoch roots |
+| `getAnchoringHealth` | Anchoring service health |
+| `listReady` | Get epochs ready for finalization |
+| `getStats` | Epoch statistics |
+
+## Generated Reference
+
+### Overview
+
+Epoch lifecycle — creation, finalization, on-chain anchoring, and retry
+
+#### Available Operations
+
+* [getCurrent](#getcurrent) - Get current epoch
+* [list](#list) - List epochs
+* [create](#create) - Create epoch
+* [get](#get) - Get epoch
+* [retry](#retry) - Retry failed epoch
+* [verify](#verify) - Verify epoch anchor
+* [getTransaction](#gettransaction) - Get epoch anchoring transaction
+* [commitRoot](#commitroot) - Commit epoch root
+* [commitRootsBatch](#commitrootsbatch) - Commit multiple epoch roots
+* [getAnchoringHealth](#getanchoringhealth) - Anchoring service health
+* [listReady](#listready) - Get epochs ready for finalization
+* [getStats](#getstats) - Epoch statistics
+
+### getCurrent
+
+Retrieve the current open epoch, optionally filtered by project_id. Returns epoch metadata including MMR root, leaf count, status, and timestamps.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.getCurrent();
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsGetCurrent } from "raijin-labs-lucid-ai/funcs/epochsGetCurrent.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsGetCurrent(raijinLabsLucidAi);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsGetCurrent failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidGetCurrentEpochRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidgetcurrentepochrequest.md)                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidGetCurrentEpochResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidgetcurrentepochresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### list
+
+Retrieve a paginated list of epochs with optional filtering by project_id and status (open, anchoring, anchored, failed). Defaults to page 1, 20 results per page.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.list();
+
+  for await (const page of result) {
+    console.log(page);
+  }
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsList } from "raijin-labs-lucid-ai/funcs/epochsList.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsList(raijinLabsLucidAi);
+  if (res.ok) {
+    const { value: result } = res;
+    for await (const page of result) {
+    console.log(page);
+  }
+  } else {
+    console.log("epochsList failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidListEpochsRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidlistepochsrequest.md)                                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidListEpochsResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidlistepochsresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### create
+
+Create a new epoch, optionally scoped to a project_id. The epoch starts in 'open' status with an empty MMR root and zero leaf count.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.create({
+    projectId: "proj_lucid_main",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsCreate } from "raijin-labs-lucid-ai/funcs/epochsCreate.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsCreate(raijinLabsLucidAi, {
+    projectId: "proj_lucid_main",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidCreateEpochRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidcreateepochrequest.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidCreateEpochResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidcreateepochresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### get
+
+Retrieve a single epoch by its epoch_id, including the MMR root, leaf count, status, and on-chain anchoring details.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.get({
+    epochId: "<id>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsGet } from "raijin-labs-lucid-ai/funcs/epochsGet.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsGet(raijinLabsLucidAi, {
+    epochId: "<id>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidGetEpochRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidgetepochrequest.md)                                                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidGetEpochResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidgetepochresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 404                                  | application/json                     |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### retry
+
+Retry the on-chain anchoring for an epoch that previously failed. The epoch must be in 'failed' status. Resets the status and re-submits the Solana transaction.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.retry({
+    epochId: "<id>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsRetry } from "raijin-labs-lucid-ai/funcs/epochsRetry.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsRetry(raijinLabsLucidAi, {
+    epochId: "<id>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsRetry failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidRetryEpochRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidretryepochrequest.md)                                                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidRetryEpochResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidretryepochresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 400                                  | application/json                     |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### verify
+
+Verify an epoch's on-chain anchor by comparing the committed MMR root on Solana with the expected off-chain root. Returns the comparison result and transaction signature.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.verify({
+    epochId: "<id>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsVerify } from "raijin-labs-lucid-ai/funcs/epochsVerify.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsVerify(raijinLabsLucidAi, {
+    epochId: "<id>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsVerify failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidVerifyEpochRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidverifyepochrequest.md)                                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidVerifyEpochResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidverifyepochresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### getTransaction
+
+Retrieve the Solana transaction details for an epoch's on-chain anchoring, including the transaction signature, slot number, and block time.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.getTransaction({
+    epochId: "<id>",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsGetTransaction } from "raijin-labs-lucid-ai/funcs/epochsGetTransaction.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsGetTransaction(raijinLabsLucidAi, {
+    epochId: "<id>",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsGetTransaction failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidGetEpochTransactionRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidgetepochtransactionrequest.md)                                                                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidGetEpochTransactionResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidgetepochtransactionresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 404                                  | application/json                     |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### commitRoot
+
+Finalize the current epoch and commit its MMR root to Solana via the thought_epoch program. Optionally force-commit even if the epoch threshold has not been reached.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.commitRoot({});
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsCommitRoot } from "raijin-labs-lucid-ai/funcs/epochsCommitRoot.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsCommitRoot(raijinLabsLucidAi, {});
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsCommitRoot failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidCommitEpochRootRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidcommitepochrootrequest.md)                                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidCommitEpochRootResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidcommitepochrootresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 400                                  | application/json                     |
+| errors.ErrorResponse                 | 500, 503                             | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### commitRootsBatch
+
+Commit multiple epoch roots to Solana in a single batch operation. Returns per-epoch success/failure results with transaction signatures. Uses the batch commit instruction for gas efficiency.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.commitRootsBatch({
+    epochIds: [
+      "<value 1>",
+    ],
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsCommitRootsBatch } from "raijin-labs-lucid-ai/funcs/epochsCommitRootsBatch.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsCommitRootsBatch(raijinLabsLucidAi, {
+    epochIds: [
+      "<value 1>",
+    ],
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsCommitRootsBatch failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.LucidCommitEpochRootsBatchRequest](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidcommitepochrootsbatchrequest.md)                                                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidCommitEpochRootsBatchResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidcommitepochrootsbatchresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 400                                  | application/json                     |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### getAnchoringHealth
+
+Check the health of the on-chain anchoring service, including Solana connection status, network type, authority address, and whether mock mode is active.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.getAnchoringHealth();
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsGetAnchoringHealth } from "raijin-labs-lucid-ai/funcs/epochsGetAnchoringHealth.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsGetAnchoringHealth(raijinLabsLucidAi);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsGetAnchoringHealth failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[operations.LucidGetAnchoringHealthResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/operations/lucidgetanchoringhealthresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 500, 503                             | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### listReady
+
+List all epochs that have met the finalization threshold (more than 100 receipts or older than 1 hour) and are ready to be committed on-chain.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.listReady();
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsListReady } from "raijin-labs-lucid-ai/funcs/epochsListReady.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsListReady(raijinLabsLucidAi);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsListReady failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[models.EpochsReadyResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/epochsreadyresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |
+
+### getStats
+
+Retrieve aggregate epoch statistics including total count, counts by status, average receipts per epoch, and anchoring success rate.
+
+
+#### Example Usage
+
+
+```typescript
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
+
+const raijinLabsLucidAi = new RaijinLabsLucidAi();
+
+async function run() {
+  const result = await raijinLabsLucidAi.epochs.getStats();
+
+  console.log(result);
+}
+
+run();
+```
+
+#### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { RaijinLabsLucidAiCore } from "raijin-labs-lucid-ai/core.js";
+import { epochsGetStats } from "raijin-labs-lucid-ai/funcs/epochsGetStats.js";
+
+// Use `RaijinLabsLucidAiCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const raijinLabsLucidAi = new RaijinLabsLucidAiCore();
+
+async function run() {
+  const res = await epochsGetStats(raijinLabsLucidAi);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("epochsGetStats failed:", res.error);
+  }
+}
+
+run();
+```
+
+#### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+#### Response
+
+**Promise\<[models.EpochStatsResponse](https://github.com/lucid-fdn/lucid-ai-sdk/blob/main/typescript/docs/models/epochstatsresponse.md)\>**
+
+#### Errors
+
+| Error Type                           | Status Code                          | Content Type                         |
+| ------------------------------------ | ------------------------------------ | ------------------------------------ |
+| errors.ErrorResponse                 | 500                                  | application/json                     |
+| errors.RaijinLabsLucidAiDefaultError | 4XX, 5XX                             | \*/\*                                |

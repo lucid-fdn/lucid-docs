@@ -146,13 +146,52 @@
           },
           {
             "group": "API Endpoints",
-            "openapi": "https://raw.githubusercontent.com/lucid-fdn/Lucid-L2/master/openapi.yaml"
+            "openapi": "https://raw.githubusercontent.com/lucid-fdn/lucid-ai-sdk/main/openapi-with-code-samples.yaml"
           },
           {
             "group": "SDKs",
             "pages": [
               "sdks/typescript",
-              "sdks/examples"
+              "sdks/examples",
+              "sdks/reference"
+            ]
+          },
+          {
+            "group": "SDK Namespaces",
+            "pages": [
+              "sdks/namespaces/a2a",
+              "sdks/namespaces/agents",
+              "sdks/namespaces/agentscrosschain",
+              "sdks/namespaces/anchoring",
+              "sdks/namespaces/chains",
+              "sdks/namespaces/compute",
+              "sdks/namespaces/crosschain",
+              "sdks/namespaces/deploy",
+              "sdks/namespaces/disputes",
+              "sdks/namespaces/epochs",
+              "sdks/namespaces/escrow",
+              "sdks/namespaces/health",
+              "sdks/namespaces/identity",
+              "sdks/namespaces/launch",
+              "sdks/namespaces/match",
+              "sdks/namespaces/memory",
+              "sdks/namespaces/mirror",
+              "sdks/namespaces/modules",
+              "sdks/namespaces/passports",
+              "sdks/namespaces/paymaster",
+              "sdks/namespaces/payments",
+              "sdks/namespaces/payouts",
+              "sdks/namespaces/payoutscrosschain",
+              "sdks/namespaces/receipts",
+              "sdks/namespaces/reputation",
+              "sdks/namespaces/reputationcrosschain",
+              "sdks/namespaces/revenue",
+              "sdks/namespaces/run",
+              "sdks/namespaces/shares",
+              "sdks/namespaces/tba",
+              "sdks/namespaces/wallet",
+              "sdks/namespaces/webhooks",
+              "sdks/namespaces/zkml"
             ]
           }
         ]
@@ -235,7 +274,14 @@
     }
   },
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude", "cursor", "vscode"]
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "cursor",
+      "vscode"
+    ]
   },
   "feedback": {
     "thumbsRating": true,
