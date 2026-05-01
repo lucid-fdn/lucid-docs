@@ -238,6 +238,154 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Knowledge Base",
+        "groups": [
+          {
+            "group": "Lucid in One Breath",
+            "pages": [
+              "knowledge/lucid-in-one-breath/two-products-one-ecosystem",
+              "knowledge/lucid-in-one-breath/what-is-web4",
+              "knowledge/overview"
+            ]
+          },
+          {
+            "group": "Lucid Chain",
+            "pages": [
+              "knowledge/lucid-chain/architecture-how-lucid-works",
+              "knowledge/lucid-chain/architecture-how-lucid-works/browser-extension",
+              "knowledge/lucid-chain/architecture-how-lucid-works/dual-gas-economics",
+              "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data",
+              "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data/lucid-passports-identity-and-ownership",
+              "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data/memory-map-portable-memory",
+              "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine",
+              "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine/cognition-router",
+              "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine/fluid-compute",
+              "knowledge/lucid-chain/architecture-how-lucid-works/lucidscan-internet-of-ai-explorer",
+              "knowledge/lucid-chain/architecture-how-lucid-works/thought-epochs-verifiable-proofs-of-ai-activity",
+              "knowledge/lucid-chain/competition-landscape-where-lucid-fits-and-why-its-a-must-have",
+              "knowledge/lucid-chain/faq-non-technical",
+              "knowledge/lucid-chain/security-and-privacy-keeping-lucid-safe-and-compliant",
+              "knowledge/lucid-chain/tokenomics-and-incentives-fueling-the-lucid-ecosystem"
+            ]
+          },
+          {
+            "group": "Lucid AI",
+            "pages": [
+              "knowledge/glossary",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/agent-lab",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/app-lab",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/build-with-synapse-visual-builder",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/case-studies-and-showcase",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/channels-and-integrations",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/deploy-and-publish-go-live-with-proofs",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/enterprise-and-public-sector",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/gaming",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/getting-started-5-minutes",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/model-lab",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/model-lab/model-lab-advanced",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/on-chain-options-opt-in",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/start-with-a-prompt-one-click",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/virtual-humans-extension-give-your-agent-a-face",
+              "knowledge/lucid-ai/architecture-what-is-lucid-ai/who-its-for-and-top-use-cases",
+              "knowledge/lucid-ai/community-and-open-source",
+              "knowledge/lucid-ai/community-and-open-source/connectors-expand-the-internet-of-ai",
+              "knowledge/lucid-ai/community-and-open-source/open-core-agent-runtime-ar",
+              "knowledge/lucid-ai/community-and-open-source/sdks",
+              "knowledge/lucid-ai/devkit-run-anywhere-sdks-and-connectors",
+              "knowledge/lucid-ai/faq-non-technical",
+              "knowledge/lucid-ai/licensing-and-editions",
+              "knowledge/lucid-ai/lucid-solana-mobile",
+              "knowledge/lucid-ai/plans-and-pricing",
+              "knowledge/lucid-ai/security-privacy-and-compliance",
+              "knowledge/lucid-ai/trustgate-managed-inference-and-depins-orchestration"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Architecture Reference",
+        "groups": [
+          {
+            "group": "Modules",
+            "pages": [
+              "reference/lucid-l2/modules/anchoring",
+              "reference/lucid-l2/modules/compute",
+              "reference/lucid-l2/modules/contracts/epochregistry",
+              "reference/lucid-l2/modules/contracts/lucid",
+              "reference/lucid-l2/modules/contracts/lucidarbitration",
+              "reference/lucid-l2/modules/contracts/lucidescrow",
+              "reference/lucid-l2/modules/contracts/lucidpassportregistry",
+              "reference/lucid-l2/modules/contracts/lucidpaymaster",
+              "reference/lucid-l2/modules/contracts/lucidsessionmanager",
+              "reference/lucid-l2/modules/contracts/lucidtba",
+              "reference/lucid-l2/modules/contracts/lucidvalidator",
+              "reference/lucid-l2/modules/contracts/zkmlverifier",
+              "reference/lucid-l2/modules/identity",
+              "reference/lucid-l2/modules/memory",
+              "reference/lucid-l2/modules/payment",
+              "reference/lucid-l2/modules/programs/gas-utils",
+              "reference/lucid-l2/modules/programs/lucid-agent-wallet",
+              "reference/lucid-l2/modules/programs/lucid-passports",
+              "reference/lucid-l2/modules/programs/lucid-reputation",
+              "reference/lucid-l2/modules/programs/lucid-zkml-verifier",
+              "reference/lucid-l2/modules/programs/thought-epoch",
+              "reference/lucid-l2/modules/receipt",
+              "reference/lucid-l2/modules/reputation"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/lucid-l2/reference/anchoring",
+              "reference/lucid-l2/reference/compute",
+              "reference/lucid-l2/reference/identity",
+              "reference/lucid-l2/reference/memory",
+              "reference/lucid-l2/reference/payment",
+              "reference/lucid-l2/reference/receipt",
+              "reference/lucid-l2/reference/reputation"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Gateway SDK",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "reference/gateway-sdk/index"
+            ]
+          },
+          {
+            "group": "Namespaces",
+            "pages": [
+              "reference/gateway-sdk/namespaces/agents",
+              "reference/gateway-sdk/namespaces/auditlogs",
+              "reference/gateway-sdk/namespaces/auth",
+              "reference/gateway-sdk/namespaces/billing",
+              "reference/gateway-sdk/namespaces/catalog",
+              "reference/gateway-sdk/namespaces/chains",
+              "reference/gateway-sdk/namespaces/entitlements",
+              "reference/gateway-sdk/namespaces/health",
+              "reference/gateway-sdk/namespaces/inference",
+              "reference/gateway-sdk/namespaces/keys",
+              "reference/gateway-sdk/namespaces/models",
+              "reference/gateway-sdk/namespaces/payment",
+              "reference/gateway-sdk/namespaces/plans",
+              "reference/gateway-sdk/namespaces/plugins",
+              "reference/gateway-sdk/namespaces/quotas",
+              "reference/gateway-sdk/namespaces/reputation",
+              "reference/gateway-sdk/namespaces/servers",
+              "reference/gateway-sdk/namespaces/sessions",
+              "reference/gateway-sdk/namespaces/tenants",
+              "reference/gateway-sdk/namespaces/tools",
+              "reference/gateway-sdk/namespaces/usage"
+            ]
+          }
+        ]
       }
     ],
     "global": {

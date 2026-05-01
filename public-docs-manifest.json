@@ -1,0 +1,1021 @@
+{
+  "generatedBy": "scripts/rebuild-public-sources.py",
+  "pageCount": 98,
+  "pages": [
+    {
+      "content_sha256": "7cd8d517c28d5e4c3f20c88e8d3c541c84f87a533e06fc40437c9f9b6e573965",
+      "description": ">-",
+      "page_path": "knowledge/glossary",
+      "source_id": "lucid-wiki",
+      "source_path": "glossary.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "241129f0252ea4c73365abb551cc744ab261b1c5d021a4ebdf9f76a52e391c00",
+      "title": "Glossary"
+    },
+    {
+      "content_sha256": "48f0f6f38b51df7f0e2431e17a9dcf422ea4e13d39565456903ae7c27f00a43c",
+      "description": "Build & Operate on the Internet of AI. Enterprise-grade.",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/README.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "f4de735d0b379b18cd42d2dadb69526712b9a6fb867df59ada893cd4499b1c44",
+      "title": "Architecture \u2014 What is Lucid AI"
+    },
+    {
+      "content_sha256": "053fdb9a3b56a03fd6d031ccf5be14dd73cf42b14463a312e839d028e7502276",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/agent-lab",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/agent-lab.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "a2537dbde0cec4493149ecbdc0c326763a42e212e6c95e974c0abbf10e5c793a",
+      "title": "Agent Lab"
+    },
+    {
+      "content_sha256": "1751e6d77aaeb294126367343de36c8940cffa7fedd70ce237df3ee9f4b4529d",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/app-lab",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/app-lab.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "9f9bceb9ae858b7e2338c458740ab00bfd3f0b21c7812ec8f6f9ffa55193f016",
+      "title": "App Lab"
+    },
+    {
+      "content_sha256": "1ac226c5081fd95a454641898497af02fe6d395a95f919bf9b4d37e9fae7f5d4",
+      "description": "Visual logic for the Internet of AI. Build, connect, and prove \u2014 with Synapse.",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/build-with-synapse-visual-builder",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/build-with-synapse-visual-builder.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "1bdf356de7372e828f250162a53da86534ec4ebf939fbae6dd24551296966416",
+      "title": "Build with Synapse (Visual Builder)"
+    },
+    {
+      "content_sha256": "c23dfc3b7eed76b9f01803a9135cdab3cf4a6fe9b4cbbc8503e84d790275a774",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/case-studies-and-showcase",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/case-studies-and-showcase.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "5716b45df74941c70fc44673135446707b7a13c3603a91f93611db94a4b2f1a5",
+      "title": "Case Studies & Showcase"
+    },
+    {
+      "content_sha256": "7fff53956ee50e151359ce4521ba661521370b8aaa8652cf879058d9de416112",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/channels-and-integrations",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/channels-and-integrations.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "afa7588cab8e1e1efe8042783929b0919871f65b5bbb79107d544ac681286f30",
+      "title": "Channels & Integrations"
+    },
+    {
+      "content_sha256": "b1bb482a96cc472f53002d73ffaf2aeef78f31d572e52c1f1154e44c2148e82d",
+      "description": "Publish trustable AI. Every run. Every proof. Every payout.",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/deploy-and-publish-go-live-with-proofs",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/deploy-and-publish-go-live-with-proofs.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "6d4a820dd0b10c047fd98d016d844a01a7cf1f935e557a6f0341a8de4ff16cd4",
+      "title": "Deploy & Publish (Go Live with Proofs)"
+    },
+    {
+      "content_sha256": "c493f98ab771356ef5cdd100ad4d91d3236c4cad7782d77434c6e0af0b2389ff",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/enterprise-and-public-sector",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/enterprise-and-public-sector.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "aefb4504d7d87205f2cb16ef69586dd01328b2a5daad30ba9201f77b9fc1a2eb",
+      "title": "Enterprise & Public Sector"
+    },
+    {
+      "content_sha256": "777ddcf541320f0022bf993c0dfbf8d51c2a79b0e7bec29917db7f4d0bc434bf",
+      "description": "Ship believable characters that speak, emote, remember, and act\u2014without locking your game into a single vendor. Lucid delivers a modular stack and in-engine SDKs so you can run low",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/gaming",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/gaming.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "56c92ed8b9a043eb853b5e0388d52d420e3597c59ad02fee9f5e121c92c6e475",
+      "title": "Gaming"
+    },
+    {
+      "content_sha256": "ac0fbb15193cadf4732d395242c8bff9be7fd46397c9ab2620fac6d2ca7af5e4",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/getting-started-5-minutes",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/getting-started-5-minutes.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "f132405fc7dc20285d966ce9fcd9f889527504e9eaf05989e1f48e39af060fab",
+      "title": "Getting Started (5 Minutes)"
+    },
+    {
+      "content_sha256": "404e978f2718758f5b3b2454cff618fcbaddc579c077ba819003487629c6cc38",
+      "description": "Your workspace to shape intelligence inside the Internet of AI.",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/model-lab",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/model-lab/README.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "f60f9ce86d61f6b271e81ed255cd756d5552f027382729fb926c592f31661420",
+      "title": "Model Lab"
+    },
+    {
+      "content_sha256": "79bd939d6a8f8975355bce672d1435251ae1cb1e4aea3d0096640e2d691bd190",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/model-lab/model-lab-advanced",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/model-lab/model-lab-advanced.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "364089e9fa8d2f9d0fe06dccc208d1a44a29fa8b809f5f46095926d713962032",
+      "title": "Model Lab (Advanced)"
+    },
+    {
+      "content_sha256": "4af70ed3a97f91c1df3fd2bc75ea4d2679e3e59e00a7829cca702bb55ea25f57",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/on-chain-options-opt-in",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/on-chain-options-opt-in.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "c822c36948ba71154289bd923827446744a794ac9ccf9977310f81f8ae6bd9ac",
+      "title": "On-Chain Options (Opt-In)"
+    },
+    {
+      "content_sha256": "b81d95644ae3de2b410d913393a9cbecc978575f88ef78c856a95a0569d118f9",
+      "description": "Type your idea. Watch it come alive. Powered by Synapse.",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/start-with-a-prompt-one-click",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/start-with-a-prompt-one-click.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "d50640c4b00fd699dab392e68c1577c77f8a4e1976576ff72d97925c2c366e65",
+      "title": "Start with a Prompt (one-click)"
+    },
+    {
+      "content_sha256": "c601ee08bd870238347b849accdf3af039dab929ee484830d3b8219c6d6948ee",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/virtual-humans-extension-give-your-agent-a-face",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/virtual-humans-extension-give-your-agent-a-face.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "1e08925f38fd75fab12e92db8cc74ca66d3c9f7cfcdecb0604bd00d79860f6c1",
+      "title": "Virtual Humans Extension \u2013 Give Your Agent a Face"
+    },
+    {
+      "content_sha256": "3be3c33eefb44a627748241cd00dd3006daa09718d25f003ebdb1a45c1abacf2",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/architecture-what-is-lucid-ai/who-its-for-and-top-use-cases",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/architecture-what-is-lucid-ai/who-its-for-and-top-use-cases.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "7785ca2a2862f05c2f312625c7f7ca29f3868fb688b74b50aa2f8c7f1da820a0",
+      "title": "Who It\u2019s For & Top Use Cases"
+    },
+    {
+      "content_sha256": "bab7185a85b681ca3f32a6f3dcfa32df206ee815abce34f2dc9851e2194128b0",
+      "description": "Build in the open. Keep ownership. Grow the ecosystem together.",
+      "page_path": "knowledge/lucid-ai/community-and-open-source",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/community-and-open-source/README.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "a195b80dac46dc00287a7b2dd10ba9a89007ffc6c9e5fe4bbebeb9ecb181f3ce",
+      "title": "Community & Open Source"
+    },
+    {
+      "content_sha256": "4051b1cefc02321248db5e514ceae62d0ef241a2086eed443933211356a4c997",
+      "description": "The pipes of the Internet of AI \u2014 build once, run everywhere.",
+      "page_path": "knowledge/lucid-ai/community-and-open-source/connectors-expand-the-internet-of-ai",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/community-and-open-source/connectors-expand-the-internet-of-ai.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "3417b5ece5cca40ac0a5004fb1c763a6fa625fd2cb5b3d4047654e1bd11cc4bf",
+      "title": "Connectors \u2014 Expand the Internet of AI"
+    },
+    {
+      "content_sha256": "5de69ff6e23f8fd558e0cd81bfb0ae0a04358a76fd2cc18322a233dcb699dce7",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/community-and-open-source/open-core-agent-runtime-ar",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/community-and-open-source/open-core-agent-runtime-ar.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "93810086b05a94d0239e9aaf91234e99b206972139dec34d6ae98848b2b8c613",
+      "title": "Open Core - Agent Runtime (AR)"
+    },
+    {
+      "content_sha256": "ed13e032db6720351dc46aefd0b4db19dcead5b33413ae01acbfdd68fabb40e9",
+      "description": "One API surface across web, game engines, servers, and the cloud.",
+      "page_path": "knowledge/lucid-ai/community-and-open-source/sdks",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/community-and-open-source/sdks.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "208cd0b6ad8c117951d3397f84a6a592d1b37558225e8a4007134ab8ce0ea114",
+      "title": "SDKs"
+    },
+    {
+      "content_sha256": "7c2ed2f56fc294b44c975e74fdeef5e75da59986489d35a8ceb9036a72047e2b",
+      "description": "Build and integrate anywhere",
+      "page_path": "knowledge/lucid-ai/devkit-run-anywhere-sdks-and-connectors",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/devkit-run-anywhere-sdks-and-connectors.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "ffe2f363535bb7532221b6bc6d73ab8234b2010d73e40f448d924a9adf4b3981",
+      "title": "DevKit - Run Anywhere (SDKs & Connectors)"
+    },
+    {
+      "content_sha256": "229e0d46d2c72279e8e4ef3921ab6351aa59a9ca5e12da67ccd29734d0845cc4",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/faq-non-technical",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/faq-non-technical.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "0a8590ef564fefb5218e119cf4e3f93232d56155b28daf01521b8a2dd72c8e46",
+      "title": "FAQ (Non-Technical)"
+    },
+    {
+      "content_sha256": "2efa16ab616f47f59fb895544ff2d18fe975082e61610aa54d4b5de999f024f0",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/licensing-and-editions",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/licensing-and-editions.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "4fb3fea16a51edbebb0e26ab3354ecc8f0b8fb29607c5b83a96d17ea98c3b260",
+      "title": "Licensing & Editions"
+    },
+    {
+      "content_sha256": "4138da7e9b8e178e95907cb33c23509b6f748792ffb7f79789be1d55cc81fee9",
+      "description": "The Internet of AI in your pocket.",
+      "page_path": "knowledge/lucid-ai/lucid-solana-mobile",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/lucid-solana-mobile.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "68600ada6b51110bee577eb1d4efff4ef1fe6051417dad56ba759a65e2e309e2",
+      "title": "Lucid \u00d7 Solana Mobile"
+    },
+    {
+      "content_sha256": "a301af68e6e472b36b966275dd3d0e863039e408fa40061167103221a6baea3f",
+      "description": "Open-source & Managed SaaS. Usage transparent.",
+      "page_path": "knowledge/lucid-ai/plans-and-pricing",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/plans-and-pricing.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "19902cd0fd6ba919f4559f58a0558e75465e1bced2869e2560c2f2e2d3aed962",
+      "title": "Plans & Pricing"
+    },
+    {
+      "content_sha256": "3ce47aaa83e7f919e17a294ac388e7c088b0d0e5b88455c5368bf4d524105010",
+      "description": ">-",
+      "page_path": "knowledge/lucid-ai/security-privacy-and-compliance",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/security-privacy-and-compliance.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "81eb7bbfc3c2529583723ee0cdfde09d5d22d3c3ac88571ccb2b2aacfcdb5e10",
+      "title": "Security, Privacy & Compliance"
+    },
+    {
+      "content_sha256": "5617350909d1418f0b20ae73e27ea805c46926a464ca2ea847324fd9bd4d5f29",
+      "description": "Verifiable AI at Enterprise Scale. Turns DePIN Into Enterprise-grade.",
+      "page_path": "knowledge/lucid-ai/trustgate-managed-inference-and-depins-orchestration",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-ai/trustgate-managed-inference-and-depins-orchestration.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "3b71bfa6c222d956cef15b586c2547febc541acac008eeacd4f573c63f572f3b",
+      "title": "TrustGate - Managed Inference & DePINs orchestration"
+    },
+    {
+      "content_sha256": "f44352d7d019b5e40dcd2bda159ad7b6274866623294235256a434da47c92986",
+      "description": "A no\u2011jargon look at how Lucid powers the Internet of AI.",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/README.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "d146e6d033e50fd6a48eea11b3f3bc19125f25cae134a915f43cd963df9b8850",
+      "title": "Architecture \u2014 How Lucid Works"
+    },
+    {
+      "content_sha256": "405abb460fcf4f40cf447863642af75d5b447f581490ffa31e0d324cab9013ef",
+      "description": "Turn any AI into Web4 in one click.",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/browser-extension",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/browser-extension.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "65c66cbd37890ba16f0c5dd6e4ba06f54bb0d0a7fcea0e052205e7c23dc4469c",
+      "title": "Lucid Browser Extension"
+    },
+    {
+      "content_sha256": "3ee5e87801fa73e9386841817aff07adf09a73356c202176cd6f643b59ca70fd",
+      "description": ">-",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/dual-gas-economics",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/dual-gas-economics.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "107599d1c55e0c317c3394c901d996bd2b11514eca2c3b7e3cc391dfe6ad1417",
+      "title": "Dual\u2011Gas Economics"
+    },
+    {
+      "content_sha256": "2e8788b022a99a1fa8dc02475e140cef093f02518209c2dc9b8ce2d4f98005bb",
+      "description": "The Graph - Gives AI stakeholders an ID and a Shared Memory",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/lucid-data/README.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "8678b213a794392eac5e8c434777c63f17a9b8d5f3fb9b30a699d5cb9ecf101b",
+      "title": "Lucid Data"
+    },
+    {
+      "content_sha256": "91c6268166679eb6daf97356604d62f4a72b5eb0a220e0152437c3908a496f53",
+      "description": ">-",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data/lucid-passports-identity-and-ownership",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/lucid-data/lucid-passports-identity-and-ownership.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "67b1ff574d189a6735ea17ee01cde801be4afeb49c232c57e057f3c89a60200f",
+      "title": "Lucid Passports \u2014 Identity & Ownership"
+    },
+    {
+      "content_sha256": "361fe644f5666ee30f23358387e4af8a5e5439ce34c139aa49a0f63b94791ced",
+      "description": "Memory that moves with you. Secure, portable context for interoperable AI.",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data/memory-map-portable-memory",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/lucid-data/memory-map-portable-memory.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "da24f225c42e581f86cc9a0aa7ade3e383ca3df2ab65d8cbc774617b377af9b7",
+      "title": "Memory Map \u2014 Portable Memory"
+    },
+    {
+      "content_sha256": "4b314f26c0fd3a7d27b872d42d781724714cf8d9619e34126cab40ff8a1b1117",
+      "description": ">-",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/lucid-engine/README.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "cb120333f07b1df82cfd12671cf904e170acc70f4fb9b7355b5b87cbd5f45b0d",
+      "title": "Lucid Engine"
+    },
+    {
+      "content_sha256": "b0bed529727bf21a95ffd1a9bd0a7fcb350800062538d4f89ad8c809876bb2f9",
+      "description": "Picks best AI, every time",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine/cognition-router",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/lucid-engine/cognition-router.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "500afc8103d7723d5ace45c5392ed47ee6544feebccb11cec05745aed6bf71e0",
+      "title": "Cognition Router"
+    },
+    {
+      "content_sha256": "7a3c414372cf52421f6c703ff463ae264593be397fb5ad1ad0934b96392eff21",
+      "description": "Instant, reliable compute \u2014 with receipts.",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine/fluid-compute",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/lucid-engine/fluid-compute.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "37bad903c117a60213a78f059dc781d83012c4d012e87b49143cb6b3dcb3ec11",
+      "title": "Fluid Compute"
+    },
+    {
+      "content_sha256": "7b80e940f5c83144ab0dd8d507e0667c2b43cc3d9bd675c3006855c499c097bc",
+      "description": "Explore the whole AI ecosystem. See what happened \u2014 and who got paid.",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/lucidscan-internet-of-ai-explorer",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/lucidscan-internet-of-ai-explorer.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "28736b759856477872623e0fa34449b680733da69c75e664bf054debd5bf20e6",
+      "title": "LucidScan \u2013 Internet-of-AI Explorer"
+    },
+    {
+      "content_sha256": "ef0aab0da601af87eab879ef4ffa8b4ef6302fb860cf2d668ff3c646ffed3d57",
+      "description": "Why users see answers in under 100\u202fms while Solana still sees everything.",
+      "page_path": "knowledge/lucid-chain/architecture-how-lucid-works/thought-epochs-verifiable-proofs-of-ai-activity",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/architecture-how-lucid-works/thought-epochs-verifiable-proofs-of-ai-activity.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "12ee2f1def84f4baa090fef8eacc5531b20669913647bbc10909f71280201d4a",
+      "title": "Thought Epochs\u2014 Verifiable Proofs of AI Activity"
+    },
+    {
+      "content_sha256": "ea44ac820a3b8a36c020105732daaab64deda6e68e1c3bae0d35846357a4aae5",
+      "description": ">-",
+      "page_path": "knowledge/lucid-chain/competition-landscape-where-lucid-fits-and-why-its-a-must-have",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/competition-landscape-where-lucid-fits-and-why-its-a-must-have.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "417abb2100cb8f073adebc51acfdb8b771b3d3fabd73993ba673d87c5509f082",
+      "title": "Competition Landscape \u2013 Where Lucid Fits (and Why It\u2019s a Must-Have)"
+    },
+    {
+      "content_sha256": "bb9b47016fff940f4fc00e04186f416c05667db8392bab5c1653c63a8033530a",
+      "description": ">-",
+      "page_path": "knowledge/lucid-chain/faq-non-technical",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/faq-non-technical.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "823036236ec06350cf70abfd59e641a503044948e22ec25fa1d9a06e31c90281",
+      "title": "FAQ (Non-Technical)"
+    },
+    {
+      "content_sha256": "290c5570c05ab15aa4b552f6880ef4fd4b9e47900bb3a3d02464538c6cda3e21",
+      "description": "Threat\u2011model, cryptography, compliance tooling, and user\u2011control features.",
+      "page_path": "knowledge/lucid-chain/security-and-privacy-keeping-lucid-safe-and-compliant",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/security-and-privacy-keeping-lucid-safe-and-compliant.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "76df606f79f88437dbfc557516cd8c937ffd8f5b47b728679e0d98dece95b7f1",
+      "title": "Security & Privacy \u2013 Keeping Lucid Safe & Compliant"
+    },
+    {
+      "content_sha256": "e2dc19eeee1a6695000b4d35c472d62da65873921e623928eb1784e984a7bd62",
+      "description": ">-",
+      "page_path": "knowledge/lucid-chain/tokenomics-and-incentives-fueling-the-lucid-ecosystem",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-chain/tokenomics-and-incentives-fueling-the-lucid-ecosystem.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "d80f92f726b3f3493dd33f7dc3fef1c5e31129f5c1188d4faaae9b627980b8e9",
+      "title": "Tokenomics & Incentives \u2013 Fueling the Lucid Ecosystem"
+    },
+    {
+      "content_sha256": "c5e5d4d65315f6a28dfd3f2544b339e94b4e5d04c031d02e23ea475739d95b8a",
+      "description": "Lucid connects the Internet of AIs with the tools to build on it.",
+      "page_path": "knowledge/lucid-in-one-breath/two-products-one-ecosystem",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-in-one-breath/two-products-one-ecosystem.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "bae9a17ab5ecd08e534cad2c1ed4d5a231a6a139b49738c0470b3070847d6e17",
+      "title": "Two Products, One Ecosystem"
+    },
+    {
+      "content_sha256": "45d5b7d759aa1e757af7d3c39e80d2fc96fb0a9ed166022c418bfe730a7b1e1e",
+      "description": "Symbiotic Web. The living interface between humans and machines.",
+      "page_path": "knowledge/lucid-in-one-breath/what-is-web4",
+      "source_id": "lucid-wiki",
+      "source_path": "lucid-in-one-breath/what-is-web4.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "7b89272ea11241bd7dbae4e552a8eb9cce390fe1818b70ac26b1c680913d8124",
+      "title": "What is Web4"
+    },
+    {
+      "content_sha256": "6e22acd7b4794a7fc44d4edb0bb45058898f3439bb8725c32af262217861914b",
+      "description": "Web2 Speed \u00b7 Web3 Trust \u00b7 Web4 Intelligence",
+      "page_path": "knowledge/overview",
+      "source_id": "lucid-wiki",
+      "source_path": "README.md",
+      "source_repo": "lucid-fdn/lucid-wiki",
+      "source_sha256": "2ef77cc8d4101090457df9ec67bb462357323a7e744359c6892eec5ab118a0ed",
+      "title": "The Internet of AI (IoAI)"
+    },
+    {
+      "content_sha256": "a59e7e95dca4d361e490b726525fe699786fc9a23fdadebbf62fbb50f16ae204",
+      "description": "Generated gateway SDK namespace index.",
+      "page_path": "reference/gateway-sdk/index",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "a4ae34b2987fd3289bf77c7da6e283f5e2895ad640f16cceae6cd12ef02a7980",
+      "title": "Gateway SDK Reference"
+    },
+    {
+      "content_sha256": "6125adc7e9bbd0bb008feea0e0102e369b4f29f487b41e034fdfae8502e90bcb",
+      "description": "Agent identity and scope management (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/agents",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/agents/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "e992c543ec4778924c99f2219d97059abde37b1450262044c899755eea19fcfc",
+      "title": "Agents SDK"
+    },
+    {
+      "content_sha256": "def4f6f9b72bc53c35d2b9a1eba9b7c3eb237b734a7a52e046619393954141bf",
+      "description": "Tool call audit trail (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/auditlogs",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/auditlogs/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "951964af4a71b2eaea48ec17b3fe9e6bb7342ee83612ce69089705f7e24aa590",
+      "title": "Auditlogs SDK"
+    },
+    {
+      "content_sha256": "c586311f54e689778ea2006b590cda51800c63a5a064dee5ee0022c28cb2f00d",
+      "description": "OAuth credential connections (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/auth",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/auth/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "c8eed9b1416fb112c1e7b3bd651defb5fa413b167548dc2c07096031200b9859",
+      "title": "Auth SDK"
+    },
+    {
+      "content_sha256": "8774cba8aa1a0e9500e114371accc79d5dee43ce681ea7c08fd2d5763017b3e9",
+      "description": "Stripe billing integration (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/billing",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/billing/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "3e6592411997e2de93c9652905d461a745c192382f5c25ba1d0df0e5614fc616",
+      "title": "Billing SDK"
+    },
+    {
+      "content_sha256": "65512814ed7e8f6c7f6793c324e819eea905af487655447e5a77edecd1a525ae",
+      "description": "Builtin server catalog (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/catalog",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/catalog/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "679e95f8f74f8ff2eda6b53230345a15e8a6421eefb23b273b7e7e275dce625f",
+      "title": "Catalog SDK"
+    },
+    {
+      "content_sha256": "21d85018c8504eda97ed952ac80cdda4c3e280dddbad11dd70a3990088df79e5",
+      "description": "Multi-step tool execution chains (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/chains",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/chains/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "f02a01b025638e5a7439ddb92d83aafab13ebad5f26f91896ffd45c317b6c281",
+      "title": "Chains SDK"
+    },
+    {
+      "content_sha256": "0bbbf29965ffb55c48798e0787cece705edc9d3a8e1965ab987922a582f5d499",
+      "description": "Subscription entitlements and feature gates (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/entitlements",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/entitlements/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "22f578c445a190989c78ca51c69be41902303f7737df7d60bdac993ce24a8cbb",
+      "title": "Entitlements SDK"
+    },
+    {
+      "content_sha256": "53e4c57f0ba17db773d8e2634b09046a2c65f5c7701962e08104684a08bc7e91",
+      "description": " [healthCheck](#healthcheck) - Service health check",
+      "page_path": "reference/gateway-sdk/namespaces/health",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/health/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "71533b359fe632ae778ea039c47d0f9405414ff96cf4591c56369a3caa3c4403",
+      "title": "Health SDK"
+    },
+    {
+      "content_sha256": "a321eb7f88196c949e4e8f28923af2972342f6081ee3a9d18b9a905561ceacc6",
+      "description": "OpenAI-compatible chat completions and embeddings (TrustGate)",
+      "page_path": "reference/gateway-sdk/namespaces/inference",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/inference/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "13003072eaddcc225ff39879d32a59cc153e44fba7623858e545f92adfddaa03",
+      "title": "Inference SDK"
+    },
+    {
+      "content_sha256": "9e9a80c16e4ab0176e74e45086844424403f630aad389d46a7fe08ce02074689",
+      "description": "API key management (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/keys",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/keys/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "a4d11e1c655216ed3434e5d0492d94c18a8800b3e039744ea741b5a1457aa417",
+      "title": "Keys SDK"
+    },
+    {
+      "content_sha256": "1ed2503c1bd8fd347076a9fe08c004887d906f297314db65cced326ff7c05cf0",
+      "description": "Model catalog (TrustGate)",
+      "page_path": "reference/gateway-sdk/namespaces/models",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/models/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "040a4ee18368b6c0d15226820566ce8adef9ca7af35b62349c4c49d02991a20c",
+      "title": "Models SDK"
+    },
+    {
+      "content_sha256": "944fd4a4bcac49f8d384c170561155831a3353b818a198257779486bcb5cb4e0",
+      "description": "x402 payment configuration and pipelines (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/payment",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/payment/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "225e0137cd32a984c21768fa1bfe358f62d76bfe6aa9a970970bdeea3c648081",
+      "title": "Payment SDK"
+    },
+    {
+      "content_sha256": "73363c390a61fcfbde9b5abe85d5e0e3d79866dc383db74e64e0341cb823207b",
+      "description": "Plan tiers and upgrades (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/plans",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/plans/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "d022480c56fc23e997510b5f12bc3bac3be79d18d940ba2f045f7968a5811123",
+      "title": "Plans SDK"
+    },
+    {
+      "content_sha256": "cf5ccb6146151632703421169b3fb1f29ea3e7d07498a2d8f90a3625d36a3869",
+      "description": "Plugin bundles for MCP servers (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/plugins",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/plugins/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "fbe9af94580179e6892813460622c549dbeaf85c500b956cbd47651b813d0e64",
+      "title": "Plugins SDK"
+    },
+    {
+      "content_sha256": "3c2bf0df1ef677195bc5d65a6cc03c40015391014220c8ad1b2f3fe85bb317b0",
+      "description": "Quota limits and usage (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/quotas",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/quotas/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "bad8136cd237a445d386808887186d52bc59bbf293e7561c74d1b9a0e8405d0b",
+      "title": "Quotas SDK"
+    },
+    {
+      "content_sha256": "e5defcd05f7c86663524e5525b9321811b494ab85320b59884c6af6a436fc71a",
+      "description": "Agent payment reputation (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/reputation",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/reputation/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "201fa0c3777f9d02f1e8cd1dd9da281f5f202c734d52799f23b3553d72ff4002",
+      "title": "Reputation SDK"
+    },
+    {
+      "content_sha256": "1c545251fa21d663b40bd64f42222d9510694895de037c259efc0674505999f2",
+      "description": "MCP server registration and management (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/servers",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/servers/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "28b806f14aace26ae1a6c998d768a3ff08bc0e576658b18d46b35041ce9854ab",
+      "title": "Servers SDK"
+    },
+    {
+      "content_sha256": "1983de38dd33299df6f9e76faddb1c59b9de9fdcc2f001d75488c81fda726889",
+      "description": "Budget-scoped sessions for agent tool use (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/sessions",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/sessions/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "c4b9b16f1401a12ba5cf8baff9330cf4402aecd7ed7e174f216a168719b651a8",
+      "title": "Sessions SDK"
+    },
+    {
+      "content_sha256": "8b6559d9c243825fc8b248dacbc1eeb08d77e7c1ce6d10d14a1c3bf0cc9e3808",
+      "description": "Tenant CRUD (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/tenants",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/tenants/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "76b292d4269de1f85bf46c4c1bafe4f8af4fd2d88b6bcb31797575c88d335f91",
+      "title": "Tenants SDK"
+    },
+    {
+      "content_sha256": "8d28b0d70e910afb75fd9476853e68ce6843f5a928f0415ea9060d57fbd1e1e0",
+      "description": "MCP tool execution and discovery (MCPGate)",
+      "page_path": "reference/gateway-sdk/namespaces/tools",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/tools/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "fab11a39340231cc5645466fbfdf31708f090931fb55eadad835c6b9670b5cd5",
+      "title": "Tools SDK"
+    },
+    {
+      "content_sha256": "bc6bbeeeb4fe1b4a2dde89750a29bc566ed3d6fc5f21c13f027ff1e4b664456c",
+      "description": "Usage analytics (Control-Plane)",
+      "page_path": "reference/gateway-sdk/namespaces/usage",
+      "source_id": "lucid-cloud-gateway-sdk",
+      "source_path": "sdk/lucid-gateway-typescript/docs/sdks/usage/README.md",
+      "source_repo": "lucid-fdn/lucid-cloud",
+      "source_sha256": "8eb64b1fc55d5299e2c89c0cfea6dd05f7e7e6bc5812c0067a09638f01ab3e35",
+      "title": "Usage SDK"
+    },
+    {
+      "content_sha256": "f291b27ccf2752225c87eb41f1599a1f387ae735dfb9e92cd5f4f025cd2cbfd0",
+      "description": "The anchoring module in the Lucid L2 platform is designed to manage the lifecycle of digital artifacts by anchoring them to decentralized storage. This module ensures that artifact",
+      "page_path": "reference/lucid-l2/modules/anchoring",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/anchoring.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "c678c2ecb500cf64db0ea7eb0ab20bfc705ae686e01ef8f15f783fd6c5786202",
+      "title": "Anchoring"
+    },
+    {
+      "content_sha256": "88c15369aad9195292084b99cb6aad87ca16dcab30d44923d2328097a50d31d0",
+      "description": "The compute domain module in the Lucid L2 platform is designed to manage the lifecycle of AI agents, from deployment to revenue management. It provides a comprehensive framework fo",
+      "page_path": "reference/lucid-l2/modules/compute",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/compute.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "045824f0729c05e6912a11548a03303ddacd52736f3c8db71e2a54b174a6e2a2",
+      "title": "Compute"
+    },
+    {
+      "content_sha256": "d4e061f6d4d12462b25afbb11c0182b0d9e89a17d497afd6dd7d5964c0522c90",
+      "description": "> Source: C:Lucid-L2contractssrcEpochRegistry.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/epochregistry",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/EpochRegistry.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "11e43c922826572587d3ff0dff3deaf3033eb01044c6ee73a7996195d31b1878",
+      "title": "EpochRegistry \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "210ff6bbbf5205e654e8ea71428e7063f9861a00266323d95884a74c693902c6",
+      "description": "> Source: C:Lucid-L2contractssrcLucid.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/lucid",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/Lucid.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "c820cd4224bc10395b25f1b2188c8e86888547a7c9b9c78a4800addd21779ad9",
+      "title": "Lucid \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "6693fc91e64f7881e0aea9e25fc44184d4f4f2b89dd6de59b6bc429c4c3bf8b9",
+      "description": "> Source: C:Lucid-L2contractssrcLucidArbitration.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/lucidarbitration",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/LucidArbitration.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "d5886b64704bb23c584b4ee07753ee4629a10a14b55413854ef8249b5fc45b33",
+      "title": "LucidArbitration \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "5f5ee7020724cae716f2e6490476459158a8433ceaf0185ee5d748dde00b0510",
+      "description": "> Source: C:Lucid-L2contractssrcLucidEscrow.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/lucidescrow",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/LucidEscrow.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "884068120d523c43604b5e9f6c9a2cc3ed6249e8ea693da49fa4f77078dea887",
+      "title": "LucidEscrow \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "8a208cfdc695650c1096c6641fafb69fd82518358db0788316a3f16f9106c325",
+      "description": "> Source: C:Lucid-L2contractssrcLucidPassportRegistry.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/lucidpassportregistry",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/LucidPassportRegistry.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "6ddf47e9117a9a696944c9c866f2d44ae758edd97553830b48b3dd54f4433552",
+      "title": "LucidPassportRegistry \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "9242d5e5266bcffdb6234aff33799c7359bf399837bd5aaec91b93d3b05269ee",
+      "description": "> Source: C:Lucid-L2contractssrcLucidPaymaster.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/lucidpaymaster",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/LucidPaymaster.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "064f30b18e029733aa13830da7242b9eb2c2b27109ee9264770ea55cefab8d1d",
+      "title": "LucidPaymaster \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "1565926e7d5034b88d7ffc43dff48e0af75c5e06ac7320f403f98b37c1bee3b7",
+      "description": "> Source: C:Lucid-L2contractssrcLucidSessionManager.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/lucidsessionmanager",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/LucidSessionManager.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "c6af9caa19d3ccd5a982ca200187513fde159f547aaa051354b5ded796726a94",
+      "title": "LucidSessionManager \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "fa172c2764f0934ba6eb146f0e01f043fcda3725940e08aa76790d1339f14c25",
+      "description": "> Source: C:Lucid-L2contractssrcLucidTBA.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/lucidtba",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/LucidTBA.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "26191a1ccc5a2b66aa3f63ac4dca1613da545f294219f6e51a2e364632e37e16",
+      "title": "LucidTBA \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "399b7caf13a8dd44f8360fecb328faa4244c64007b6b71bf231a2cb98b49dcb2",
+      "description": "> Source: C:Lucid-L2contractssrcLucidValidator.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/lucidvalidator",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/LucidValidator.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "66266d86fd7289574fe5c05f4b3873a096f35f1343ded73e5ba06861266c7251",
+      "title": "LucidValidator \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "7dcf2a4fd39f67464f06470cd056b5827869ee5e83de654f9ad0e04432e6115f",
+      "description": "> Source: C:Lucid-L2contractssrcZkMLVerifier.sol",
+      "page_path": "reference/lucid-l2/modules/contracts/zkmlverifier",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/contracts/ZkMLVerifier.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "d867adaced7ce0e1f14eef10b44e0f62dc4b7aac56ef0f7683b58bcc3ed5a2b4",
+      "title": "ZkMLVerifier \u2014 EVM Contract"
+    },
+    {
+      "content_sha256": "01f213e3cdd479f496aff774ec089f76ce03c0a1adb4137154e6d3d2d413349b",
+      "description": "The identity module in the Lucid L2 platform is designed to manage digital identities through the use of passports, NFTs, and wallets. It provides a comprehensive system for creati",
+      "page_path": "reference/lucid-l2/modules/identity",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/identity.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "dd2d354e7186270f5e77995b433e0cf026d0d0d6a7df9df659d4601a5a7378cb",
+      "title": "Identity"
+    },
+    {
+      "content_sha256": "347f0be690cb034f1747cc1ec7ec2a96daa71c02ceff1c9689c74e9eadbccd42",
+      "description": "The memory module in the Lucid L2 platform is designed to manage and manipulate various types of memory entries, such as episodic, semantic, procedural, entity, trust-weighted, and",
+      "page_path": "reference/lucid-l2/modules/memory",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/memory.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "837b0ffb45f61a1b7a8d594f1e1f64c5ff298fb7f6d9212019ef5592924d74f6",
+      "title": "Memory"
+    },
+    {
+      "content_sha256": "e6ea84f58ddbfae5a68d8eb56fa580c30c03dc54d1e66810ec7f88563502f206",
+      "description": "The payment module in the Lucid L2 platform is designed to handle complex financial transactions, including revenue distribution, payment facilitation, and escrow management. It ad",
+      "page_path": "reference/lucid-l2/modules/payment",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/payment.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "4ef7c89d6c208ce82eb4f89bc2d4f050a544ac3d3e1056a931976bd7a7ac150e",
+      "title": "Payment"
+    },
+    {
+      "content_sha256": "a5f81207748bc8be2fa3bb0aff6db9510f2284057d0147d6b2ded3926d1b3e4d",
+      "description": "> Source: C:Lucid-L2programsgas-utilssrclib.rs",
+      "page_path": "reference/lucid-l2/modules/programs/gas-utils",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/programs/gas-utils.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "a69ee246e2808f4c4736698e0e97df03a4ce428c2e999761e0ade76f935a0a9f",
+      "title": "gas_utils \u2014 Solana Program"
+    },
+    {
+      "content_sha256": "b5421dcbb6bc2ee1c8b9b269d9fdad76752ef58b388d07884a169ae374582020",
+      "description": "> Source: C:Lucid-L2programslucid-agent-walletsrclib.rs",
+      "page_path": "reference/lucid-l2/modules/programs/lucid-agent-wallet",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/programs/lucid-agent-wallet.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "c8aac14be5b58671e243751719a95a56ea2aba1e8713583808e57d748319fc11",
+      "title": "lucid_agent_wallet \u2014 Solana Program"
+    },
+    {
+      "content_sha256": "adee69f03dc99ad6dc12c7ed5a3a4fdf955806099d2b7b4a7a58fb04b2263031",
+      "description": "> Source: C:Lucid-L2programslucid-passportssrclib.rs",
+      "page_path": "reference/lucid-l2/modules/programs/lucid-passports",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/programs/lucid-passports.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "509292976f8aeb53955de3e4f0f7fd1743662b56103b7ddacaaddb89f76a7cc0",
+      "title": "lucid_passports \u2014 Solana Program"
+    },
+    {
+      "content_sha256": "80c634d3f842ce55c954fbc0e51991d3b73531a6d9e897dc9cc8a709e9629f38",
+      "description": "> Source: C:Lucid-L2programslucid-reputationsrclib.rs",
+      "page_path": "reference/lucid-l2/modules/programs/lucid-reputation",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/programs/lucid-reputation.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "45e039280ebf421f15847e7c2f276ad48a63b0e129274788160c712814597196",
+      "title": "lucid_reputation \u2014 Solana Program"
+    },
+    {
+      "content_sha256": "e0e3c4feea3cfb6ff976f49a984e6806c794feb4d37f299d4beab5bd60c3e0a9",
+      "description": "> Source: C:Lucid-L2programslucid-zkml-verifiersrclib.rs",
+      "page_path": "reference/lucid-l2/modules/programs/lucid-zkml-verifier",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/programs/lucid-zkml-verifier.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "fc035fc9b5a8f042b8e9b73236c2aa31f12679e38d7728931efaa252634185fc",
+      "title": "lucid_zkml_verifier \u2014 Solana Program"
+    },
+    {
+      "content_sha256": "f10b930cc83b11c9f77a4e8b17f64311e224365e16b1b42eeccd8796ba5c3fae",
+      "description": "> Source: C:Lucid-L2programsthought-epochsrclib.rs",
+      "page_path": "reference/lucid-l2/modules/programs/thought-epoch",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/programs/thought-epoch.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "6e18e16cf845b4a44d35a37ceab0ba71f12b3e4f9b9018c7dfc747c5eabf6dff",
+      "title": "thought_epoch \u2014 Solana Program"
+    },
+    {
+      "content_sha256": "08b418d4e2db06e2264facde5753977957d519bbdd7e40e25be85a015501b12a",
+      "description": "The receipt module in the Lucid L2 platform is designed to handle the creation, storage, and verification of various types of receipts related to computational tasks and data acces",
+      "page_path": "reference/lucid-l2/modules/receipt",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/receipt.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "46cae44ed93a14786704109c429b8916f47dbdaf3d589b18f43e8cabac85ac58",
+      "title": "Receipt"
+    },
+    {
+      "content_sha256": "a8b99966eb004f7b8bee34f355f631042b78a496c0f594b448ded539bad037f1",
+      "description": "The reputation module in the Lucid L2 platform is designed to manage and synchronize reputation data across different systems. It serves as a bridge between on-chain and off-chain ",
+      "page_path": "reference/lucid-l2/modules/reputation",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/modules/reputation.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "f97bb0395c50fcff3dae263d7cd1fbc4b994373ffbb02bec701fc9a96d50ef8e",
+      "title": "Reputation"
+    },
+    {
+      "content_sha256": "7d85a9918cb40295acd731815e3216ef3c4d13280aad3c6db252871b015860a5",
+      "description": "Returns: AnchorDispatcher",
+      "page_path": "reference/lucid-l2/reference/anchoring",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/reference/anchoring.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "b89ca04bc032a59b2d67d35926a99bc0c249b5cd71ad940b5c1e3bd49684f7a5",
+      "title": "anchoring \u2014 Interface Reference"
+    },
+    {
+      "content_sha256": "98b12e83b65d71207a98081e72a37be2528ac7162d2ce1b497b12f84a0dfdf60",
+      "description": "> control-plane/agent/a2a/a2aClient.ts",
+      "page_path": "reference/lucid-l2/reference/compute",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/reference/compute.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "384acd2ac7b878ef1b79da6510c3effebd4801320c61a6e5c2abaf04cb5f4861",
+      "title": "compute \u2014 Interface Reference"
+    },
+    {
+      "content_sha256": "09492ff4a2167a03b09444e75412b2ae2819c97e8ff10ad4dd315c186688809c",
+      "description": "> wallet/IAgentWalletProvider.ts",
+      "page_path": "reference/lucid-l2/reference/identity",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/reference/identity.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "aa6146f9c5309807a2934005f4488b8d6abf003c603f79ad9291fbd5c74afe2b",
+      "title": "identity \u2014 Interface Reference"
+    },
+    {
+      "content_sha256": "c6fcbaeeffd5c0b610c8b97981be8000e0afbc4069fc18ea64ed81402366e1b5",
+      "description": "> embedding/interface.ts",
+      "page_path": "reference/lucid-l2/reference/memory",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/reference/memory.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "7e10fa4ae6307d4aeb528333a6e950babcfb3cd337ddf649d272b11dc4037f30",
+      "title": "memory \u2014 Interface Reference"
+    },
+    {
+      "content_sha256": "54d73a958d908f076de4609b9be703c353384f404f0cd27d1ecc10e60f786771",
+      "description": "> airdrop/revenueAirdrop.ts",
+      "page_path": "reference/lucid-l2/reference/payment",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/reference/payment.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "d3ba9fbd97026497f38dd86c0b915d53cd7e0ac5c9db59016ac16dd6d8e3aca9",
+      "title": "payment \u2014 Interface Reference"
+    },
+    {
+      "content_sha256": "a50373e691904541509c59a02d344bdf1b8b6b11785b1fd70328d42ab43c2e5f",
+      "description": "Extends: AgentReceiptBody",
+      "page_path": "reference/lucid-l2/reference/receipt",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/reference/receipt.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "bdecbf10e9292fbe49aec4331f1f209f36097ec873271cc2e2281d8281ade5dd",
+      "title": "receipt \u2014 Interface Reference"
+    },
+    {
+      "content_sha256": "4a1f175cb0f8cf67c02772266e71aa75619481b5f13d3e5371c61d465ff8c42d",
+      "description": "> IReputationSyncer.ts",
+      "page_path": "reference/lucid-l2/reference/reputation",
+      "source_id": "lucid-l2-modules",
+      "source_path": "docs/reference/reputation.md",
+      "source_repo": "lucid-fdn/Lucid-L2",
+      "source_sha256": "05defe31baed3f55504cedcb7b095d02bf96231b89ce041283cd9fec24ae10e6",
+      "title": "reputation \u2014 Interface Reference"
+    }
+  ],
+  "sources": [
+    {
+      "adapter": "gitbook-summary",
+      "commit": "e16578ee6a5e30f56a71c244f1afe44ac589268f",
+      "generatedPageCount": 46,
+      "id": "lucid-wiki",
+      "repo": "lucid-fdn/lucid-wiki",
+      "skippedCount": 1
+    },
+    {
+      "adapter": "markdown-tree",
+      "commit": "19db6da4c0481eb3ea54b6c6e281368326b19591",
+      "generatedPageCount": 30,
+      "id": "lucid-l2-modules",
+      "repo": "lucid-fdn/Lucid-L2",
+      "skippedCount": 0
+    },
+    {
+      "adapter": "sdk-namespace-tree",
+      "commit": "1074f26b427dbfc3fd402667cc644daadffce9d0",
+      "generatedPageCount": 22,
+      "id": "lucid-cloud-gateway-sdk",
+      "repo": "lucid-fdn/lucid-cloud",
+      "skippedCount": 0
+    },
+    {
+      "adapter": "inventory-only",
+      "commit": "1074f26b427dbfc3fd402667cc644daadffce9d0",
+      "generatedPageCount": 0,
+      "id": "lucid-cloud-internal-inventory",
+      "repo": "lucid-fdn/lucid-cloud",
+      "skippedCount": 45
+    }
+  ],
+  "version": 1
+}

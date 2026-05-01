@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Lucid public docs automation config",
+  "type": "object",
+  "required": ["version", "sources"],
+  "properties": {
+    "version": { "type": "integer" },
+    "generatedHeader": { "type": "string" },
+    "tabOrder": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "repo", "adapter"],
+        "properties": {
+          "id": { "type": "string" },
+          "repo": { "type": "string" },
+          "localPath": { "type": "string" },
+          "rootEnv": { "type": "string" },
+          "visibility": { "enum": ["public", "private"] },
+          "publicSafe": { "type": "boolean" },
+          "adapter": {
+            "enum": [
+              "gitbook-summary",
+              "inventory-only",
+              "markdown-tree",
+              "sdk-namespace-tree"
+            ]
+          },
+          "summary": { "type": "string" },
+          "sourceRoot": { "type": "string" },
+          "sourceGlobs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "exclude": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "outputPrefix": { "type": "string" },
+          "navigationTab": { "type": "string" },
+          "navigationOrder": { "type": "integer" },
+          "groupBy": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

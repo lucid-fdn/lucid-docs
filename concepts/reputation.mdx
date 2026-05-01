@@ -57,15 +57,15 @@ Reputation applies to all five AI asset types:
 Feedback requires a valid receipt hash, proving the submitter actually interacted with the asset:
 
 ```typescript
-import { LucidSDK } from '@lucid-fdn/sdk';
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
 
-const sdk = new LucidSDK({ apiKey: 'lk_...' });
+const sdk = new RaijinLabsLucidAi({
+  serverURL: "https://api.lucid.foundation",
+  security: { bearerAuth: process.env.LUCID_API_KEY },
+});
 
-await sdk.reputation.submitFeedback({
+await sdk.reputation.lucidComputeReputation({
   passportId: 'agent-abc123',
-  score: 92,
-  category: 'accuracy',
-  receiptHash: '0xabc...',
   assetType: 'agent',
 });
 ```

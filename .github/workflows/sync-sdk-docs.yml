@@ -1,4 +1,4 @@
-name: Sync SDK Docs from Speakeasy
+name: Sync Generated Public Docs
 
 on:
   # Manual trigger
@@ -13,19 +13,49 @@ on:
     types: [sdk-updated]
 
 jobs:
-  sync-sdk-docs:
+  sync-generated-docs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      LUCID_L2_ROOT: ${{ github.workspace }}/.sources/Lucid-L2
+      LUCID_WIKI_ROOT: ${{ github.workspace }}/.sources/lucid-wiki
+      LUCID_CLOUD_ROOT: ${{ github.workspace }}/.sources/lucid-cloud
+      DOCS_SOURCE_TOKEN: ${{ secrets.DOCS_SOURCE_TOKEN }}
     
     steps:
       - name: Checkout docs repo
         uses: actions/checkout@v4
+
+      - name: Checkout Lucid-L2 source
+        uses: actions/checkout@v4
+        with:
+          repository: lucid-fdn/Lucid-L2
+          path: .sources/Lucid-L2
+
+      - name: Checkout private source docs
+        if: env.DOCS_SOURCE_TOKEN != ''
+        uses: actions/checkout@v4
+        with:
+          repository: lucid-fdn/lucid-wiki
+          path: .sources/lucid-wiki
+          token: ${{ env.DOCS_SOURCE_TOKEN }}
+
+      - name: Checkout private gateway source
+        if: env.DOCS_SOURCE_TOKEN != ''
+        uses: actions/checkout@v4
+        with:
+          repository: lucid-fdn/lucid-cloud
+          path: .sources/lucid-cloud
+          token: ${{ env.DOCS_SOURCE_TOKEN }}
       
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Rebuild public source docs
+        run: python scripts/rebuild-public-sources.py
       
       - name: Run SDK docs rebuild
         run: python scripts/rebuild-sdk-docs.py
@@ -47,7 +77,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sdks/
-          git add docs.json scripts/rebuild-sdk-docs.py scripts/validate-docs.py .github/workflows/sync-sdk-docs.yml
-          git commit -m 'docs: auto-sync SDK docs from Speakeasy [skip ci]'
+          git add .
+          git commit -m 'docs: auto-sync generated public docs [skip ci]'
           git push

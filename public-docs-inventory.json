@@ -1,0 +1,335 @@
+{
+  "sources": [
+    {
+      "adapter": "gitbook-summary",
+      "commit": "e16578ee6a5e30f56a71c244f1afe44ac589268f",
+      "generatedPages": [
+        "knowledge/overview",
+        "knowledge/lucid-in-one-breath/what-is-web4",
+        "knowledge/lucid-in-one-breath/two-products-one-ecosystem",
+        "knowledge/lucid-chain/architecture-how-lucid-works",
+        "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data",
+        "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data/lucid-passports-identity-and-ownership",
+        "knowledge/lucid-chain/architecture-how-lucid-works/lucid-data/memory-map-portable-memory",
+        "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine",
+        "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine/cognition-router",
+        "knowledge/lucid-chain/architecture-how-lucid-works/lucid-engine/fluid-compute",
+        "knowledge/lucid-chain/architecture-how-lucid-works/thought-epochs-verifiable-proofs-of-ai-activity",
+        "knowledge/lucid-chain/architecture-how-lucid-works/dual-gas-economics",
+        "knowledge/lucid-chain/architecture-how-lucid-works/lucidscan-internet-of-ai-explorer",
+        "knowledge/lucid-chain/architecture-how-lucid-works/browser-extension",
+        "knowledge/lucid-chain/tokenomics-and-incentives-fueling-the-lucid-ecosystem",
+        "knowledge/lucid-chain/security-and-privacy-keeping-lucid-safe-and-compliant",
+        "knowledge/lucid-chain/faq-non-technical",
+        "knowledge/lucid-chain/competition-landscape-where-lucid-fits-and-why-its-a-must-have",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/start-with-a-prompt-one-click",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/build-with-synapse-visual-builder",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/model-lab",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/model-lab/model-lab-advanced",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/agent-lab",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/app-lab",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/channels-and-integrations",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/on-chain-options-opt-in",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/deploy-and-publish-go-live-with-proofs",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/who-its-for-and-top-use-cases",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/case-studies-and-showcase",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/virtual-humans-extension-give-your-agent-a-face",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/getting-started-5-minutes",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/enterprise-and-public-sector",
+        "knowledge/lucid-ai/architecture-what-is-lucid-ai/gaming",
+        "knowledge/lucid-ai/trustgate-managed-inference-and-depins-orchestration",
+        "knowledge/lucid-ai/devkit-run-anywhere-sdks-and-connectors",
+        "knowledge/lucid-ai/lucid-solana-mobile",
+        "knowledge/lucid-ai/plans-and-pricing",
+        "knowledge/lucid-ai/community-and-open-source",
+        "knowledge/lucid-ai/community-and-open-source/connectors-expand-the-internet-of-ai",
+        "knowledge/lucid-ai/community-and-open-source/open-core-agent-runtime-ar",
+        "knowledge/lucid-ai/community-and-open-source/sdks",
+        "knowledge/lucid-ai/security-privacy-and-compliance",
+        "knowledge/lucid-ai/licensing-and-editions",
+        "knowledge/lucid-ai/faq-non-technical",
+        "knowledge/glossary"
+      ],
+      "id": "lucid-wiki",
+      "publicSafe": true,
+      "repo": "lucid-fdn/lucid-wiki",
+      "root": "/Users/quentinbrosseau/Documents/Codex/2026-05-01/do-a-deep-analysis-of-code/lucid-wiki",
+      "skipped": [
+        {
+          "reason": "excluded",
+          "source": "disclaimer.md"
+        }
+      ],
+      "visibility": "private"
+    },
+    {
+      "adapter": "markdown-tree",
+      "commit": "19db6da4c0481eb3ea54b6c6e281368326b19591",
+      "generatedPages": [
+        "reference/lucid-l2/modules/anchoring",
+        "reference/lucid-l2/modules/compute",
+        "reference/lucid-l2/modules/contracts/epochregistry",
+        "reference/lucid-l2/modules/contracts/lucid",
+        "reference/lucid-l2/modules/contracts/lucidarbitration",
+        "reference/lucid-l2/modules/contracts/lucidescrow",
+        "reference/lucid-l2/modules/contracts/lucidpassportregistry",
+        "reference/lucid-l2/modules/contracts/lucidpaymaster",
+        "reference/lucid-l2/modules/contracts/lucidsessionmanager",
+        "reference/lucid-l2/modules/contracts/lucidtba",
+        "reference/lucid-l2/modules/contracts/lucidvalidator",
+        "reference/lucid-l2/modules/contracts/zkmlverifier",
+        "reference/lucid-l2/modules/identity",
+        "reference/lucid-l2/modules/memory",
+        "reference/lucid-l2/modules/payment",
+        "reference/lucid-l2/modules/programs/gas-utils",
+        "reference/lucid-l2/modules/programs/lucid-agent-wallet",
+        "reference/lucid-l2/modules/programs/lucid-passports",
+        "reference/lucid-l2/modules/programs/lucid-reputation",
+        "reference/lucid-l2/modules/programs/lucid-zkml-verifier",
+        "reference/lucid-l2/modules/programs/thought-epoch",
+        "reference/lucid-l2/modules/receipt",
+        "reference/lucid-l2/modules/reputation",
+        "reference/lucid-l2/reference/anchoring",
+        "reference/lucid-l2/reference/compute",
+        "reference/lucid-l2/reference/identity",
+        "reference/lucid-l2/reference/memory",
+        "reference/lucid-l2/reference/payment",
+        "reference/lucid-l2/reference/receipt",
+        "reference/lucid-l2/reference/reputation"
+      ],
+      "id": "lucid-l2-modules",
+      "publicSafe": true,
+      "repo": "lucid-fdn/Lucid-L2",
+      "root": "/Users/quentinbrosseau/Documents/Codex/2026-05-01/do-a-deep-analysis-of-code/Lucid-L2",
+      "skipped": [],
+      "visibility": "public"
+    },
+    {
+      "adapter": "sdk-namespace-tree",
+      "commit": "1074f26b427dbfc3fd402667cc644daadffce9d0",
+      "generatedPages": [
+        "reference/gateway-sdk/index",
+        "reference/gateway-sdk/namespaces/agents",
+        "reference/gateway-sdk/namespaces/auditlogs",
+        "reference/gateway-sdk/namespaces/auth",
+        "reference/gateway-sdk/namespaces/billing",
+        "reference/gateway-sdk/namespaces/catalog",
+        "reference/gateway-sdk/namespaces/chains",
+        "reference/gateway-sdk/namespaces/entitlements",
+        "reference/gateway-sdk/namespaces/health",
+        "reference/gateway-sdk/namespaces/inference",
+        "reference/gateway-sdk/namespaces/keys",
+        "reference/gateway-sdk/namespaces/models",
+        "reference/gateway-sdk/namespaces/payment",
+        "reference/gateway-sdk/namespaces/plans",
+        "reference/gateway-sdk/namespaces/plugins",
+        "reference/gateway-sdk/namespaces/quotas",
+        "reference/gateway-sdk/namespaces/reputation",
+        "reference/gateway-sdk/namespaces/servers",
+        "reference/gateway-sdk/namespaces/sessions",
+        "reference/gateway-sdk/namespaces/tenants",
+        "reference/gateway-sdk/namespaces/tools",
+        "reference/gateway-sdk/namespaces/usage"
+      ],
+      "id": "lucid-cloud-gateway-sdk",
+      "publicSafe": true,
+      "repo": "lucid-fdn/lucid-cloud",
+      "root": "/Users/quentinbrosseau/Documents/Codex/2026-05-01/do-a-deep-analysis-of-code/lucid-cloud",
+      "skipped": [],
+      "visibility": "private"
+    },
+    {
+      "adapter": "inventory-only",
+      "commit": "1074f26b427dbfc3fd402667cc644daadffce9d0",
+      "generatedPages": [],
+      "id": "lucid-cloud-internal-inventory",
+      "publicSafe": false,
+      "repo": "lucid-fdn/lucid-cloud",
+      "root": "/Users/quentinbrosseau/Documents/Codex/2026-05-01/do-a-deep-analysis-of-code/lucid-cloud",
+      "skipped": [
+        {
+          "reason": "private-default",
+          "source": ".clinerules/00-context.md"
+        },
+        {
+          "reason": "private-default",
+          "source": ".clinerules/01-memory-bank.md"
+        },
+        {
+          "reason": "private-default",
+          "source": ".clinerules/README.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "CLAUDE.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "LICENSING.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "OPENMETER_ACCOUNT_SETUP.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "OPENMETER_DEPLOYMENT_GUIDE.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "README.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "apps/video-engine/README.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/OBSERVABILITY_AUDIT.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/PROJECT_MAP.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/architecture/BOUNDARIES.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/plans/2026-02-21-mcpgate-gateway-core-design.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/plans/2026-02-21-mcpgate-implementation.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/plans/2026-02-23-mcpgate-v2-autonomous-agent-gateway.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/plans/2026-02-26-centralized-billing-authority.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/plans/2026-03-03-lucid-agent-oracle-design.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/plans/2026-03-08-x402-payment-acceleration-design.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/plans/2026-03-08-x402-payment-implementation.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/runbooks/control-plane-entitlements.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/runbooks/litellm-production.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/runbooks/local-dev.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/superpowers/plans/2026-03-10-circle-solana-crosschain.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/superpowers/plans/2026-03-12-agent-economy-oracle-plan1-data-control-plane.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/superpowers/specs/2026-03-10-circle-solana-crosschain-design.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "docs/superpowers/specs/2026-03-12-agent-economy-oracle-design.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "infra/monitoring/README.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "memory-bank/README.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "memory-bank/activeContext.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "memory-bank/productContext.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "memory-bank/progress.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "memory-bank/projectbrief.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "memory-bank/systemPatterns.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "memory-bank/techContext.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "modules/agentaas/BOUNDARY.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "modules/fluid-compute/BOUNDARY.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "modules/shared-contracts/BOUNDARY.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "modules/trustgate/BOUNDARY.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "packages/pay/README.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "sdk/lucid-gateway-typescript/CONTRIBUTING.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "sdk/lucid-gateway-typescript/FUNCTIONS.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "sdk/lucid-gateway-typescript/README.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "sdk/lucid-gateway-typescript/RUNTIMES.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "sdk/lucid-gateway-typescript/USAGE.md"
+        },
+        {
+          "reason": "private-default",
+          "source": "sdk/lucid-gateway-typescript/examples/README.md"
+        }
+      ],
+      "visibility": "private"
+    }
+  ]
+}

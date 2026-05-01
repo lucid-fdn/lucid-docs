@@ -20,21 +20,22 @@ Lucid injects environment variables into your container so your agent can connec
 
 ```typescript
 // Your agent code
-import { LucidAgent } from '@lucid-fdn/sdk';
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
 
-const agent = new LucidAgent({
-  apiKey: process.env.LUCID_API_KEY,
-  // LUCID_API_URL, LUCID_PASSPORT_ID, PROVIDER_URL read from env automatically
+const lucid = new RaijinLabsLucidAi({
+  serverURL: process.env.LUCID_API_URL || "https://api.lucid.foundation",
+  security: { bearerAuth: process.env.LUCID_API_KEY },
 });
 
-// Every call to agent.run() creates a receipt automatically
-const result = await agent.run({
-  model: 'openai/gpt-4o',
-  prompt: 'Summarize this document',
+const result = await lucid.run.chatCompletions({
+  body: {
+    model: "openai/gpt-4o",
+    messages: [{ role: "user", content: "Summarize this document" }],
+  },
 });
 ```
 
-The SDK's `LucidAgent` class handles:
+The generated SDK client handles:
 - Inference via any OpenAI-compatible endpoint
 - Automatic receipt creation on every call (fire-and-forget)
 - Failed receipts queued in-memory with exponential backoff (max 5 attempts)
@@ -66,16 +67,21 @@ A minimal Lucid-compatible agent needs:
 
 ```typescript
 // server.ts
-import express from 'express';
-import { LucidAgent } from '@lucid-fdn/sdk';
+import express from "express";
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
 
 const app = express();
-const agent = new LucidAgent({ apiKey: process.env.LUCID_API_KEY });
+const lucid = new RaijinLabsLucidAi({
+  serverURL: process.env.LUCID_API_URL || "https://api.lucid.foundation",
+  security: { bearerAuth: process.env.LUCID_API_KEY },
+});
 
 app.post('/run', async (req, res) => {
-  const result = await agent.run({
-    model: process.env.LUCID_MODEL || 'openai/gpt-4o',
-    prompt: req.body.prompt,
+  const result = await lucid.run.chatCompletions({
+    body: {
+      model: process.env.LUCID_MODEL || "openai/gpt-4o",
+      messages: [{ role: "user", content: req.body.prompt }],
+    },
   });
   res.json(result);
 });

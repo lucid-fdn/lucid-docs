@@ -64,9 +64,12 @@ For high-value inter-agent transactions, Lucid provides on-chain escrow through 
 5. If no receipt is produced before expiry, funds return to Agent A
 
 ```typescript
-import { LucidSDK } from '@lucid-fdn/sdk';
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
 
-const sdk = new LucidSDK({ apiKey: 'lk_...' });
+const sdk = new RaijinLabsLucidAi({
+  serverURL: "https://api.lucid.foundation",
+  security: { bearerAuth: process.env.LUCID_API_KEY },
+});
 
 // Create escrow for a delegated task
 const escrow = await sdk.escrow.create({

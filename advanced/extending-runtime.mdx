@@ -98,11 +98,14 @@ DEPIN_EVOLVING_PROVIDER=lighthouse  # For mutable data
 If the base runtime does not meet your needs, build your own image and use Path A (BYOI):
 
 ```typescript
-import express from 'express';
-import { LucidAgent } from '@lucid-fdn/sdk';
+import express from "express";
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
 
 const app = express();
-const agent = new LucidAgent({ apiKey: process.env.LUCID_API_KEY });
+const lucid = new RaijinLabsLucidAi({
+  serverURL: process.env.LUCID_API_URL || "https://api.lucid.foundation",
+  security: { bearerAuth: process.env.LUCID_API_KEY },
+});
 
 // Add your custom logic
 app.post('/run', async (req, res) => {
@@ -110,9 +113,11 @@ app.post('/run', async (req, res) => {
   const enrichedPrompt = await myPreprocessor(req.body.prompt);
 
   // Inference with automatic receipt
-  const result = await agent.run({
-    model: process.env.LUCID_MODEL,
-    prompt: enrichedPrompt,
+  const result = await lucid.run.chatCompletions({
+    body: {
+      model: process.env.LUCID_MODEL || "openai/gpt-4o",
+      messages: [{ role: "user", content: enrichedPrompt }],
+    },
   });
 
   // Custom postprocessing

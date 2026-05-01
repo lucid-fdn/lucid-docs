@@ -26,17 +26,21 @@ Lucid injects these environment variables into your container automatically:
 | `TRUSTGATE_URL` | TrustGate inference proxy URL |
 | `LUCID_WALLET_ADDRESS` | Auto-created agent wallet address |
 
-Your agent calls the Lucid API via `@lucid-fdn/sdk` to create receipts, use memory, and handle payments:
+Your agent calls the Lucid API via `raijin-labs-lucid-ai` to create receipts, use memory, and handle payments:
 
 ```typescript
-import { LucidAgent } from '@lucid-fdn/sdk';
+import { RaijinLabsLucidAi } from "raijin-labs-lucid-ai";
 
-const agent = new LucidAgent({ apiKey: process.env.LUCID_API_KEY });
+const lucid = new RaijinLabsLucidAi({
+  serverURL: process.env.LUCID_API_URL || "https://api.lucid.foundation",
+  security: { bearerAuth: process.env.LUCID_API_KEY },
+});
 
-// Every call creates a receipt automatically
-const result = await agent.run({
-  model: 'openai/gpt-4o',
-  prompt: 'Analyze this dataset',
+const result = await lucid.run.chatCompletions({
+  body: {
+    model: "openai/gpt-4o",
+    messages: [{ role: "user", content: "Analyze this dataset" }],
+  },
 });
 ```
 
