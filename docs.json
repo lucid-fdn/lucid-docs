@@ -146,7 +146,7 @@
           },
           {
             "group": "API Endpoints",
-            "openapi": "https://raw.githubusercontent.com/lucid-fdn/lucid-ai-sdk/main/openapi-with-code-samples.yaml"
+            "openapi": "openapi-spec.yaml"
           },
           {
             "group": "SDKs",

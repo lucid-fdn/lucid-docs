@@ -395,7 +395,7 @@ def update_docs_json(namespaces: list[str]) -> None:
             continue
         for group in tab.get("groups", []):
             if group.get("group") == "API Endpoints":
-                group["openapi"] = "https://raw.githubusercontent.com/lucid-fdn/lucid-ai-sdk/main/openapi-with-code-samples.yaml"
+                group["openapi"] = "openapi-spec.yaml"
             if group.get("group") == "SDKs":
                 group["pages"] = ["sdks/typescript", "sdks/examples", "sdks/reference"]
 
@@ -418,9 +418,11 @@ def main() -> None:
     usage = fetch_text(f"{RAW_BASE}/typescript/USAGE.md")
     functions = fetch_text(f"{RAW_BASE}/typescript/FUNCTIONS.md")
     runtimes = fetch_text(f"{RAW_BASE}/typescript/RUNTIMES.md")
+    openapi = fetch_text(f"{RAW_BASE}/openapi-with-code-samples.yaml")
     namespaces = discover_namespaces()
     namespace_docs = {namespace: fetch_namespace_readme(namespace) for namespace in namespaces}
 
+    write_file("openapi-spec.yaml", openapi)
     write_file("sdks/typescript.mdx", render_typescript_page(readme, runtimes, namespaces, namespace_docs))
     write_file("sdks/examples.mdx", render_examples_page(usage, functions))
     write_file("sdks/reference.mdx", render_reference_page(namespaces, namespace_docs))
