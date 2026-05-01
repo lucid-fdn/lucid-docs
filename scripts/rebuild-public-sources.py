@@ -508,10 +508,10 @@ def render_llms(manifest: dict[str, Any], full: bool) -> str:
                 if mdx_path.exists():
                     body = strip_frontmatter(mdx_path.read_text(encoding="utf-8"))
                     lines.append("")
-                    lines.append(body.strip()[:12000])
+                    lines.extend(line.rstrip() for line in body.strip()[:12000].splitlines())
                     lines.append("")
         lines.append("")
-    return "\n".join(lines).rstrip() + "\n"
+    return "\n".join(line.rstrip() for line in lines).rstrip() + "\n"
 
 
 def main() -> None:

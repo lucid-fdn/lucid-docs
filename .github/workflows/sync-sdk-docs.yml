@@ -27,6 +27,13 @@ jobs:
       - name: Checkout docs repo
         uses: actions/checkout@v4
 
+      - name: Require private source token
+        run: |
+          if [ -z "$DOCS_SOURCE_TOKEN" ]; then
+            echo "::error::DOCS_SOURCE_TOKEN is required so generated public docs do not silently drop private source coverage."
+            exit 1
+          fi
+
       - name: Checkout Lucid-L2 source
         uses: actions/checkout@v4
         with:
@@ -34,7 +41,6 @@ jobs:
           path: .sources/Lucid-L2
 
       - name: Checkout private source docs
-        if: env.DOCS_SOURCE_TOKEN != ''
         uses: actions/checkout@v4
         with:
           repository: lucid-fdn/lucid-wiki
@@ -42,7 +48,6 @@ jobs:
           token: ${{ env.DOCS_SOURCE_TOKEN }}
 
       - name: Checkout private gateway source
-        if: env.DOCS_SOURCE_TOKEN != ''
         uses: actions/checkout@v4
         with:
           repository: lucid-fdn/lucid-cloud
@@ -77,6 +82,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
+          git add -- . ':!.sources'
           git commit -m 'docs: auto-sync generated public docs [skip ci]'
           git push
