@@ -65,7 +65,7 @@
     },
     {
       "adapter": "markdown-tree",
-      "commit": "cb4184297ce390074a6f1e3fb387d1e39b59e374",
+      "commit": "48676cb8ee459959a1b850e63b4f36d323f1cc9d",
       "generatedPages": [
         "reference/lucid-l2/modules/anchoring",
         "reference/lucid-l2/modules/compute",

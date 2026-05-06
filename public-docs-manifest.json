@@ -923,13 +923,13 @@
       "title": "anchoring \u2014 Interface Reference"
     },
     {
-      "content_sha256": "98b12e83b65d71207a98081e72a37be2528ac7162d2ce1b497b12f84a0dfdf60",
+      "content_sha256": "000225bfe08b8cad930ede29c6a87eb286db2ab61d32085fcce9b1079aef78ba",
       "description": "> control-plane/agent/a2a/a2aClient.ts",
       "page_path": "reference/lucid-l2/reference/compute",
       "source_id": "lucid-l2-modules",
       "source_path": "docs/reference/compute.md",
       "source_repo": "lucid-fdn/Lucid-L2",
-      "source_sha256": "384acd2ac7b878ef1b79da6510c3effebd4801320c61a6e5c2abaf04cb5f4861",
+      "source_sha256": "a38dbc1a0c1c83cc822fb152b704e8761b74a64087ff061e43db0a7502f7afe7",
       "title": "compute \u2014 Interface Reference"
     },
     {
@@ -994,7 +994,7 @@
     },
     {
       "adapter": "markdown-tree",
-      "commit": "cb4184297ce390074a6f1e3fb387d1e39b59e374",
+      "commit": "48676cb8ee459959a1b850e63b4f36d323f1cc9d",
       "generatedPageCount": 30,
       "id": "lucid-l2-modules",
       "repo": "lucid-fdn/Lucid-L2",
