@@ -107,7 +107,7 @@
     },
     {
       "adapter": "sdk-namespace-tree",
-      "commit": "40e1a0bd1762c44608791f11ad69619c4d6d4695",
+      "commit": "c7f01bd515a2e02aa1200231206b421920e7e989",
       "generatedPages": [
         "reference/gateway-sdk/index",
         "reference/gateway-sdk/namespaces/agents",
@@ -141,7 +141,7 @@
     },
     {
       "adapter": "inventory-only",
-      "commit": "40e1a0bd1762c44608791f11ad69619c4d6d4695",
+      "commit": "c7f01bd515a2e02aa1200231206b421920e7e989",
       "generatedPages": [],
       "id": "lucid-cloud-internal-inventory",
       "publicSafe": false,
