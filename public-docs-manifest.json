@@ -1002,7 +1002,7 @@
     },
     {
       "adapter": "sdk-namespace-tree",
-      "commit": "c9c7a4ff387890b300225e7b64aa7beff34ba247",
+      "commit": "df12b04e32e38e000043de001ac274dc27100013",
       "generatedPageCount": 22,
       "id": "lucid-cloud-gateway-sdk",
       "repo": "lucid-fdn/lucid-cloud",
@@ -1010,7 +1010,7 @@
     },
     {
       "adapter": "inventory-only",
-      "commit": "c9c7a4ff387890b300225e7b64aa7beff34ba247",
+      "commit": "df12b04e32e38e000043de001ac274dc27100013",
       "generatedPageCount": 0,
       "id": "lucid-cloud-internal-inventory",
       "repo": "lucid-fdn/lucid-cloud",
